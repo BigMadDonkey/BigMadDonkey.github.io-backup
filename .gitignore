@@ -2,5 +2,5 @@
 *.gem
 .sass-cache
 Gemfile.lock
-README.md
+oldREADME.md
 _posts/2018-01-12-elements.html
