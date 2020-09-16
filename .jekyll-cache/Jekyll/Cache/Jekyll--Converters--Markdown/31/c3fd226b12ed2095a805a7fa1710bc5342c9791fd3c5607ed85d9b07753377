@@ -1,0 +1,73 @@
+I"�<p>这是在学校上机器学习课的个人笔记。</p>
+
+<h3 id="目录">目录</h3>
+
+<ol>
+  <li>
+    <p><strong><a href="#2020/09/14">2020/09/14</a></strong></p>
+
+    <p><a href="#计算机网络的定义">计算机网络的定义</a></p>
+
+    <p><a href="#交换网络">交换网络</a></p>
+  </li>
+  <li>
+    <p><strong><a href="#2020/09/16">2020/09/16</a></strong></p>
+
+    <p><a href="#网络核心-数据交换">网络核心-数据交换</a></p>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<p>[TOC]
+<br /></p>
+
+<h2 id="20200914"><a id="2020/09/14">2020/09/14</a></h2>
+
+<h3 id="计算机网络的定义"><a id="计算机网络的定义">计算机网络的定义</a></h3>
+
+<p>计算机网络是一个<strong>自治</strong>的，<strong>互联</strong>的计算机集合。</p>
+
+<p>自治是说，计算机网络中的计算机之间没有主从关系。</p>
+
+<p>互联是指，网络中的计算机通过通信链路互联互通。</p>
+
+<center>    <img src="/assets/postResources/image-20200916101732477.png" alt="计算机网络概念图" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.1 计算机网络概念图</div> </center>
+
+<p><img src="../assets/postResources/image-20200916101732477.png" alt="image-20200916101732477" /></p>
+
+<p>在计算机网络中，这些网络中的计算机统称为主机/端系统，连接主机的称为通信链路。</p>
+
+<p>然而，随着网络变的越来越庞大复杂，像图中这样直接使用通信链路将主机相互连接的方法显得越来越不科学。一方面随着接入主机的数目增加，通信链路增长的速度越来越快，距离也越来越长，一方面，主机上留给通信链路的接口也是有限的。不得不使用一种新的方法来起到信息交换的作用。</p>
+
+<h3 id="交换网络"><a id="交换网络">交换网络</a></h3>
+
+<center>    <img src="/assets/postResources/image-20200916103840368.png" alt="交换网络" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.2 交换网络</div> </center>
+
+<p><img src="../assets/postResources/image-20200916103840368.png" alt="image-20200916103840368" /></p>
+
+<p>使用一个由特殊设备构成的称为交换网络的网络负责当信息传输的中间站，每个主机又与就近的交换网络中的枢纽连接。这样节省了距离成本，也在保证信息传输效率的同时，不至于增加过多的链路。</p>
+
+<p>其中交换网络的枢纽，称为交换节点，一般是路由器或交换机。</p>
+
+<h3 id="internet">Internet</h3>
+
+<p>什么是Internet？Internet是我们如今天天离不开的东西。每时每刻海量的端系统连接在这个庞大的网络中，相互之间产生信息的交换。</p>
+
+<p>一般家庭，机构（公司，大学等）的Internet服务，都是由当地的区域级ISP（Internet Service Provider）提供。这些区域级ISP不禁相互连接，还通过全球ISP与其他地理区域的ISP互联。</p>
+
+<p>Internet就由这些大量的端系统、传输链路</p>
+
+<h2 id="20200916"><a id="2020/09/16">2020/09/16</a></h2>
+
+<h3 id="网络核心-数据交换"><a id="网络核心-数据交换">网络核心-数据交换</a></h3>
+
+<p>数据交换主要分为三种形式：电路交换、报文交换交换以及分组交换。</p>
+
+<ul>
+  <li>电路交换</li>
+</ul>
+
+<h3 id="多路复用">多路复用</h3>
+
+:ET
