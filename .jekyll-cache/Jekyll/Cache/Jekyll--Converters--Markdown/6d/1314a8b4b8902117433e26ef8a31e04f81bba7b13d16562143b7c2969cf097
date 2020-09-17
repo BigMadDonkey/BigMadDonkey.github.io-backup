@@ -1,0 +1,257 @@
+I"�I<p>这是在学校上计算机网络课的个人笔记。</p>
+
+<p><br /></p>
+
+<h3 id="目录">目录</h3>
+
+<ol>
+  <li><strong><a href="#2020/09/14">2020/09/14</a></strong>
+<a href="#计算机网络的定义">计算机网络的定义</a>
+<a href="#交换网络">交换网络</a>
+<a href="#网络协议">网络协议</a>
+<a href="#计算机网络结构">计算机网络结构</a></li>
+  <li><strong><a href="#2020/09/16">2020/09/16</a></strong>
+<a href="#网络核心">网络核心</a>
+<a href="#多路复用">多路复用</a></li>
+</ol>
+
+<p><br /></p>
+
+<h2 id="20200914"><a id="2020/09/14">2020/09/14</a></h2>
+
+<h3 id="计算机网络的定义"><a id="计算机网络的定义">计算机网络的定义</a></h3>
+
+<p>计算机网络是一个<strong>自治</strong>的，<strong>互联</strong>的计算机集合。</p>
+
+<p>自治是说，计算机网络中的计算机之间没有主从关系。</p>
+
+<p>互联是指，网络中的计算机通过通信链路互联互通。</p>
+
+<center>    <img src="/assets/postResources/image-20200916101732477.png" alt="计算机网络概念图" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.1 计算机网络概念图</div> </center>
+
+<p><img src="../assets/postResources/image-20200916101732477.png" alt="image-20200916101732477" /></p>
+
+<p>在计算机网络中，这些网络中的计算机统称为<strong>主机</strong>/<strong>端系统</strong>，连接主机的称为<strong>通信链路</strong>。</p>
+
+<p>然而，随着网络变的越来越庞大复杂，像图中这样直接使用通信链路将主机相互连接的方法显得越来越不科学。一方面随着接入主机的数目增加，通信链路增长的速度越来越快，距离也越来越长，一方面，主机上留给通信链路的接口也是有限的。不得不使用一种新的方法来起到信息交换的作用。</p>
+
+<h3 id="交换网络"><a id="交换网络">交换网络</a></h3>
+
+<center>    <img src="/assets/postResources/image-20200916103840368.png" alt="交换网络" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.2 交换网络</div> </center>
+
+<p><img src="../assets/postResources/image-20200916103840368.png" alt="image-20200916103840368" /></p>
+
+<p>使用一个由特殊设备构成的称为<strong>交换网络</strong>的网络负责当信息传输的中间站，每个主机又与就近的交换网络中的枢纽连接。这样节省了距离成本，也在保证信息传输效率的同时，不至于增加过多的链路。</p>
+
+<p>其中交换网络的枢纽，称为交换节点，一般是路由器或交换机。</p>
+
+<h3 id="internet">Internet</h3>
+
+<p>什么是Internet？Internet是我们如今天天离不开的东西。每时每刻海量的端系统连接在这个庞大的网络中，相互之间产生信息的交换。</p>
+
+<center>    <img src="/assets/postResources/image-20200916111536194.png" alt="Internet" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.3 Internet</div> </center>
+
+<p><img src="../assets/postResources/image-20200916111536194.png" alt="image-20200916111536194" /></p>
+
+<p>一般家庭，机构（公司，大学等）的Internet服务，都是由当地的区域级ISP（Internet Service Provider）提供。这些区域级ISP不禁相互连接，还通过全球ISP与其他地理区域的ISP互联。从这个角度看，Internet是网络的网络——无数的区域性ISP相互连接，也是一个网络。</p>
+
+<center>    <img src="/assets/postResources/image-20200916141452676.png" alt="Internet结构" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.4 Internet结构</div> </center>
+
+<p><img src="../assets/postResources/image-20200916141452676.png" alt="image-20200916141452676" /></p>
+
+<p>Internet就由这些大量的端系统、通信链路（光纤，卫星，铜线…)和分组交换网络构成。</p>
+
+<p>从网络应用的角度看，Internet是为许多运行于端系统的网络应用提供通信服务的基础设施，为网络应用提供API。诸如Web，即时通讯，网络游戏等典型的网络应用，都在使用Internet的服务。</p>
+
+<h3 id="网络协议"><a id="网络协议">网络协议</a></h3>
+
+<p><strong>协议</strong>(protocol)规定了计算机网络中数据交换的规则。协议之于计算机网络，就好比交通规则之于交通系统，如果不规定清楚，汽车🚗，卡车🚚随便上路，路边随便停车，红绿灯视若无物，交通秩序必将混乱。没有协议，只有网络硬件，远远无法实现Internet的庞大信息交流职能。大家都用各自的规矩，其他人怎么知道如何解读你传输来的信息呢？</p>
+
+<p>一般来说，协议的内容规定通信实体之间交换信息的格式，意义和顺序，以及实体针对收到的信息或发生的事件的处理动作。用比较标准的名词来形容，就是<strong>语法</strong>，<strong>语义</strong>和<strong>时序</strong>，称为协议的基本三要素。语法规定数据和信息的传输格式，语义规定各种控制信息的意义以及对控制信息应当作出的响应，时序规定了交换信息双方的行动顺序。</p>
+
+<p>了解各种具体的协议是学习计算机网络的关键。各种协议的设计也是网络创新的重要表现形式。</p>
+
+<p>要获取关于某个网络协议的最权威的描述，请去RFC（Request For Comments）中寻找。</p>
+
+<h3 id="计算机网络结构"><a id="计算机网络结构">计算机网络结构</a></h3>
+
+<p>计算机网络的构成有：</p>
+
+<ul>
+  <li>网络边缘
+  顾名思义，位于网络最边缘位置的结点，也就是主机/端系统。网络边缘一般也包括那些运行在端系统上的网络应用。</li>
+  <li>接入网络/物理介质
+  接入网络是将端系统连接到网络中的有线或无线的通信链路。常用的比如家庭的接入网络，学校/企业的接入网络，以及移动网络。</li>
+  <li>网络核心
+  由路由器，交换机构成的中继网络。</li>
+</ul>
+
+<p>端系统应用常用的模型：</p>
+
+<p>① 客户/服务器（client/server）应用模型：客户发送请求，接收服务器响应。典型的CS模型比如Web应用。</p>
+
+<p>② 对等（Peer-Peer, P2P）应用模型：不依赖或不仅仅依赖于服务器实现数据交换。通信在对等的实体之间发生，典型的P2P模型比如skype。</p>
+
+<h4 id="接入网络的具体划分">接入网络的具体划分</h4>
+
+<h5 id="dsl数字用户线路">DSL：数字用户线路</h5>
+
+<center>    <img src="/assets/postResources/image-20200916120722017.png" alt="DSL" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.5 DSL</div> </center>
+
+<p><img src="../assets/postResources/image-20200916120722017.png" alt="image-20200916120722017" /></p>
+
+<p>DSL利用已有的线路（一般是电话线路）连接中心局的多路复用器（DSLAM），利用多路复用的技术从电话线上的空闲频段分出上行通道和下行通道。一般来说，</p>
+
+<p>0~4kHz留给传统电话，<br />
+4k~50kHz分配给上行通道，<br />
+50kHz~1MHz分配给下行通道。</p>
+
+<p>由于上行下行的速度不同，称为非对称接入。DSL为每个接入设备分配独享的通道，虽然速度不太高，但至少不会被打扰。</p>
+
+<h5 id="电缆网络">电缆网络</h5>
+
+<center>    <img src="/assets/assets/postResources/image-20200916121853864.png" alt="电缆网络" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.6 电缆网络</div> </center>
+
+<p><img src="../assets/postResources/image-20200916121853864.png" alt="image-20200916121853864" /></p>
+
+<p>电缆网络实际上就是有线电视网络。以前光纤不普及，数字电视受众广泛的时候，大家应该都对电缆网络有印象。与数字机顶盒公用同一条线路，与DSL类似地，采用分频多路复用技术，把不用的频段拿来做网络通道。至于其使用体验之糟糕，想必无须多言了（虽然比拨号上网肯定是强了不少）。共享线路是这样的啊，一到家家户户的用网高峰，保证每个人卡的屁都放不利索。</p>
+
+<p>这种接入方式也称为混合光纤同轴线缆（HFC）。</p>
+
+<h5 id="企业机构接入网络ethernet">企业/机构接入网络：Ethernet</h5>
+
+<center>    <img src="/assets/postResources/image-20200916140355807.png" alt="以太网" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.7 以太网</div> </center>
+
+<p><img src="../assets/postResources/image-20200916140355807.png" alt="image-20200916140355807" /></p>
+
+<p>企业或机构一般采用以太网的形式组织内部局域网，再通过交换机接入互联网。以太网是目前应用最广泛的局域网技术。</p>
+
+<h5 id="无线接入网络">无线接入网络</h5>
+
+<p>通过<strong>共享</strong>的无线接入网络连接端系统和路由器。</p>
+
+<p>无线接入常见的有同一建筑物内的WLAN（范围小）和运营商的信号基站（范围广，蜂窝数据）。</p>
+
+<h2 id="20200916"><a id="2020/09/16">2020/09/16</a></h2>
+
+<h3 id="网络核心"><a id="网络核心">网络核心</a></h3>
+
+<p>网络的核心部分，承担着两个职能：<strong>路由</strong>和<strong>转发</strong>。</p>
+
+<p>路由是指确定分组传播过程中的网络范围的过程，转发则是接受分组并向下一个目的端发送分组的过程。</p>
+
+<p>毫无疑问，网络的核心就是<strong>交换网络</strong>！</p>
+
+<h3 id="数据交换">数据交换</h3>
+
+<p>数据交换主要分为三种形式：电路交换、报文交换交换以及分组交换。</p>
+
+<h4 id="电路交换">电路交换</h4>
+
+<p>最典型的电路交换莫过于电话网络了。</p>
+
+<center>    <img src="/assets/postResources/image-20200916143422483.png" alt="电路交换" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.1 电路交换</div> </center>
+
+<p><img src="../assets/postResources/image-20200916143422483.png" alt="image-20200916143422483" /></p>
+
+<p>电路交换又分为三阶段：</p>
+
+<ol>
+  <li>建立连接（呼叫）</li>
+  <li>通信</li>
+  <li>断开连接（挂断）</li>
+</ol>
+
+<p>电路交换的一大特点是<strong>独占</strong>。一旦电路建立，就算没有使用，这部分资源也不会被其他用户使用，直到断开连接。</p>
+
+<p>然而，独占却不意味着电路使用时就一直占着线不让其他电路用了。多路复用技术的存在使电路交换不至于看起来像个傻子。</p>
+
+<h3 id="多路复用"><a id="多路复用">多路复用</a></h3>
+
+<p>多路复用是通信技术中的重要概念，简而言之，就是用各种法子，让本来只有的一条线路可以供多个电路同时使用。其思想类似于CPU的流水线处理进程，就是将资源分成多片，分给不同电路使用。这个小资源片是被独占的。</p>
+
+<center>    <img src="/assets/postResources/image-20200916144820371.png" alt="多路复用" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.2 多路复用</div> </center>
+
+<p><img src="../assets/postResources/image-20200916144820371.png" alt="image-20200916144820371" /></p>
+
+<h4 id="频分多路复用fdm">频分多路复用：FDM</h4>
+
+<p>将链路分成多个频段，每个频段是一个资源片。FDM最广为熟知的应用莫过于有线电视信号了，不同的频道就是位于不同频率的。用户分配到某个频段之后，在通信过程中始终独占这一部分频段。</p>
+
+<h4 id="时分多路复用tdm">时分多路复用：TDM</h4>
+
+<p>跟CPU流水线最相似的一个多路复用。TDM将时间划分成一段段等长的时间复用帧（TDM帧），用户在每个TDM帧中占用固定的一部分时隙。这样用户的时隙将周期性出现，就好像能同时使用一样。时分复用的用户在频率上使用相同的频段。</p>
+
+<h4 id="波分多路复用wdm">波分多路复用：WDM</h4>
+
+<p>没什么好说的，就是光的“频分复用”，因为光可以用波长来描述频率。只要两个用户的光在波长上隔离开，就能实现波分复用。</p>
+
+<h4 id="码分多路复用cdm">码分多路复用：CDM</h4>
+
+<p>CDM广泛地应用于无线链路共享。既不分割频率，也不分割时间，CDM为每个用户分配一个m bit的码片序列，其中用+1来表示1，用-1来表示0。大家发送数据时，都用被分配到的码片序列来编码要传输的数据。</p>
+
+<p>编码格式：原始数据 x 码片序列</p>
+
+<p>如果要发送二进制编码1，那就发送原m bit码片序列，如果要发送二进制编码0则发送该序列的反码。</p>
+
+<p>所有用户发送的数据会叠加。</p>
+
+<p>为了让叠加后的数据可以被解读，要求所有的码片序列相互正交。
+\(\frac {1}{m} S_i \cdot S_j = \begin {cases}1, i = j\\0, i \neq j \end {cases}
+\ \ \ \ \ \ \ \ \  
+\frac {1}{m} S_i \cdot\overline S_j = \begin {cases}-1, i = j\\0, i \neq j \end {cases}\)
+设用户的码片序列为$S_i$，要发送的原始数据为$d_i$叠加向量P为
+\(P = \sum_{i=1}^n d_i \cdot S_i\)</p>
+
+<p>要解码，只需要用用户序列与编码信号内积（再乘上$\frac{1}{m}$)。
+\(\frac{1}{m} S_i \cdot P = \begin{cases} 1,S_i \in P\\-1,\overline S_i \in P \\ 0,S_i,\overline S_i \notin P \end{cases}\)
+如果内积的结果是1，说明发送的是原码片序列，也即原始数据是1；</p>
+
+<p>如果内积的结果是-1，说明发送的是码片序列的反码，也即原始数据是-1（当然，实际上代表的是二进制0）；</p>
+
+<p>如果内积的结果是0，说明其与P中的所有部分都正交，也就是P中并没有用户的码片序列信息。</p>
+
+<center>    <img src="/assets/postResources/image-20200917131633391.png" alt="码分复用" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.3 码分复用</div> </center>
+
+<p><img src="../assets/postResources/image-20200917131633391.png" alt="image-20200917131633391" /></p>
+
+<p>借助码分复用格式，可以允许多个用户同时进行数据交换。</p>
+
+<center>    <img src="/assets/postResources/image-20200917131929290.png" alt="多用户码分复用" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.4 多用户码分复用</div> </center>
+
+<p><img src="../assets/postResources/image-20200917131929290.png" alt="image-20200917131929290" /></p>
+
+<p>如图所示，用户1，2的码片序列相互正交，要发送的信息叠加而成P。以图中为例，假设要接收用户1的数据，只需用$S_1$来解码即可。读者不妨试试用$S_2$解码，看看得到的是不是用户2要发送的原始数据？</p>
+
+<h3 id="报文交换">报文交换</h3>
+
+<p>什么是报文？报文就是要发送的信息<strong>整体</strong>。报文交换的关键在于，必须将要发送的信息，也就是报文，一次性发出去。然后交换机存储收到的报文，再向下继续发送。报文可以是一整个文件。最早的报文交换应用应该是电报了。报文交换看起来有些笨重：如果一份文件很大，直到彻底发送完为止，交换机都不能向下一个目标发起传输。一步一个脚印，虽然很稳重，但是太慢了！</p>
+
+<h3 id="分组交换">分组交换</h3>
+
+<p>将报文拆分成一系列较小的数据包，就是<strong>分组</strong>。当然，不仅要切分，还要将小的数据包再打包格式，以便于发送。目的地接收到分组后，还要将分组重组，才能获得要传输的信息。拆分、重组以及分组数据头都会略微增加额外的开销，但以如今的网络状况看已经可以忽略不计了。</p>
+
+<center>    <img src="/assets/postResources/image-20200917133622741.png" alt="分组交换" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.5 分组交换</div> </center>
+
+<p><img src="../assets/postResources/image-20200917133622741.png" alt="image-20200917133622741" /></p>
+
+<p>一个显著优于报文交换的性质是，分组都是较小的，往往很短时间内就能传输完成。对于大文件的传输，报文交换只能笨重地传完一整个，再由交换机向下传一整个大文件，而分组交换可以在很快地发送文件的一个小部分分组后，继续向其发送分组，同时交换机已经可以将它拿到的分组向下继续传输了。这样，时间被大大地利用起来，可以有许多链路同时传输分组，并行起来了。</p>
+
+<p>分组交换和报文交换都采用<strong>存储-转发</strong>的数据交换方式。将报文/分组存储起来，再转发出去。</p>
+
+<h4 id="统计多路复用statistical-multiplexing">统计多路复用：statistical multiplexing</h4>
+
+<p>分组交换网络也存在多路复用。不过，分组交换的复用不是事先安排好的，而是一种按需的复用。</p>
+
+<center>    <img src="/assets/postResources/image-20200917134814398.png" alt="统计多路复用" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.6 统计多路复用</div> </center>
+
+<p><img src="../assets/postResources/image-20200917134814398.png" alt="image-20200917134814398" /></p>
+
+<p>无论是哪个用户，都是共用一条固定传输速率的链路。不过，大家的分组都要在发送前排好队。如果A用户发送了较多的分组，理所应当地，A用户占用链路的时间更久。也就是说，统计上发送了越多的分组，就具有越高的复用率。这就是为什么这叫做统计多路复用。</p>
+
+<h3 id="传输延迟">传输延迟</h3>
+
+<p>为了直观地指出分组交换与报文交换在速度上的优劣，不妨研究一下两种方式的传输延迟。传输延迟是指从第一个发送的bit开始到最后一个bit发送完成的时间。</p>
+
+<p>设分组的长度为L bit，链路传输速率为R bps。</p>
+:ET

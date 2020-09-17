@@ -264,3 +264,31 @@ $$
 
 无论是哪个用户，都是共用一条固定传输速率的链路。不过，大家的分组都要在发送前排好队。如果A用户发送了较多的分组，理所应当地，A用户占用链路的时间更久。也就是说，统计上发送了越多的分组，就具有越高的复用率。这就是为什么这叫做统计多路复用。
 
+### 传输延迟
+
+*网络术语中的数据大小和带宽速率等中出现的K，M，G分别指$10^3$，$10^6$，$10^9$，而非计算机系统术语中对物理存储占用理解的$2^{10}$，$2^{20}$，$2^{30}$等。*
+
+为了直观地指出分组交换与报文交换在速度上的优劣，不妨研究一下两种方式的传输延迟。传输延迟是**指从第一个发送的bit开始到最后一个bit发送完成的时间**。
+
+设报文的长度为M = 7.5M bits，分组的长度为L=1500 bits，链路传输速率均为R = 1.5Mbps。
+
+那么每次传输报文的时间是M/R = 5s，每次传输分组的时间为L/R = 0.001s（忽略了分组的数据头），但一个报文会被拆分成多个（在示例中，就是M = 5000 L）分组。
+
+<center>    <img src="{{'assets/postResources/message switching.gif'|relative_url}}" alt="传输延迟-报文交换" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.7 传输延迟-报文交换</div> </center>
+
+![message switching](../assets/postResources/message switching.gif)
+
+报文交换的形式如图2.7所示。庞大的报文只能臃肿地移动，它先花了5s时间从发送端来到第一个交换机，再花了5s时间转移到下一个交换机，最后又花了5s时间到达目的地。整个报文花了15秒才完成交付。时间不短是一方面，更要命的是，庞大的报文还要求交换机也必须具有足够庞大的存储空间。
+
+<center>    <img src="{{'assets/postResources/packet switching'|relative_url}}" alt="传输延迟-分组交换" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.8 传输延迟-分组交换</div> </center>
+
+![packet switching](../assets/postResources/packet switching.gif)
+
+分组交换的形式如图2.8所示。多个分组快速、频繁地通过，避免了庞大的传输发生在某条线路的同时，其他线路在那里摸🐟划水不干事。而且交换路由不用太大的存储。最后一个分组（No.5000）发送到交换机1号时时，才刚刚经过5s，然后又经过了两次链路传输，花了2ms，最后一个bit也传输完成。5000个分组一共才花了5.002s交付。
+
+对于分组交换，计算其交付时间T的公式如下：
+$$
+T = \frac{M}{R} + (h-1)\frac{L}{R} \\
+ = \frac{M}{R} + n\frac{L}{R}
+$$
+其中M，R，L的定义已给出。h是跳步数，表示分组在传输过程中经历的链路数，n是路由数。
