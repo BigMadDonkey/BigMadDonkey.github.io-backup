@@ -11,19 +11,12 @@ toc: true
 ### 目录
 
 1. **<a href="#2020/09/14">2020/09/14</a>**
-
    <a href="#计算机网络的定义">计算机网络的定义</a>
-
    <a href="#交换网络">交换网络</a>
-
    <a href="#网络协议">网络协议</a>
-
    <a href="#计算机网络结构">计算机网络结构</a>
-
 2. **<a href="#2020/09/16">2020/09/16</a>**
-
    <a href="#网络核心">网络核心</a>
-   
    <a href="#多路复用">多路复用</a>
    
    
@@ -200,7 +193,7 @@ DSL利用已有的线路（一般是电话线路）连接中心局的多路复�
 
 #### 波分多路复用：WDM
 
-没什么好说的。就是光的“频分复用”。因为光可以用波长来描述频率。只要两个用户的光在波长上隔离开，就能实现波分复用。
+没什么好说的，就是光的“频分复用”，因为光可以用波长来描述频率。只要两个用户的光在波长上隔离开，就能实现波分复用。
 
 #### 码分多路复用：CDM
 
@@ -218,7 +211,56 @@ $$
 \ \ \ \ \ \ \ \ \  
 \frac {1}{m} S_i \cdot\overline S_j = \begin {cases}-1, i = j\\0, i \neq j \end {cases}
 $$
-各用户的叠加向量P为
+设用户的码片序列为$S_i$，要发送的原始数据为$d_i$叠加向量P为
 $$
-P = \sum_{i=1}^n d_i \cdot S_i = \sum_{i=1}^n
+P = \sum_{i=1}^n d_i \cdot S_i
 $$
+
+要解码，只需要用用户序列与编码信号内积（再乘上$\frac{1}{m}$)。
+$$
+\frac{1}{m} S_i \cdot P = \begin{cases} 1,S_i \in P\\-1,\overline S_i \in P \\ 0,S_i,\overline S_i \notin P \end{cases}
+$$
+如果内积的结果是1，说明发送的是原码片序列，也即原始数据是1；
+
+如果内积的结果是-1，说明发送的是码片序列的反码，也即原始数据是-1（当然，实际上代表的是二进制0）；
+
+如果内积的结果是0，说明其与P中的所有部分都正交，也就是P中并没有用户的码片序列信息。
+
+<center>    <img src="{{'assets/postResources/image-20200917131633391.png'|relative_url}}" alt="码分复用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.3 码分复用</div> </center>
+
+![image-20200917131633391](../assets/postResources/image-20200917131633391.png)
+
+借助码分复用格式，可以允许多个用户同时进行数据交换。
+
+<center>    <img src="{{'assets/postResources/image-20200917131929290.png'|relative_url}}" alt="多用户码分复用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.4 多用户码分复用</div> </center>
+
+![image-20200917131929290](../assets/postResources/image-20200917131929290.png)
+
+如图所示，用户1，2的码片序列相互正交，要发送的信息叠加而成P。以图中为例，假设要接收用户1的数据，只需用$S_1$来解码即可。读者不妨试试用$S_2$解码，看看得到的是不是用户2要发送的原始数据？
+
+### 报文交换
+
+什么是报文？报文就是要发送的信息**整体**。报文交换的关键在于，必须将要发送的信息，也就是报文，一次性发出去。然后交换机存储收到的报文，再向下继续发送。报文可以是一整个文件。最早的报文交换应用应该是电报了。报文交换看起来有些笨重：如果一份文件很大，直到彻底发送完为止，交换机都不能向下一个目标发起传输。一步一个脚印，虽然很稳重，但是太慢了！
+
+### 分组交换
+
+将报文拆分成一系列较小的数据包，就是**分组**。当然，不仅要切分，还要将小的数据包再打包格式，以便于发送。目的地接收到分组后，还要将分组重组，才能获得要传输的信息。拆分、重组以及分组数据头都会略微增加额外的开销，但以如今的网络状况看已经可以忽略不计了。
+
+<center>    <img src="{{'assets/postResources/image-20200917133622741.png'|relative_url}}" alt="分组交换" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.5 分组交换</div> </center>
+
+![image-20200917133622741](../assets/postResources/image-20200917133622741.png)
+
+一个显著优于报文交换的性质是，分组都是较小的，往往很短时间内就能传输完成。对于大文件的传输，报文交换只能笨重地传完一整个，再由交换机向下传一整个大文件，而分组交换可以在很快地发送文件的一个小部分分组后，继续向其发送分组，同时交换机已经可以将它拿到的分组向下继续传输了。这样，时间被大大地利用起来，可以有许多链路同时传输分组，并行起来了。
+
+分组交换和报文交换都采用**存储-转发**的数据交换方式。将报文/分组存储起来，再转发出去。
+
+#### 统计多路复用：statistical multiplexing
+
+分组交换网络也存在多路复用。不过，分组交换的复用不是事先安排好的，而是一种按需的复用。
+
+<center>    <img src="{{'assets/postResources/image-20200917134814398.png'|relative_url}}" alt="统计多路复用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.6 统计多路复用</div> </center>
+
+![image-20200917134814398](../assets/postResources/image-20200917134814398.png)
+
+无论是哪个用户，都是共用一条固定传输速率的链路。不过，大家的分组都要在发送前排好队。如果A用户发送了较多的分组，理所应当地，A用户占用链路的时间更久。也就是说，统计上发送了越多的分组，就具有越高的复用率。这就是为什么这叫做统计多路复用。
+
