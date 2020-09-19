@@ -31,6 +31,14 @@ layout: post
 
 数学真的很重要啊...可惜，大一大二的数学基础课程全都拿去考试用了。没办法，需要记一记的就记一记吧。
 
+### 线性代数
+
+他妈的！每次想到学校的线性代数教材安排的如此狗屁，都必须骂出一句话才行！不然在肚子里要憋坏了。这种奇妙的安排，不是祸害国内的大学生吗！！！
+
+<center>    <img src="{{'assets/postResources/image-20200917200739590.png'|relative_url}}" alt="淦" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">他妈的，你这样做...</div> </center>
+
+不过后来了解到许多其他大学也是这样的🙂那没事了
+
 
 
 ## <a id="2020/09/10">2020/09/10</a>
