@@ -31,6 +31,20 @@ toc: true
    <a href="#计算机网络性能">计算机网络性能</a>
    
    <a href="#计算机网络体系结构">计算机网络体系结构</a>
+   
+4. **<a href="#2020/09/21">2020/09/21</a>**
+
+   <a href="#网络应用的体系结构">网络应用的体系结构</a>
+   
+   <a href="#应用层协议">应用层协议</a>
+   
+   <a href="#Web应用">Web应用</a>
+   
+   <a href="#Email应用">Email应用</a>
+   
+   <a href="#DNS应用">DNS应用</a>
+   
+5. <a href="#2020/09/23">2020/09/23</a>
 
 <br />
 
@@ -502,13 +516,390 @@ OSI的通信过程只对主机有7层架构要求，对于中间的系统，只�
 
 ### 网络层
 
-网络层负责从源主机到目的主机数据分组的交付。
+网络层负责从源主机到目的主机数据分组的交付，可能穿越多个网络。
 
+网络层还负责提供逻辑地址。逻辑地址是全局唯一的，可以确保只有目的主机可以接收，比如IP地址。
 
+网络层也负责路由，根据分组的内容决定路由的方向，**分组**转发的路径。
 
 ### 传输层
+
+传输层的PDU称为段（segment）。传输层负责源主机到目的主机、进程到进程的报文传输。
+
+<center>    <img src="{{'assets/postResources/image-20200919143126392.png'|relative_url}}" alt="传输层" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图3.7 传输层</div> </center>
+
+![image-20200919143126392](../assets/postResources/image-20200919143126392.png)
+
+如图所示，传输层实现的是报文的分段与重组功能。将报文分成分组并加上头部信息，交给网络层传输，再接收端又将他们聚成报文。除此之外，传输层还要负责添加SAP寻址的信息，确保进程找到对应的端口号。有的传输层协议还会解决连接控制、流量控制和差错控制的问题。
 
 
 
 ### 会话层
+
+<center>    <img src="{{'assets/postResources/image-20200919154609572.png'|relative_url}}" alt="会话层" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图3.8 会话层</div> </center>
+
+![image-20200919154609572](../assets/postResources/image-20200919154609572.png)
+
+会话层负责会话控制，并将表示层的PDU插入一些同步控制信息，如果传输过程中某个控制点附近出现意外，只需要恢复该点附近的数据。
+
+### 表示层
+
+<center>    <img src="{{'assets/postResources/image-20200920211843179.png'|relative_url}}" alt="表示层" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图3.9 表示层</div> </center>
+
+![image-20200920211843179](../assets/postResources/image-20200920211843179.png)
+
+表示层负责处理两个系统间信息交换的语法和语义，将数据转换为主机独立的编码，以及对数据的加密解密、压缩解压缩等。
+
+### 应用层
+
+<center>    <img src="{{'assets/postResources/image-20200921210331037.png'|relative_url}}" alt="应用层" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图3.10 应用层</div> </center>
+
+![image-20200921210331037](../assets/postResources/image-20200921210331037.png)
+
+支持用户通过代理或者网络接口使用网络服务。典型的网络服务有文件传输、电子邮件、Web服务等。
+
+### TCP/IP参考模型
+
+<center>    <img src="{{'assets/postResources/image-20200921210432992.png'|relative_url}}" alt="TCP/IP参考模型" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图3.11 TCP/IP参考模型</div> </center>
+
+![image-20200921210432992](../assets/postResources/image-20200921210432992.png)
+
+TCP/IP的参考模型如图所示。可以看到其只有四层，而且除了网际层，每一层都有多种选择。
+
+对于网际接口层，并没有要求特定的协议，只要能封装IP分组就可以。
+
+TCP/IP模型的一大特点就是一切网络应用程序都构建于IP之上，IP又可应用到各式各样的网络上。
+
+### 5层参考模型
+
+5层参考模型综合了OSI 7层模型和TCP/IP 模型的优点，可以说其不仅在理论上具有意义，现在在网络中也具有相当的实践意义。
+
+- 应用层
+
+  支持各种网络应用，如FTP、HTTP等协议的应用
+
+- 传输层
+
+  实现进程间的信息传输，如TCP、UDP
+
+- 网络层
+
+  实现源主机到目的主机的数据分组的路由、转发，如IP协议，路由协议等
+
+- 链路层
+
+  相邻网络元素（主机，路由器、交换机等）的数据传输，如以太网，WiFi，PPP
+
+- 物理层
+
+  比特级传输
+
+## <a id="2020/09/21">2020/09/21</a>
+
+### <a id="网络应用的体系机构">网络应用的体系结构</a>
+
+### C/S结构
+
+<center>    <img src="{{'assets/postResources/image-20200921221301737.png'|relative_url}}" alt="C/S结构示例：Web应用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.1 C/S结构示例：Web应用</div> </center>
+
+![image-20200921221301737](../assets/postResources/image-20200921221301737.png)
+
+客户机/服务器结构将主机划分成客户端和服务器两类。从功能上划分，客户机是请求服务的主机，服务器是提供服务的主机。
+
+服务器作为提供服务方，一般要保持全天24小时工作，并提供永久性访问的地址/域名。可以通过增加服务器数量来实现可扩展性（并发处理请求）
+
+客户机与服务器通信，使用服务器提供的服务，间歇性接入网络，并且可能具有动态的IP地址，也不可以和其他客户机直接通信。
+
+
+
+
+
+如图是一个C/S结构示例。不同主机上的客户机通过浏览器向服务器发送请求，服务器又响应请求提供服务。
+
+### P2P结构
+
+<center>    <img src="{{'assets/postResources/_19415.png'|relative_url}}" alt="P2P结构" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.2 P2P结构</div> </center>
+
+
+
+![img](../assets/postResources/_19415.png)
+
+P2P结构的一大特点是**没有永远在线的服务器**，而且**任意端系统之间可以直接相互通讯**。同样地，节点可以任意时刻接入网络，也可能改变IP地址。P2P是高度可伸缩的，但是难于管理。
+
+
+
+### 混合结构
+
+混合结构结合了C/S结构和P2P结构。一个典型的混合结构应用是Napster。
+
+<center>    <img src="{{'assets/postResources/image-20200922214007392.png'|relative_url}}" alt="Napster的混合结构" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.3 Napster的混合结构</div> </center>
+
+![image-20200922214007392](../assets/postResources/image-20200922214007392.png)
+
+文件的传输是P2P式的，但文件的搜索是C/S式的。每个文件都在中央服务器上存有记录，方便每个用户查询。查询到了需要的文件后，可以从文件的提供者那里之间获取。
+
+### 进程间通信
+
+同一台主机上的进程间可以通过操作系统提供的机制相互通信，而不同主机的进程间通信都是利用消息交换。发起通信的进程称为客户机进程，等待通信请求的进程称为服务机进程。
+
+### 套接字
+
+<center>    <img src="{{'assets/postResources/image-20200922215258407.png'|relative_url}}" alt="socket" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.4 socket</div> </center>
+
+![image-20200922215258407](../assets/postResources/image-20200922215258407.png)
+
+进程间的通信借助于套接字（socket）。使用socket通信可以类比使用信箱送信的过程。发送方将消息放到信箱里，依赖于外部的传输基础设施将消息送到接收方的门外（主机）。接受方从门外获取信息。“信箱”——socket也就是由“传输基础设施”——传输层提供的API。可以用socket选择传输层的协议并进行一些参数的控制。
+
+### 进程寻址
+
+要为主机寻址，通过某个标识符确定唯一的主机，可以通过IP地址，那么对于一台主机上的进程呢？
+
+实际上，由于一台主机上同时会有多个进程需要通信，要确定具体寻址哪一台主机，还需要**端口号**。主机上某一个需要通信的进程都会被分配一个端口号。有一些端口号是固定的，不允许随便使用，比如HTTP的专用80端口和Mail的25端口。
+
+### <a id="应用层协议">应用层协议</a>
+
+应用层协议是网络应用需要遵循的协议，有许多种。有公开的协议（一般由RFC定义）比如HTTP，FTP，SMTP等。也有私有的协议，比如一些P2P应用的协议。公开的协议的存在方便了大家的应用之间进行互操作。
+
+应用层协议的一般内容：
+
+- 规定消息的类型（请求，响应...)
+- 消息的语法（消息中都有哪些字段，字段的格式）
+- 消息的语义（字段的含义是什么）
+- 规则（进程如何，何时发送请求/响应？）
+
+### 网络应用对传输服务的需求
+
+- 数据丢失/可靠性
+
+  有些应用对数据的完整性有一定容忍，比如网络电话、在线视频等，缺少一部分数据不会对整个应用的运行造成过大影响
+
+  但有些应用又要求数据必须完整100%传输，比如文件传输
+
+- 时间延迟
+
+  有的应用只有时延低时才能正常工作，比如网络电话，网络游戏
+
+- 带宽
+
+  有些应用在带宽达到一定要求时才能有较好体验，比如在线视频
+
+  而像文件传输这样的应用并没有对带宽有固定要求，只要有速度就可以
+
+- 安全性
+
+  像网上银行类应用必须对数据的安全有极高保障
+
+### Internet提供的传输服务
+
+#### TCP
+
+- 面向连接：客户机和服务机进程间需要建立连接
+- 可靠的传输：把底层的不可靠数据转化成可靠的
+- 流量控制：控制发送方不要过快发送，超过服务机进程的处理请求
+- 拥塞控制：当网络负担过重时，限制发送方的发送速度
+- 不提供延迟保障
+- 不提供最小带宽保障
+
+#### UDP
+
+较TCP更简单。
+
+- 无连接
+- 数据传输不可靠
+- 无流量控制、拥塞控制、延迟保障、最小带宽保障
+
+UDP为什么什么都不做？因为它提供的服务非常基本非常低级，几乎是传输层协议的必备。虽然什么都没有，但是给予了应用极大的权力自由。
+
+<center>    <img src="{{'assets/postResources/image-20200923100937077.png'|relative_url}}" alt="一些应用的应用层和传输层协议" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.5 一些应用的应用层和传输层协议</div> </center>
+
+![image-20200923100937077](../assets/postResources/image-20200923100937077.png)
+
+### <a id= "Web应用">Web应用</a>
+
+Web 即 World Wide Web，全球广域网，也称万维网。由伟大的Tim Berners-Lee发明。虽然Web的历史实际上也并没有很久，但其巨大的影响力，甚至使得Internet从当时的众多网络中脱颖而出，称为如今网络的代名词。
+
+Web的最基本构成要素是**网页**（Web Pages）。另外，网页与网页之间相互链接，形成庞大的网络。网页包含多个**对象**（objects），对象可以是HTML文件、图像、视频、脚本等。
+
+每个网页还必须有一个基本的HTML文件，包含对其他对象的链接。
+
+要对网页对象进行寻址，使用的是**统一资源定位器（URL）**，关于URL的介绍，详见<a href="https://tools.ietf.org/html/rfc1738">RFC 1738</a>。
+
+URL有一个基本的格式
+
+Scheme://host:port/path
+
+*（有时候省略了Scheme，那就说明默认为HTTP）*
+
+### HTTP协议
+
+HTTP是HyperText Transfer Protocol的简称。HTTP采用了C/S架构，客户机就是浏览器，负责请求、接收、展示对象。服务器负责响应请求。
+
+HTTP采用的传输层协议是TCP协议。
+
+- 服务器在80端口等待客户机请求。
+- 浏览器发起对服务器的TCP连接，创建套接字Socket。
+- 服务器接收来自浏览器的TCP连接。
+- 浏览器（客户端）与服务器交换HTTP信息。
+- 关闭TCP连接。
+
+HTTP是**无状态**的。所谓无状态，也就是服务器不维护任何有关浏览器过去所发送的请求的信息。这是因为有状态的协议比较复杂。现代网络的应用往往通过其他方式实现维护状态的功能。
+
+#### HTTP连接
+
+HTTP1.0（早期版本）使用非持久性连接，且每个TCP连接仅允许传输一个对象。
+
+HTTP1.1默认使用持久性连接，且每个TCP连接允许传输多个对象。
+
+**RTT**（Round Trip Time）表示从客户端发送一个**很小**的数据包到服务器并返回所需的时间。
+
+<center>    <img src="{{'assets/postResources/image-20200923211848168.png'|relative_url}}" alt="响应时间" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.6 响应时间</div> </center>
+
+![image-20200923211848168](../assets/postResources/image-20200923211848168.png)
+
+一次请求Web资源的响应时间为
+
+1. 发起、建立TCP连接：1RTT
+2. 发送HTTP请求信息到HTTP相应信息的前几个字节到达客户端：1RTT
+3. 响应消息中所含的文件/对象传输时间
+
+因此Total = 2RTT + 文件传输时间。
+
+如果采用非持久性连接，每个对象都需要两个RTT且会建立很多的TCP连接，这会占用其操作系统的资源。因此，后来改用持久性连接，完成一次连接后服务器保持连接的打开，后续的HTTP消息可以通过这个持久的连接发送。
+
+持久性连接又可细分为2种：其一是无流水的持久连接，客户端只有收到前一个响应后才能发送请求，每个对象占用1RTT，对象的请求之间是同步的（synchronized）。其二是采用流水机制的持久连接，也是HTTP1.1的默认方式，当遇到一个对象资源的引用就尽可能快地发出请求，也就是不等上一个响应来，就发送下一个请求，最理想条件下多个对象资源只需要一个RTT。
+
+#### HTTP方法
+
+下面给出一些基本的HTTP方法。
+
+- GET
+
+  （HTTP1.0）请求指定的对象资源。
+
+- POST
+
+  （HTTP1.0）提交表单或上传文件。
+
+- HEAD
+
+  （HTTP1.0）与GET请求类似，不过特地要求服务器**不要**返回请求的内容，也就是只返回头部的信息。
+
+- PUT
+
+  （HTTP1.1）把消息体中的文件上传到URL指定的路径。
+
+- DELETE
+
+  （HTTP1.1）请求服务器删除指定URL的内容。
+
+- CONNECT
+
+  （HTTP1.1）建立一个到目标服务器的连接，将连接方式改成管道方式。
+
+- OPTIONS
+
+  （HTTP1.1）允许客户端查看性能。
+
+- TRACE
+
+  （HTTP1.1）回显服务器收到的请求。
+
+#### HTTP消息类型
+
+HTTP消息分为请求消息和响应消息。消息是ASCII码描述的，人直接可读。
+
+#### 请求消息
+
+<center>    <img src="{{'assets/postResources/image-20200923214414386.png'|relative_url}}" alt="请求消息示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.7 请求消息示例</div> </center>
+
+![image-20200923214414386](../assets/postResources/image-20200923214414386.png)
+
+第一行称为请求行（request line），有方法名、URL、协议版本。
+
+下面的几行称为头部行（可扩展，不限于示例中的几种），由字段:值组成，可以有主机域名、浏览器及版本、连接类型和语言等信息。服务器可能根据语言类型的不同，浏览器的不同，返回不同的对象资源。
+
+然后是一个空行表示消息结束。
+
+<center>    <img src="{{'assets/postResources/image-20200923215100357.png'|relative_url}}" alt="请求消息通用格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.8 请求消息通用格式</div> </center>
+
+![image-20200923215100357](../assets/postResources/image-20200923215100357.png)
+
+#### 上传输入的方法
+
+- POST方法
+
+  对于那些需要上传表单（form）的网页，在请求消息的消息体里上传客户端的输入即可。
+
+- URL方法
+
+  如果输入信息非常少，可以使用get方法，把输入信息放到请求行的URL的位置。使用这种方法可以为简单的方法传入参数，具体应用中体现在URL中的“?”之后的内容。
+
+
+
+#### 响应消息
+
+<center>    <img src="{{'assets/postResources/image-20200923222924073.png'|relative_url}}" alt="响应消息通用格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.9 响应消息通用格式</div> </center>
+
+![image-20200923222924073](../assets/postResources/image-20200923222924073.png)
+
+第一行称为状态行，包含协议版本，返回状态代码以及他的解释。
+
+下面几行为头部行，具体类似于请求消息的头部行，比如Date:生成响应消息的时间、Server:服务器的应用和版本等。
+
+然后是一个空行，再然后是请求的内容。
+
+常见的HTTP响应状态代码：
+
+- 101：切换协议。
+
+- 200：请求成功。
+- 301：资源已被永久移动到其他URL。
+- 302：资源被暂时移动（Found）。
+- 400：因请求的语法错误而无法正常读取（Bad Request）。
+- 404：请求的资源不存在。
+- 500：服务器内部错误。
+
+### Cookie
+
+HTTP是无状态的，可是很多时候，使用网络服务需要记录客户端的状态。Cookie就解决了这一问题。
+
+Cookie是某些网站为了辨别用户身份、进行session追踪而储存在本地上的数据（一般经过加密），详见<a  href="https://tools.ietf.org/html/rfc6265">RFC 6265</a>。
+
+要在HTTP中应用Cookie，可以在请求/响应消息中使用Cookie的头部行。浏览器保存自己的Cookie，服务器存储一个Cookie的数据库。
+
+Cookie被大量应用于身份认证中。
+
+### Web缓存/代理服务器
+
+Web缓存是一种允许在不访问服务器的前提下满足客户端的HTTP需求的技术。
+
+Web缓存可以用来缩短请求响应时间，减少机构的访问流量，实现高效率的内容分发<del>当然还有科学上网</del>。
+
+<center>    <img src="{{'assets/postResources/image-20200923231512407.png'|relative_url}}" alt="Web缓存-借助代理服务器" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.10 Web缓存-借助代理服务器</div> </center>
+
+![image-20200923231512407](../assets/postResources/image-20200923231512407.png)
+
+在客户和服务器之间架设一个代理/缓存服务器。用户对原始目标服务器的HTTP请求信息不是直接发给了原始服务器，而是发送给了代理服务器。如果客户请求的对象在代理服务器中已经存有，则可以直接由代理服务器发送响应信息，发送对象；如果没有，则代理服务器代替客户向原始服务器发送那个请求。可以说，代理服务器既充当服务器，又充当客户端。可见其的确为原始目标服务器起到了缓解流量的作用。
+
+代理服务器都是由ISP架设的。
+
+代理服务器应用的一个关键在于，如何确认缓存服务器中已经缓存的某个资源与目标服务器上的对应同名资源完全一致？如果目标服务器上发生了更改，缓存服务器上存有的是旧版本，该如何更新？条件性GET方法可以解决这个问题。
+
+代理服务器在HTTP的GET请求消息中声明所持有资源的版本日期。如果缓存服务器检查后发现没有新的修改版本，则响应消息中不含对象，并且返回HTTP 304：Not Modified，如果有新的修改，则返回HTTP 200：OK并在消息中附带新的对象。
+
+### <a id="Email">Email应用</a>
+
+Email应用的历史相对悠久，但经久不衰。
+
+Email应用由以下部分构成：
+
+- 邮件客户端
+
+  读、写Email消息，与服务器交互，收、发Email消息。经典的邮件客户端像Outlook、Foxmail等，通过Web实现的邮件客户端也具有邮件客户端功能。
+
+- 邮件服务器
+
+  
+
+### <a id="DNS应用">DNS应用</a>
 
