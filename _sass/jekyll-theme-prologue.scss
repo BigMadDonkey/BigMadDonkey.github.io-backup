@@ -82,8 +82,8 @@
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		font-weight: 300;
-		color: #666;
+		font-weight: 350; //before: 300
+		color: rgb(10, 1, 1); /*before:#666 */
 		line-height: 1.5em;
 	}
 
@@ -97,12 +97,16 @@
 	}
 
 	h2 {
-		font-size: 2em;
+		font-size: 2.5em;
 		letter-spacing: -1px;
 	}
 
 	h3 {
-		font-size: 1.5em;
+		font-size: 2em;
+	}
+
+	h4 {
+		font-size: 1.5em; /* before: no h4*/
 	}
 
 	header {
@@ -118,8 +122,8 @@
 	}
 
 	strong, b {
-		font-weight: 300;
-		color: #666;
+		font-weight: 700; //before: I forget
+		color: rgb(7, 7, 7);/* before: #666*/
 	}
 
 	em, i {
@@ -187,7 +191,12 @@
 	}
 
 	p, ul, ol, dl, table {
-		margin-bottom: 2em;
+		font-size: 18px;// before: no font-size 
+		color:#333; //before: no color(maybe color 666?)
+		font-weight: 240;//before: no font-weight
+		line-height: 1.5em; //before: no line-height
+		margin-top: 0.8em; //before: no margin-top
+		margin-bottom: 0.8em; //before: 2em
 	}
 
 	dl {
@@ -292,7 +301,7 @@
 
 	ul {
 		list-style: disc;
-
+		font-size: 22px;//before: no font-size
 		&.icons {
 			cursor: default;
 
@@ -304,7 +313,7 @@
 				display: inline-block;
 				width: 2em;
 				height: 2em;
-				line-height: 2em;
+				line-height: 1.5em;//before: 2em
 				text-align: center;
 				border: 0;
 			}
@@ -313,6 +322,13 @@
 
 	ol {
 		list-style: decimal;
+		font-size: 22px//before: no font-size
+		a {
+			line-height: 1.3em;//before: no a
+		}
+		li{
+			padding-top: 16px;//before: no li
+		}
 	}
 
 /* Form */

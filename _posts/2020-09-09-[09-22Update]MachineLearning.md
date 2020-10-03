@@ -1,6 +1,7 @@
 ---
 title: 机器学习个人笔记
 author: MadDonkey
+categories: [note, machineLearning]
 layout: post
 ---
 这是在学校上机器学习课的个人笔记。
@@ -44,7 +45,17 @@ layout: post
 
 <center>    <img src="{{'assets/postResources/image-20200917200739590.png'|relative_url}}" alt="淦" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">他妈的，你这样做...</div> </center>
 
-不过后来了解到许多其他大学也是这样的🙂那没事了
+不过后来了解到许多其他大学也是这样的🙂那没事了。
+
+
+
+
+
+### 概率论与数理统计
+
+
+
+#### beta分布
 
 
 
@@ -188,21 +199,21 @@ $$
 H(S) = -P_+log_2P_+ - P_-log_2P_-
 $$
 
+两个样本比例越相近，样本熵越大。如果$P_+$，$P_-$中有为1或0的，则H(S) = 0。
+
 ### <a id="信息增益">信息增益</a>
 
 $$
-GAIN_split = Entropy(P) - \sum_{i=1}^k
+GAIN_{split} = Entropy(P) - \sum_{i=1}^k \frac{n_i}{n}Entropy(i)
 $$
 
-
+其中P是父节点，被切分成k个子节点。$n_i$是第i个子节点的样本数目。信息增益代表的是原信息熵与已知某条件后的信息熵之差，所以信息增益代表着决策树的目标类变量与点P对应的属性的互信息。信息增益也就是由于P节点对应切分带来的熵减，所以信息增益越大越好。
 
 ## <a id="2020/09/17">2020/09/17</a>
 
 ### <a id="样本属性缺失">样本属性缺失</a>
 
 
-
-## <a id="2020/09/22">2020/09/22</a>
 
 
 
@@ -221,3 +232,8 @@ $$
 注意：模型参数多≠模型复杂，只能说明模型的能力更强。一般用模型参数向量的2-范数的大小来衡量模型复杂度。
 
 ### 概率
+
+
+
+## <a id="2020/09/29">2020/09/29</a>
+

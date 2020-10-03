@@ -1,0 +1,108 @@
+I"�<p>这是在学校上移动互联网技术的个人笔记。</p>
+
+<p>之前有的笔记是以时间为章节的，如今看来这种设计实在是非常脑瘫，但是我懒得改了，原来的就那样吧。不过新的</p>
+
+<p><br /></p>
+
+<h3 id="目录">目录</h3>
+
+<ol>
+  <li><strong><a href="#移动终端">移动终端</a></strong></li>
+  <li><strong><a href="#Android平台">Android平台</a></strong></li>
+</ol>
+
+<p><br /></p>
+
+<h2 id="移动终端"><a id="移动终端">移动终端</a></h2>
+
+<p>移动终端是</p>
+
+<h2 id="android平台"><a id="Android平台">Android平台</a></h2>
+
+<h3 id="技术架构">技术架构</h3>
+
+<h3 id="开发环境">开发环境</h3>
+
+<h3 id="基本组件">基本组件</h3>
+
+<p>Android APP由组件构成，组件之间的交互、通信通过Intent完成。</p>
+
+<ul>
+  <li>
+    <p>Activity</p>
+
+    <p>Android最核心的组件，表示应用程序的一个屏幕，其中的内容通常来自于View的派生类，但也可能不包含任何View。一个Android应用可以包含多个Activity，程序启动时呈现一个Activity，用于提示程序已经正常启动。Activity的布局可以通过导入XML文件设定。</p>
+
+    <p>要创建一个Activity</p>
+  </li>
+  <li>
+    <p>Service</p>
+
+    <p>用于没有UI但需要长时间后台运行的应用。Service又分为本地Service和远程Service。</p>
+  </li>
+  <li>
+    <p>Broadcast Recesiver</p>
+
+    <p>接收通知信息</p>
+  </li>
+  <li>
+    <p>Content Provider</p>
+
+    <p>应用之间交互的接口</p>
+  </li>
+  <li>
+    <p>View</p>
+
+    <p>窗口组件，是Activity的重要组成，是Android UI的必备组件，而且任何Android的<strong>可视化组件</strong>都要从android.view.View类上继承。View组件</p>
+  </li>
+  <li>
+    <p>Fragment</p>
+
+    <p>将Activity碎片化的一个模板，是Activity的一个组成部分/行为，可以将多个Fragment组合到一个Activity，也可以在多个Activity中共享同一个Fragment。Fragment也具有UI的能力，事件处理的能力，也有自己的生命周期。虽然Fragment在许多功能上与Activity同级，但Fagment不能独立作为一个屏幕出现。</p>
+
+    <p>//Fragment生命周期</p>
+
+    <p>Fragment也有自己的布局文件。</p>
+  </li>
+</ul>
+
+<center>    <img src="/assets/postResources/image-20200929160813962.png" alt="可视化组件" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.1 可视化组件</div> </center>
+
+<p><img src="../assets/postResources/image-20200929160813962.png" alt="image-20200929160813962" /></p>
+
+<ul>
+  <li>
+    <p>Intent</p>
+
+    <p>Intent用于在不同组件之间（实际上，就连系统事件对组件的通信也离不开Intent）传递信息。一般用来定义、描述某种动作的意图，描述某个将要执行的动作，并常常作为参数传递。使用Intent的常见场合包括启动Activity、Service、广播消息、显示网页、接听电话等。</p>
+
+    <p>Intent的构成：</p>
+
+    <ul>
+      <li>
+        <p>Action：要实施的动作，比如ACTION_VIEW。</p>
+      </li>
+      <li>
+        <p>Category：指定action执行环境（执行等级）。</p>
+      </li>
+      <li>
+        <p>Data：要操作的具体数据，一般由uri变量表示。</p>
+      </li>
+      <li>
+        <p>Type：显示地指定Intent的数据类型。一般数据类型会根据数据本身自行判定，但如果显示地设定该属性，就不会再额外判定其数据类型。</p>
+
+        <p><em>设置data时type会默认置为null，反之亦然。要同时设置二者，使用setDataAndType()</em></p>
+      </li>
+      <li>
+        <p>Component：指定Intent的目标组件的类名。</p>
+      </li>
+      <li>
+        <p>Extras：附加信息的集合，可以传输更多的信息。</p>
+      </li>
+    </ul>
+
+    <p>Intent也分为显式/隐式使用。显式的Intent多用于内部组件间的消息传递，而隐式Intent多用于多个应用之间的交互。隐式Intent请求要传输给目标组件，需要匹配Action、Data及Category。如果这三要素有任何一个不同，则不会传递给对应的组件。</p>
+  </li>
+</ul>
+
+:ET

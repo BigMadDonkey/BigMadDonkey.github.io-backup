@@ -60,6 +60,7 @@ dribbble_url:
 google_analytics:
 kramdown:
   math_engine: null
+
 # The following settings are NECESSARY for the Prologue theme to run:
 remote_theme: chrisbobbe/jekyll-theme-prologue
 collections: [sections]

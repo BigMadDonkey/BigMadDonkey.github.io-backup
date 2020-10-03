@@ -1,0 +1,45 @@
+I"D	<p>这是CSS的学习笔记。</p>
+
+<p><br /></p>
+
+<h2 id="啥是css">啥是CSS</h2>
+
+<p>Cascading Style Sheets，层叠样式表。Style定义了HTML元素显示的格式，通常存储在样式表中，外部样式表存储在<strong>CSS文件</strong>中。将样式Style抽离出HTML文件的外部，可以将内容与表现分离开来。这种思路大概也类似于MVC框架中把业务逻辑和视图分离的思想吧。多个样式表可以层叠为一个，这就是CSS的Cascading的来历。</p>
+
+<h2 id="css基础语法">CSS基础语法</h2>
+
+<p>CSS的语法规则由两个部分组成：选择器，以及一条或多条声明。前者指明要对哪个HTML元素调整样式，后者由属性和值组成。属性是要调整的样式属性，值是对应属性的取值。每个属性-值对之后要加上分号。CSS声明用花括号<code class="language-plaintext highlighter-rouge">{}</code>括起来。</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">selector</span>
+<span class="p">{</span>
+	<span class="py">property1</span><span class="p">:</span><span class="n">value1</span><span class="p">;</span>
+	<span class="py">property2</span><span class="p">:</span><span class="n">value2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>要添加注释，使用<code class="language-plaintext highlighter-rouge">/*</code>和<code class="language-plaintext highlighter-rouge">*/</code>将注释内容包含起来。</p>
+
+<p>注意：有的属性的值存在单位，比如font-size属性。这样的属性的值其数字和单位之间不得有空格。</p>
+
+<pre><code class="language-CSS">h3
+{
+font-size: 25px;/* Yes */
+font-size: 25 px/* No */
+}
+</code></pre>
+
+<h2 id="样式表的使用">样式表的使用</h2>
+
+<p>Style的应用方法有三种：</p>
+
+<ul>
+  <li>
+    <p>外部样式表</p>
+
+    <p>在HTML页面的<code class="language-plaintext highlighter-rouge">&lt;head&gt;</code>标签中增加一个<code class="language-plaintext highlighter-rouge">&lt;link&gt;</code>标签链接到样式表文件。如果某个样式要应用于多个页面，使用这个方法非常合适。只需要修改一个CSS文件，就可以同时将样式的变化应用于多个页面。</p>
+  </li>
+  <li>
+    <p>内部样式表</p>
+  </li>
+</ul>
+:ET
