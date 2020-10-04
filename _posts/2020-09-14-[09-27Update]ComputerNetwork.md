@@ -53,10 +53,12 @@ toc: true
 
    <a href="#客户端软件设计">客户端软件设计</a>
    
-6. <a href="#2020/10/03">2020/10/03</a>
+6. **<a href="#2020/10/03">2020/10/03</a>**
 
-   <a href="#传输层">传输层</a>
+   <a href="#传输层2">传输层</a>
 
+   <a href = "#可靠数据传输原理">可靠数据传输原理</a>
+   
    
 
 <br />
@@ -551,7 +553,7 @@ OSI的通信过程只对主机有7层架构要求，对于中间的系统，只�
 
 ![image-20200919143126392](../assets/postResources/image-20200919143126392.png)
 
-如图所示，传输层实现的是报文的分段与重组功能。将报文分成分组并加上头部信息，交给网络层传输，再接收端又将他们聚成报文。除此之外，传输层还要负责添加SAP寻址的信息，确保进程找到对应的端口号。有的传输层协议还会解决连接控制、流量控制和差错控制的问题。
+如图所示，传输层实现的是报文的分段与重组功能。将报文分成分组并加上头部信息，交给网络层传输，再接收端又将他们聚成报文。除此之外，传输层还要负责添加SAP（服务访问点）寻址的信息，确保进程找到对应的端口号。有的传输层协议还会解决连接控制、流量控制和差错控制的问题。
 
 
 
@@ -1309,10 +1311,247 @@ TCP/IP协议头中存储了一个二进制整数来表示网络字节顺序。�
 3. 主线程③：反复通过主套接字调用accept()函数接收连接请求，并创建新线程使用新创建的套接字响应该客户。
 4. 子线程①：通过新套接字接收客户的请求。
 5. 子线程②：遵循应用层协议与客户交互。
-6. 关闭、释放连接并退出。
+6. 子线程③：关闭、释放连接并退出。
 
 ## <a id="2020/10/03">2020/10/03</a>
 
-### <a id="传输层">传输层</a>
+### <a id="传输层2">传输层</a>
 
-传输层协议为不同主机提供了一种逻辑通信机制。要知道，路由器是不具备网络层以上的结构的，传输层协议保证运行在不同主机上的进程看起来就好像直接连接一样，
+传输层协议为不同主机上的**进程**提供了一种逻辑通信机制。要知道，路由器是不具备网络层以上的结构的，传输层协议保证**运行在不同主机上的进程**看起来就好像直接连接一样，而不用顾及实际的物理距离和介质。而网络层协议则提供主机之间的逻辑通信机制，传输层依赖于网络层的服务，也能对网络层的服务进行必要的增强——比如流量控制、拥塞控制等。
+
+Internet提供的传输层协议有两种：可靠、按序的交付服务TCP和不可靠的交付服务UDP。TCP能提供拥塞控制、流量控制等功能，而UDP只是”尽力而为“，不做过多可靠性的扩展。
+
+TCP和UDP都不保证延迟和带宽。
+
+### 多路复用/分用
+
+多路复用、分用技术是传输层协议的基本技术。
+
+<center>    <img src="{{'assets/postResources/image-20201003145548111.png'|relative_url}}" alt="多路复用/分用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.1 多路复用/分用</div> </center>
+
+![image-20201003145548111](../assets/postResources/image-20201003145548111.png)
+
+以图中情况为例。host2作为接收方主机，其上运行多个进程，持有不同套接字。传输层协议要根据其PDU中的头部信息将其交给正确的socket，这称为多路分用。同样的道理，发送端主机也会运行着多个主机，持有多个socket，传输层为每块数据封装上头部信息生成Segment交给网络层，这样才能正确发送，这称为多路复用。
+
+#### 分用
+
+主机接收到IP数据报datagram，每个数据报携带源IP和目的IP地址，以及一个传输层的Segment，每个Segment携带源端口号和目的端口号。主机收到Segment后，传输层协议提取IP地址和端口号信息，将Segment导向相应的Socket（TCP还会做更多的处理）。
+
+分用也分为无连接、有连接两种。
+
+<center>    <img src="{{'assets/postResources/image-20201003153338080.png'|relative_url}}" alt="无连接分用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.2 无连接分用</div> </center>
+
+![image-20201003153338080](../assets/postResources/image-20201003153338080.png)
+
+对于无连接（UDP）socket，利用端口号创建一个socket，用目的IP地址和目的端口号这二元组唯一地表示socket。主机收到UDP段后，检查其中的目的端口号，将UDP段导向目的端口的socket。如图所示，若server C创建了一个端口号为6428的socket，则Client A、B的Segment的目的端口号都是6428。而提供的源端口号（SP），则让server C得以知道如何确定应答的Segment的目的端口。
+
+<center>    <img src="{{'assets/postResources/image-20201003154429098.png'|relative_url}}" alt="面向连接的分用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.2 面向连接的分用</div> </center>
+
+![image-20201003154429098](../assets/postResources/image-20201003154429098.png)
+
+对于面向连接的分用（TCP），其socket用源IP地址、源端口号、目的IP地址、目的端口号这四元组唯一地标识，接收 端利用这四元组将Segment导向对应的socket。服务器可能创建多个进程，并同时支持多个TCP socket。
+
+### UDP
+
+USer Datagram Protocol，详见<a href="https://tools.ietf.org/html/rfc768">RFC 768</a>。UDP基于IP协议，支持多路复用/分用，还增加了一个简单的错误校验机制。UDP是“尽力而为”的，做不到的就不强求。IP协议也是“尽力而为”的，UDP没有在其之上做太多事情，故也是“Best effort”的，因此UDP的Segment可能会丢失或是非按顺序抵达。UDP是无连接的，UDP发送方和接收方之间不需要”握手“，每个UDPSegment的处理独立于其他Segment。
+
+UDP虽然不可靠，无连接，但不需要连接的特性会显著减少延迟，这也是DNS服务采用UDP传输层协议的原因；而且UDP实现起来非常简单；头部信息开销少，每个Segment只要8个字节；而且什么都不做也是给应用层提供了自由，给了应用拥塞控制的权力。
+
+UDP常用于流媒体，因为其能容忍一部分丢失，而且对速率敏感。UDP还用于DNS服务和SNMP等。要通过UDP进行可靠的数据传输，可以在应用层增加可靠性机制。
+
+<center>    <img src="{{'assets/postResources/image-20201003225504667.png'|relative_url}}" alt="UDP Segment格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.3 UDP Segment格式</div> </center>
+
+![image-20201003225504667](../assets/postResources/image-20201003225504667.png)
+
+UDP Segment的头部有源端口号、目的端口号，都是16bits的（2字节），还有一个记录UDP Segment的长度的字段以及一个错误校验的字段checksum，称为UDP校验和。
+
+checksum的存在意义是检测UDP段在传输中是否发生错误（比如位翻转）。发送方将Segment的内容视为16位的整数，并逐个相加求和，如果有进位，进位的那个1要加在末位，然后每个值按位求反，得到校验和，并放入校验和字段。接收方计算收到Segment的校验和并于校验和字段对比，如果不相等，那么一定出现了错误；但即便相等，也不一定就没有错误，只是没检测到错误。有可能某些位传输错误之后，其校验和和原来还一样呢！（当然这个概率不会很大）
+
+<center>    <img src="{{'assets/postResources/image-20201004090434114.png'|relative_url}}" alt="校验和计算示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.4 校验和计算示例</div> </center>
+
+![image-20201004090434114](../assets/postResources/image-20201004090434114.png)
+
+如图所示，将两个16bit整数相加。其进位送回末位进1，得到sum，然后按位取反得到checksum。
+
+### <a id="可靠数据传输原理" > 可靠数据传输原理</a>
+
+可靠可靠，总说可靠数据传输，到底什么是可靠？
+
+可靠可以大致归为三点：
+
+- 不错：不能出现传输错误，比如分组中的某一位由0变成了1。
+- 不丢：不能让分组丢了！
+- 不乱：分组的顺序不能乱，而且重复的分组要能识别出来。
+
+可靠的数据传输对应用层、传输层、链路层都很重要，是计算机网络的Top10问题之一。可靠数据传输协议称为rdt。
+
+<center>    <img src="{{'assets/postResources/image-20201004091655346.png'|relative_url}}" alt="可靠数据传输协议结构：接口" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.5 可靠数据传输协议结构：接口</div> </center>
+
+![image-20201004091655346](../assets/postResources/image-20201004091655346.png)
+
+一个可靠的传输层协议的接口结构如图所示。
+
+- 发送方应用层调用rdt_send()，将数据交给rdt以发送给对方。由于rdt是可靠的，应用层只要调用一次即可放心将数据交给rdt。
+- 发送方的rdt调用udt-send()，在不可靠的信道上向接收方传输数据。为了传输可靠数据，rdt有可能要与下层协议多次打交道。
+- 当数据包到达接收方信道时，rdt_rcv()被调用，rdt接收数据包。rdt必须设法保证数据可靠。
+- 接收方的rdt调用deliver_data()，向上层应用交付数据。rdt保证数据传输的可靠性，能交付的数据一定是可靠的，上层应用因此不关心数据的正确性、完整性等属性。
+
+下面利用有穷状态自动机FSM刻画传输协议，只考虑单向的数据传输，但控制信息双向流动。
+
+#### rdt 1.0：可靠信道上的可靠数据传输
+
+先从简单的设计开始。假设底层信道完全可靠，不会发生错误，不会丢弃分组，也不会乱序（当然这么强大的信道是不存在的）。发送方和接收方的FSM可以是独立的，因为他们的底层信道是完全可靠的，只要一个送一个收就可以了，不用多废话。
+
+<center>    <img src="{{'assets/postResources/image-20201004093429802.png'|relative_url}}" alt="rdt 1.0" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.6 rdt 1.0</div> </center>
+
+![image-20201004093429802](../assets/postResources/image-20201004093429802.png)
+
+发送方rdt只要被调用了rdt_send()，就make一个packet然后调用可靠的底层信道传输之，然后接着等待下一个调用。*（尽管udt代表的是不可靠数据传输协议，但是在接口中我们就是如此定义调用底层信道的，尽管在rdt 1.0设计中将底层信道视为可靠的）*
+
+接收方也差不多。被调用了rdt_rcv()之后，将packet的数据提取成data，然后发送给上层，接着等待下一个调用。
+
+#### rdt 2.0：可能产生位错误的信道
+
+在rdt 2.0中，假设信道只可能产生位错误，即某一位可能取反了。
+
+ 要检测位错误，可以使用校验和——就是UDP那个校验和。那么如何从错误当中恢复？为此，引入**确认机制（ACK）**：接收方显示地告诉发送方分组已正确接收。相应地，如果告知的是分组错误，则返回**错误信息（NAK）**。发送方收到NAK后，就重传分组。基于这种重传机制的rdt协议称为ARQ（Automatic Repeat reQuest）协议。
+
+> 真的怪，为什么大写的是Q不是R？我谔谔
+
+小结一下：rdt 2.0引入了如下三种新机制：
+
+- 差错检测
+- 接收方反馈控制信息：ACK/NAK
+- 重传
+
+<center>    <img src="{{'assets/postResources/image-20201004094640595.png'|relative_url}}" alt="rdt 2.0" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.7 rdt 2.0</div> </center>
+
+![image-20201004094640595](../assets/postResources/image-20201004094640595.png)
+
+这下用FSM描述的话，发送方需要多一个状态了：make packet的时候要加上一个校验和，发送数据之后，状态转移到等待控制信息。如果收到的是NAK，则重传且继续等待控制信息；如果收到的是ACK，则状态转移回等待调用。因此rdt 2.0也称为**停-等协议**。接收方倒是不用加状态，但是在收到数据时，需要增加校验检测，根据校验结果向发送方发送控制信息，如果数据有错误，则发送NAK并继续等待；如果数据正确才从中抽取出data并发送给上层，然后发送ACK并继续等待。
+
+####  rdt 2.1：增加分组序列号
+
+rdt 2.0有明显的缺陷。如果ACK/NAK消息本身又发生了错误，怎么办？发送方接收到错误的控制信息，不知道如何处理，就会死机了。如果让发送方再去问接收方：“你刚才收到的正确不正确啊？”，搞不好这条消息也会传输错误，没完没了了！
+
+如果发送方收到损坏的控制消息，直接重传，似乎是可行的解决办法，起码保证最坏情况下如果真的需要重传，发送方还是做了点事情的。但是如果重传又可能产生分组重复问题（如果正确接收而ACK消息错误）。为了解决重复的分组问题，发送方给每个分组增加序列号，这样如果接收方收到了重复分组，则丢弃多余重复的分组。在实际的应用中，2个序列号（0和1）已经足够分辨重复分组。
+
+<center>    <img src="{{'assets/postResources/image-20201004100424410.png'|relative_url}}" alt="rdt 2.1 发送方" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.8 rdt 2.1 发送方</div> </center>
+
+![image-20201004100424410](../assets/postResources/image-20201004100424410.png)
+
+这下发送方的状态又增加了。发送方make packet的时候，还要把序列号加进去，然后等待控制信息。如果是NAK，或者是控制信息损坏，那么都要重传同一个序列号的packet；只有收到正确的ACK消息，才会等待发送下一个序列号的packet。
+
+<center>    <img src="{{'assets/postResources/image-20201004101936764.png'|relative_url}}" alt="rdt 2.1 接收方" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.9 rdt 2.1 接收方</div> </center>
+
+![image-20201004101936764](../assets/postResources/image-20201004101936764.png)
+
+接收方的状态也变多了。接收到的数据包如果损坏，则制作一个带有校验和的控制消息NAK，发给发送方。**但是！**即使数据包完整，还要检测序列号。如果发送的数据包其序列号与当前状态等待接收的序列号不同，说明这是一个重复发送的上一个序列号的数据包。这种情况下，说明之前发送的ACK控制消息损坏了，没办法，只好再发送一次ACK了。只有数据包完整且序列号正确，才会提取数据送给上层，然后发送ACK信息给发送方再状态转移接收下一序列号的数据包。
+
+小结一下，rdt 2.1引入了：
+
+- 分组增加序列号
+- 发送方、接收方的FSM状态翻倍
+
+#### rdt 2.2：无NAK消息协议
+
+协议越简单越好，少一点幺蛾子。实际上，在rdt2.1的基础上，控制消息已经不在不需要NAK消息了。接收方通过ACK告知最后一个正确接收的分组，显示地加入被确认分组的序列号。发送方收到的ACK如果跟自己正在等待消息的分组序列不同，说明出了岔子，重传即可。
+
+<center>    <img src="{{'assets/postResources/image-20201004103307990.png'|relative_url}}" alt="rdt 2.2 FSM片段" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.10 rdt 2.2 FSM片段</div> </center>
+
+![image-20201004103307990](../assets/postResources/image-20201004103307990.png)
+
+如图所示，在消息中加入最后一个正确接收分组的序列号。
+
+#### rdt 3.0：
+
+在rdt 3.0的设计中，信道既可能发生位错误，又可能丢失分组。如果丢失了分组/控制信息，在原本的停-等模型中，会导致死机。怎么检查出分组的丢失呢？容易想到，发送方可以给你一个等待的限时，如果时间内没收到ACK，重传即可。然而，分组/ACK可能只是延迟了，这种条件下会导致重复——好在rdt 2.2中，已经保证数据包和ACK中都带有相关的分组信息，可以防止重复。那么，关键就在于制订一个合理的时间了。
+
+<center>    <img src="{{'assets/postResources/image-20201004104142202.png'|relative_url}}" alt="rdt 3.0 发送方" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.11 rdt 3.0 发送方</div> </center>
+
+![image-20201004104142202](../assets/postResources/image-20201004104142202.png)
+
+注意到，除了rdt2.2的内容，在每次发送数据包的时候，还调用了start_timer这一定时器，然后才转到等待状态。如果正确地在时间内接收到了（无论损坏与否）的ACK，那么都可以正确的处理；倘若到了timeout还没有收到，那就再发一次数据包，并且再次启动定时器；如果在时间结束前收到了正确的ACK，那就转移到准备下一个序列的数据包发送状态。注意，在等待控制信息过程中收到了错误的ACK，以及等待调用过程中收到了ACK，都是无视。
+
+rdt 3.0能正确工作，但性能很差！因为rdt 3.0也是停-等模型，大大浪费了物理资源。
+
+<center>    <img src="{{'assets/postResources/image-20201004104142202.png'|relative_url}}" alt="rdt 3.0 停等操作" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.12 rdt 3.0 停等操作</div> </center>
+
+![image-20201004111147941](../assets/postResources/image-20201004111147941.png)
+
+时间的浪费主要就在于这个停-等操作。分组一个一个同步地传，每个分组最好条件下也要一个RTT（取决于传播延迟）。分组很小，L/R几乎可以忽略，时间的大头都被RTT占了。
+
+### 流水线机制
+
+那要怎么提高带宽利用率呢？计算机系统告诉我们，CPU使用流水线实现高度的并发操作，那网络协议为什么不能流水线化呢？
+
+<center>    <img src="{{'assets/postResources/image-20201004111749451.png'|relative_url}}" alt="rdt流水线机制" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.13 rdt流水线机制</div> </center>
+
+![image-20201004111749451](../assets/postResources/image-20201004111749451.png)
+
+如果允许一口气发3个分组、收三个分组，那么发送方时间利用率可以说直接提升了约3倍。
+
+流水线协议允许发送方在收到ACK之前，连续发送多个分组。这就要求更大的序列号范围——否则一口气发的数据包都管不过来了。当然，发送方和接收方的存储空间也有了更大的要求，用来缓存分组。
+
+### 滑动窗口协议
+
+要实现流水线机制，就要用到滑动窗口协议(Sliding-window protocol)。窗口用来管理那些发送了的但尚未确认的数据包。窗口的尺寸N表示最多有N个等待确认的消息。随着协议的运行，窗口可以在序列号空间内滑动。
+
+<center>    <img src="{{'assets/postResources/image-20201004113111787.png'|relative_url}}" alt="滑动窗口协议" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.14 滑动窗口协议</div> </center>
+
+![image-20201004113111787](../assets/postResources/image-20201004113111787.png)
+
+如图所示。窗口尺寸为N，其左侧为已经确认的数据包序列号，黄色代表发送但尚未确认的数据包序列号，蓝色代表可以投入使用的序列号。窗口的最小序列号称为send_base，可以投入使用的最小序列号为nextseqnum。
+
+常用的滑动窗口协议有GBN和SR。
+
+#### GBN
+
+Go-Back-N假设分组头部包含一个k-bit的序列号。窗口尺寸为N。GBN协议采用一种累计确认的机制，当收到一个包含序列号n的ACK时，那是代表着前n个序列的分组都正确地接收了。当然，GBN也有timer。如果触发了timeout，那么要重传那些序列号大于等于n但还未收到ACK的所有分组。
+
+<center>    <img src="{{'assets/postResources/image-20201004121129035.png'|relative_url}}" alt="GBN 发送方FSM" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.15 GBN 发送方FSM</div> </center>
+
+![image-20201004121129035](../assets/postResources/image-20201004121129035.png)
+
+起始时，设定base=1，nextseqnum=1。rdt被调用发送一组数据时，先确认是否满足 nextseqnum < base + N，若是，表示窗口还有空闲，使用nextseqnum的序列号、数据和校验位制作packet，然后发送之，并使nextseqnum++，如果base == nextseqnum，那么启动计时器；若不是，那么拒绝这次数据发送。
+
+如果发生了timeout，则重启timer，并将尚未确认的分组都重新发送一遍。
+
+如果收到了一个未损坏的ACK信息，则从之提取出序列号，并修改base使之+1。如果base == nextseqnum，说明这一波信息都在timeout之前确认了，那么stop_timer，否则重启计时器。
+
+<center>    <img src="{{'assets/postResources/image-20201004113111787.png'|relative_url}}" alt="GBN 接收方FSM" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.16 GBN 接收方FSM</div> </center>
+
+![image-20201004123033173](../assets/postResources/image-20201004123033173.png)
+
+接收方只是需要发送被正确接收的最高的分组序列号ACK。GBN只需要维持一个expectedseqnum表示期望收到的序列号，如果收到了一个未损坏的且是期望的序列号，则接收并使之+1。对于那些乱序到达的分组（比如在期待1号分组时，1000号分组居然后来居上抵达了接收方），接收方不会缓存，直接丢弃。然后将按序到达的最大序列号分组ACK发送回去。
+
+GBN显然有缺陷。首先是不必要的重传。如果分组丢失，会将所有还未确认的分组都重发。而且乱序抵达的分组也未被缓存，直接扔了，也太浪费了吧！
+
+#### SR
+
+Selective Repeat协议。接收方对每个分组进行单独的确认，缓存乱序到达的分组，发送方只需要重传那些没ACK的分组，为此，每个分组设置独立的timer。另外，SR不仅有发送方窗口，还有接收方窗口。
+
+<center>    <img src="{{'assets/postResources/image-20201004124202824.png)'|relative_url}}" alt="SR" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.17 SR</div> </center>
+
+![image-20201004124202824](../assets/postResources/image-20201004124202824.png)
+
+接收方同样有窗口尺寸N，窗口左侧是已经收到的数据，窗口内灰色部分是希望收到但还没收到的数据，红色部分是乱序到达，缓存着的分组，蓝色部分为可以接收的序列号范围。rcv_base表示窗口最小的分组序列号。
+
+*发送方和接收方的窗口是不同步的。*
+
+对于发送方，如果上层传来了数据，而且nextseqnum不大于base+N，那么发送数据包并使nextseqnum++。当某个分组n发生timeout时，将之重传，并重新设定其定时器。收到了ACK(n)时，如果n在base和base+N范围内，则将那个分组标为已接收，如果n == base，那么将base设定为下一个未确认的序列号。
+
+对于接收方，如果分组n在窗口范围内，则发送ACK(n)。如果n是乱序的，则加入缓存；如果n正是最小的那个期待的分组，则将分组n以及所有缓存的按序分组一并发送到上层，然后把base设定为下一个还未接收的分组序列号。如果分组n不在窗口范围内，而是在base-N到base-1的范围内，说明这个分组有可能是重复发送的，也就是说，之前ACK(n)消息没有发送给发送方，因此需要再发送ACK(n)。其他的情况下只要忽略就好了。
+
+<center>    <img src="{{'assets/postResources/image-20201004125825559.png)'|relative_url}}" alt="SR示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.18 SR示例</div> </center>
+
+![image-20201004125825559](../assets/postResources/image-20201004125825559.png)
+
+如图所示为SR协议的一个应用示例。可以看到，pkt2发送过程中丢失了，但pkt3，pkt4和pkt5仍然可以发送并缓存。pkt2 timeout了，于是又发送一遍；这次收到了，于是按序将缓存的pkt2~pkt5全部deliver。
+
+实际应用中，序列号是循环使用的。如果序列号有两位（00，01，10，11）则只能表示0~3的序列号，0-1-2-3用完之后，又要从0开始，0-1-2-3-0-1-2-3-0-1…如果N与序列号差不多大，有可能就会遇到下面这种情况：
+
+假设窗口尺寸N=3，序列号0~3。发送方发送分组0-1-2-3-0-1，按顺序发送了0、1、2三个分组。但是接收方虽然正确地接受了0、1、2，其发送的ACK(0)、ACK(1)、ACK(2)却原本丢失了，而接收方的窗口已经滑到了[3,0,1]。发送方没收到ACK，timeout之后又发送了第一个分组（序列号为0），接收方接收到之后会将其视作第五个分组缓存上去！这就产生了错误。
+
+显然，这是由于窗口尺寸过大引起的。要求发送方和接收方的尺寸之和不大于序列号总数，就可以避免此类问题。
+
