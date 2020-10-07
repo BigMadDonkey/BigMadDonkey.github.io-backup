@@ -1,0 +1,2 @@
+User-agent:*
+Sitemap:https://bigmaddonkey.github.io/sitemap.xml
