@@ -3,5 +3,5 @@ Disallow: /_includes/
 Disallow: /_layouts/
 Disallow: /_sass/
 Disallow: /.jekyll-cache/
-Disallow: /.git/
-Sitemap:https://bigmaddonkey.github.io/sitemap.xml
+Disallow:/ .git/
+Sitemap: /sitemap.xml
