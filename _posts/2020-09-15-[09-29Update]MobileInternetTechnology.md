@@ -14,6 +14,7 @@ layout: post
 
 1. **<a href="#移动终端">移动终端</a>**
 2. **<a href="#Android平台">Android平台</a>**
+3. **<a href="#IOS平台">IOS平台</a>**
 
 <br />
 
@@ -99,7 +100,26 @@ Android APP由组件构成，组件之间的交互、通信通过Intent完成。
 
   
 
+## <a id="IOS平台">IOS平台</a>
 
+### IOS系统介绍
 
+IOS是一个基于UNIX内核操作系统，但IOS是**微内核**的，只有进程调度、I/O管理之类的最基本功能由系统内核提供，像文件操作、图像管理、网络支持等都通过接口与微内核相连。
 
+Cocoa Touch是IOS的运行时框架（实际上，Cocoa也是MAC的框架），不过更专注于屏幕触摸的接口和优化。
 
+IOS的开发语言是Objective-C，只有手动内存回收。Objective-C是动态运行时的语言，是C语言的超集，将部分编译链接工作推迟到运行时，就像JVM那样。因此Objective-C也有一个类似的运行时：Objective-C Runtime。
+
+#### IOS Framework
+
+Framework
+
+#### IOS开发框架
+
+<center>    <img src="{{'assets/postResources/image-20201006161849040.png'|relative_url}}" alt="IOS开发框架" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图3.1 IOS开发框架</div> </center>
+
+![image-20201006161849040](../assets/postResources/image-20201006161849040.png)
+
+- Cocoa Touch:
+
+  开发IOS的关键框架。离用户最近的框架。

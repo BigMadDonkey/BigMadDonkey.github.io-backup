@@ -14,24 +14,24 @@ layout: post
 ### 目录
 
 1. **<a href = "#数学基础">数学基础</a>**
+   <a href="#线性代数">线性代数</a>
+   <a href="概率论与数理统计">概率论与数理统计</a>
+   <a href="#计算方法">计算方法</a>
+   <a href="#矩阵、向量求导">矩阵、向量求导</a>
 
-2. **<a href="#2020/09/10">2020/09/10</a>**
+2. **<a href="#机器学习基础">机器学习基础</a>**
    <a href="#什么是机器学习">什么是机器学习</a>
    <a href="#机器学习的一般泛型">机器学习的一般泛型</a>
    <a href="#机器学习理论">机器学习理论</a>
    <a href="#决策树">决策树</a>
-   
-3. <a href="#2020/09/15">**2020/09/15**</a>
    <a href="#信息熵">信息熵</a>
    <a href="#条件熵">条件熵</a>
    <a href="#样本熵">样本熵</a>
-   
-4. **<a href="#2020/09/17">2020/09/17</a>**
-     <a href="#样本属性缺失">样本属性缺失</a>
-     
-5. **<a href="#2020/09/22">2020/09/22</a>**
+   <a href="#样本属性缺失">样本属性缺失</a>
 
-     
+3. **<a href="#概率">概率</a>**
+
+  
 
   <br />
 
@@ -39,7 +39,7 @@ layout: post
 
 数学真的很重要啊...可惜，大一大二的数学基础课程全都拿去考试用了。没办法，需要记一记的就记一记吧。
 
-### 线性代数
+### <a id="线性代数">线性代数</a>
 
 他妈的！每次想到学校的线性代数教材安排的如此狗屁，都必须骂出一句话才行！不然在肚子里要憋坏了。这种奇妙的安排，不是祸害国内的大学生吗！！！
 
@@ -49,17 +49,128 @@ layout: post
 
 
 
+#### 矩阵转置法则
+
+$$
+\begin{align}
+&(A^T)^T = A\\
+&(A+B)^T = A^T+B^T\\
+&(kA)^T = kA^T\\
+&(AB)^T = A^TB^T
+\end{align}
+\tag{1.1.1}
+$$
 
 
-### 概率论与数理统计
 
 
+
+### <a id="概率论与数理统计">概率论与数理统计</a>
+
+只记有用的以及容易混淆还有容易忘记清晰定义的。
+
+#### 连续型随机变量
+
+对于取值连续，无法列举出来的随机变量，称其为连续型随机变量。不用概率，而是用概率密度和概率分布刻画其性质。若对于随机变量X，存在一个**非负**的**可积**函数$f(x)$，使得对任意实数x，均有$F(x)=\int_{-\infty}^x f(t)dt$，则称X为连续性随机变量，F(x)为其分布函数，f(x)为X的概率分布密度，记作$X\sim f(x)$。若$f(x)$在x处连续，则$F'(x)=f(x)$。
+
+事件$P(a<x<b)$的发生概率为(假设a < b，区间的开闭无影响，均可)
+$$
+P(a<x<b) = \int_a^bf(x)dx \tag{1.2.1}
+$$
+因此有$P(X = a) = \int_a^af(x)dx = 0$。
+
+> 虽然$P(X = a)=0$，但不代表X = a是不可能事件，只是连续性随机变量的特性罢了。类似地，一个事件的概率为1，也不代表其就是必然事件。
+
+#### 独立
+
+两个随机事件的独立性，表现为其中一个发生/不发生，对另一事件的发生/不发生没有任何影响。此外，两个独立的随机事件，其都发生的概率为两个事件分别发生的概率的乘积。
+
+#### 随机变量期望的运算法则
+
+对于**相互独立**的两个随机变量X，Y，有
+$$
+E(X+Y) = E(X)+E(Y)\tag{1.2.2}
+$$
+
+$$
+E(cX) = cE(X)\tag{1.2.3}
+$$
+
+1.2.1, 1.2.2也叫期望的线性性质。
+
+对于**相互独立**的两个随机变量X，Y，有
+$$
+E(XY)=E(X)E(Y)\tag{1.2.4}
+$$
+
+#### 方差
+
+方差用来衡量数据偏移期望的程度。
+$$
+Var(x)=\sigma^2=\sum(x-\mu)^2f(x)\tag{1.2.5}
+$$
+如果X，Y是独立的随机变量，那么
+$$
+Var(X+Y)=Var(X)+Var(Y)\tag{1.2.6}
+$$
+
+#### 协方差
+
+Covariance协方差的定义：
+$$
+Cov(X,Y)=E[((X-E(X))(Y-E(Y))]\\
+=E[XY]-E[X]E[Y]\tag{1.2.7}
+$$
 
 #### beta分布
 
 
 
-## <a id="2020/09/10">2020/09/10</a>
+### <a id="计算方法">计算方法</a>
+
+#### 最小二乘法
+
+给定一组样本数据，其中包含自变量和因变量（当然，在监督学习中，一般就对应着属性和label)，最小二乘法通过最小化误差的平方和来拟合最合乎样本数据的函数。根据拟合函数的形式不同，又分成多项式拟合、非线性拟合、多元线性回归等。
+
+多项式拟合就是假设给定一系列样本点${(x_i,y_i)}$，尝试拟合出一条形如
+$$
+f(x) = w_0 + w_1x + w_2x^2+...+w_mx^m\tag{1.3.1}
+$$
+的曲线，其中m称为阶数。
+
+### <a id="矩阵、向量求导">矩阵求导</a>
+
+对于非纯数学系的同学来说，有些数学知识真得自己去学习。向量求导可以看作特殊的矩阵求导，就不再特殊记录了。
+
+#### 标量对矩阵求导
+
+从定义上考虑，标量对矩阵求导$\frac{\partial y}{\partial X}$可以视为标量y对矩阵中每个元素单独求导，再放回原来的位置。也就是
+$$
+\frac{\partial y}{\partial X} = \left [ \begin{array}{ccc}
+\frac{\partial y}{\partial x_{ij}}
+\end{array}\right]
+\tag {1.4.1}
+$$
+但是这个定义其实实际用处不大。矩阵是便于计算的工具，使用矩阵就是为了利用规律简化庞大数量元素的计算，若是又回到单独的计算上，岂不没了意义。
+
+多元函数的全微分公式:
+$$
+\mathrm df=\sum_{i=1}^n\frac{\partial f}{\partial x_i}\mathrm dX_i
+\tag{1.4.2}
+$$
+根据其形式，相应的，就有
+$$
+\mathrm df=\frac{\partial f}{\partial \boldsymbol x}^T \mathrm d\boldsymbol x
+\tag{1.4.3}
+$$
+其中，$\frac{\partial f}{\partial \boldsymbol x}^T$是梯度向量（转置为1×n），$d\boldsymbol x$是该点的微分（n×1），也就是说，多元函数全微分等于在该点处梯度与微分的内积。类似地，把全微分与导数的关系推广到矩阵上，就有
+$$
+\mathrm df =\sum_{i=1}^m\sum_{j=1}^n\frac{\partial f}{\partial X_{ij}}\mathrm dX_{ij} = \mathrm{tr}(\frac{\partial f}{\partial X}^T\mathrm dX)
+\tag{1.4.4}
+$$
+上式利用了小技巧：对于均为m行n列的矩阵A、B，其各位置元素之和（内积）等于$\mathrm {tr}(A^TB)$。
+
+## <a id="机器学习基础">机器学习基础</a>
 
 ### <a id="什么是机器学习">什么是机器学习</a>
 
@@ -135,7 +246,7 @@ layout: post
 
 比如下面的例子：
 
-<center>    <img src="{{'assets/postResources/image-20200915101023288.png'|relative_url}}" alt="决策树的切分" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.2 决策树的切分</div> </center>
+<center>    <img src="{{'assets/postResources/image-20200915101023288.png'|relative_url}}" alt="决策树的切分" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.1 决策树的切分</div> </center>
 
 ![image-20200915101023288](../assets/postResources/image-20200915101023288.png)
 
@@ -153,8 +264,6 @@ layout: post
 
 
 
-## <a id="2020/09/15">2020/09/15</a>
-
 ### <a id="信息熵">信息熵</a>
 
 根据信息论，
@@ -167,13 +276,13 @@ layout: post
 
 某事件的**信息量**为
 $$
-h(x) = -{log}_2{p(x)}
+h(x) = -{log}_2{p(x)}\tag{2.1.1}
 $$
 信息量度量一个事件发生所带来的信息。事件越容易发生，其信息量越小。
 
 随机变量的熵(Entropy)：
 
-<center>    <img src="{{'assets/postResources/image-20200915101609249.png'|relative_url}}" alt="信息熵" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.1 信息熵</div> </center>
+<center>    <img src="{{'assets/postResources/image-20200915101609249.png'|relative_url}}" alt="信息熵" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.2 信息熵</div> </center>
 
 ![image-20200915101609249](../assets/postResources/image-20200915101609249.png)
 
@@ -181,19 +290,17 @@ $$
 
 打个比方，在最短编码情况下，对X=i分配$-{log}_2{P(x=i)}$位，则熵代表最短编码情况下的平均编码长度。随机变量可能性越多，概率越接近，其信息熵也就越大。
 
-
-
 ### <a id = "条件熵">条件熵</a>
 
 随机变量X在给定条件Y = j下的**特定条件熵**H(X\|Y = j)，其定义类似于信息熵，只是要替换一下概率。
 
-<center>    <img src="{{'assets/postResources/image-20200915103528148.png'|relative_url}}" alt="特定条件熵" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.2 特定条件熵</div> </center>
+<center>    <img src="{{'assets/postResources/image-20200915103528148.png'|relative_url}}" alt="特定条件熵" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.3 特定条件熵</div> </center>
 
 ![image-20200915103528148](../assets/postResources/image-20200915103528148.png)
 
 X在给定条件Y下的**条件熵**，相当于把所有y的可能取值对应的特定条件熵求期望。
 
-<center>    <img src="{{'assets/postResources/image-20200915104144664.png'|relative_url}}" alt="条件熵" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.3 条件熵</div> </center>
+<center>    <img src="{{'assets/postResources/image-20200915104144664.png'|relative_url}}" alt="条件熵" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.4 条件熵</div> </center>
 
 ![image-20200915104144664](../assets/postResources/image-20200915104144664.png)
 
@@ -201,7 +308,7 @@ X在给定条件Y下的**条件熵**，相当于把所有y的可能取值对应�
 
 称信息熵与某条件下的条件熵之差为**互信息**。之所以称为**互**信息，是因为X对于Y的互信息，也是Y对于X的互信息。
 
-<center>    <img src="{{'assets/postResources/image-20200915105100530.png'|relative_url}}" alt="互信息" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.4 互信息</div> </center>
+<center>    <img src="{{'assets/postResources/image-20200915105100530.png'|relative_url}}" alt="互信息" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图2.5 互信息</div> </center>
 
 ![image-20200915105100530](../assets/postResources/image-20200915105100530.png)
 
@@ -209,13 +316,13 @@ X在给定条件Y下的**条件熵**，相当于把所有y的可能取值对应�
 
 联合熵用来度量一个联合分布的随机系统的不确定度。联合分布概率密度为$p(x,y)$的随机变量$(X,Y)$，其联合熵定义为
 $$
-H(X,Y) = -\sum_{x \in X}\sum_{y \in Y}p(x,y){log}{p(x,y)}
+H(X,Y) = -\sum_{x \in X}\sum_{y \in Y}p(x,y){log}{p(x,y)}\tag{2.1.?}
 $$
 熵的链式法则：
 $$
 设随机变量X_1,X_2,...,X_n服从p(x_1,x_2,...x_n),有
 \\
-H(X_1,X_2,...,X_n)=\sum^n_{i=1}H(X_i|X_{i-1},X_{i-2},...,X_1)
+H(X_1,X_2,...,X_n)=\sum^n_{i=1}H(X_i|X_{i-1},X_{i-2},...,X_1)\tag{2.1.?}
 $$
 根据链式法则有
 $$
@@ -229,7 +336,7 @@ $$
 
 设S为样本集，$P_+$为S中的正例比例，$P_-$为S中反例的比例（假设为2分类），可以根据$P_+$，$P_-$来描述样本的混杂度。
 $$
-H(S) = -P_+log_2P_+ - P_-log_2P_-
+H(S) = -P_+log_2P_+ - P_-log_2P_-\tag{2.1.?}
 $$
 
 两个样本比例越相近，样本熵越大。如果$P_+$，$P_-$中有为1或0的，则H(S) = 0。
@@ -237,7 +344,7 @@ $$
 ### <a id="信息增益">信息增益</a>
 
 $$
-GAIN_{split} = Entropy(P) - \sum_{i=1}^k \frac{n_i}{n}Entropy(i)
+GAIN_{split} = Entropy(P) - \sum_{i=1}^k \frac{n_i}{n}Entropy(i)\tag{2.1.?}
 $$
 
 其中P是父节点，被切分成k个子节点。$n_i$是第i个子节点的样本数目。信息增益代表的是原信息熵与已知某条件后的信息熵之差，所以信息增益代表着决策树的目标类变量与点P对应的属性的互信息。信息增益也就是由于P节点对应切分带来的熵减，所以信息增益越大越好。
@@ -249,8 +356,6 @@ $$
 最早提出的决策树算法。ID3的思想，一言以蔽之，就是可着信息增益大的选。
 
 
-
-## <a id="2020/09/17">2020/09/17</a>
 
 ### 过拟合和欠拟合
 
@@ -278,9 +383,55 @@ $$
 
 注意：模型参数多≠模型复杂，只能说明模型的能力更强。一般用模型参数向量的2-范数的大小来衡量模型复杂度。
 
-### 概率
+## <a id="概率">概率</a>
 
 
 
-## <a id="2020/09/29">2020/09/29</a>
+## <a id="分类理论">分类理论</a>
+
+### 分类器
+
+决策可以看作在高维空间上对样本点的划分。
+
+<center>    <img src="{{'assets/postResources/image-20201006105118207.png'|relative_url}}" alt="分类示图" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.1 分类示图</div> </center>
+
+![image-20201006105118207](../assets/postResources/image-20201006105118207.png)
+
+设随机变量Y={-1，+1}为label（也就是类别），随机变量X为特征。
+
+在分析之前知道的P(Y)称为类别先验(class prior)，也叫weight。
+
+求已知X情况下分类的不同概率，则
+$$
+P(Y=i|X) = \frac{P(X,Y=i)}{P(X)} = \frac{P(X|Y=i)P(Y=i)}{\sum_Y P(X|Y)P(Y)}\tag{3.1.1}
+$$
+记作$q_i(X)$。$P(Y=i) = \pi_i$。$P(X|Y =i) = P_i(X)$。故上式可以记成
+$$
+q_i(X) = \frac{\pi_ip_i(X)}{\sum_i\pi_ip_i(X)}\tag{3.1.2}
+$$
+称给定类别下特征的分布为类条件分布。
+
+#### 多维高斯分布
+
+$$
+N(\overline x | \overline u, \Sigma)=\frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}exp[-\frac{1}{2}(\overline x-\overline u)^T\Sigma^{-1}(\overline x-\overline u)]\tag{3.2.1}
+$$
+
+其中D是维数，$\sum$是协方差矩阵，$\mu$是均值向量。
+
+
+
+对于分类问题（以2分类为例），算定的$q_1(X)$较大的那个，就倾向于分类为Y = i。但是相对的也就有$q_2(X)$的可能分类错误。有必要评定分类的错误概率。称给定X下的
+$$
+R(X) = min\{q_1(X),q_2(X)\}
+$$
+为X的错误风险。显然，R(X)作为随机变量的函数，也是一个随机变量。
+$$
+E(R(X)) = \int
+$$
+
+
+
+
+
 
