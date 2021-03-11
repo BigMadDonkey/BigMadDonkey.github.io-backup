@@ -1,0 +1,23 @@
+I"8<ol>
+  <li><strong><a href="计算机程序设计语言">计算机程序设计语言</a></strong></li>
+  <li><strong><a href="#使用AndroidStudio开发应用">使用AndroidStudio开发应用</a></strong></li>
+  <li><strong><a href="#Kotlin">Kotlin</a></strong></li>
+</ol>
+
+<h2 id="计算机程序设计语言"><a id="计算机程序设计语言">计算机程序设计语言</a></h2>
+
+<p>计算机程序设计语言的三个层次：</p>
+
+<ol>
+  <li>机器语言：可以被计算机直接理解，但难以被人理解和记忆。</li>
+  <li>汇编语言：在机器语言的基础上引入助记符，相对机器语言更直观，但依赖于特定机器。</li>
+  <li>高级语言：以类似自然语言/数学定义的形式，更接近人类思维。</li>
+</ol>
+
+<p>将汇编语言程序转变成机器语言的过程称为汇编，<strong>将高级语言程序转变成汇编语言/机器语言的过程称为编译。</strong>此处前者称为源语言，后者称为目标语言。</p>
+
+<p><img src="../assets/postResources/image-20210307121123872.png" alt="image-20210307121123872" /></p>
+
+<center>    <img src="" alt="编译程序的流程" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图1.1 编译程序的过程</div> </center>
+
+:ET

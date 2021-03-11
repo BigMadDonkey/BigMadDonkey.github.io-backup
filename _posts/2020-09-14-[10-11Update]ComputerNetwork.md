@@ -7,7 +7,9 @@ toc: true
 ---
 这是在学校上计算机网络课的个人笔记。博客中的图片部分正常的话都会在正确加载的图片下方多出来一个加载失败的图片，那是给我在本地编辑时看着方便的，跟上方的是同一张图片，所以忽略就行。
 
+*MOOC图片来自于<a href="https://www.icourse163.org/course/HIT-154005">本校在中国大学MOOC的计算机网络课程。</a>*
 
+*图片资源较多，建议耐心浏览。*
 
 ### 目录
 
@@ -55,7 +57,23 @@ toc: true
 
    <a href="#网络层服务">网络层服务</a>
 
+   <a href="#IPv4">IPv4</a>
+
+9. **<a href="#2020/10/20">2020/10/20</a>**
+
+   <a href="#NAT">NAT</a>
+
+   <a href="#IPv6">IPv6</a>
+
+   <a href="#路由算法">路由算法</a>
    
+10. **<a href="#2020/10/29">2020/10/29</a>**
+
+    <a href="#数据链路层2">数据链路层</a>
+    
+11. **<a href="#2020/11/8">2020/11/8</a>**
+
+    <a href="#2物理层">物理层</a>
 
 <br />
 
@@ -154,7 +172,7 @@ DSL利用已有的线路（一般是电话线路）连接中心局的多路复�
 
 电缆网络实际上就是有线电视网络。以前光纤不普及，数字电视受众广泛的时候，大家应该都对电缆网络有印象。与数字机顶盒公用同一条线路，与DSL类似地，采用分频多路复用技术，把不用的频段拿来做网络通道。至于其使用体验之糟糕，想必无须多言了（虽然比拨号上网肯定是强了不少）。共享线路是这样的啊，一到家家户户的用网高峰，保证每个人卡的屁都放不利索。
 
-这种接入方式也称为混合光纤同轴线缆（HFC）。
+这种接入方式也称为混合光纤同轴线缆（HFC），也是非对称接入的。
 
 ##### 企业/机构接入网络：Ethernet
 
@@ -481,7 +499,7 @@ $$
 
 开放系统互连（OSI）是由国际标准化组织ISO于1984年提供的分层网络体系参考模型。提出该模型的目的是实现**异构**网络系统的互联互通。彼时许多企业开发了各自不同的网络结构，如何使不同的结构共通，成为了问题。
 
-OSI使异构网络互连的标准。然而，OSI如今只具有理论意义，而在实际的市场应用中鲜有发挥。
+OSI是异构网络互连的标准。然而，OSI如今只具有理论意义，而在实际的市场应用中鲜有发挥。
 
 OSI的结构足足有他妈的7层：
 
@@ -943,10 +961,6 @@ SMTP采用ACII码的命令/响应交互模式。命令为ASCII文本，响应为
 
 一般来说，（2）和（4）采用的应用层协议都是SMTP，而（6）可以采用多种协议，比如POP（Post Office Protocol）协议和IMAP（Internet Mail Access Protocol）协议等。POP协议较简单，是**无状态**的协议，具体可见<a href="https://tools.ietf.org/html/rfc1939">RFC 1939</a>，基本上可分为认证和下载两个阶段。IMAP协议<a href="https://tools.ietf.org/html/rfc1730">RFC 1730</a>较之POP协议更新，更复杂，功能也更多，比如允许用户使用文件夹组织消息，也因此IMAP是有状态协议，文件夹的名字、状态等都是跨会话保存的。除了POP，IMAP，还可以使用HTTP协议获取邮件，比如网页邮件客户端（163，QQ等）。
 
-### 
-
-
-
 <center>    <img src="{{'assets/postResources/image-20200924142031651.png'|relative_url}}" alt="SMTP交互示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.12 SMTP交互示例</div> </center>
 
 ![image-20200924142031651](../assets/postResources/image-20200924142031651.png)
@@ -957,9 +971,13 @@ SMTP采用ACII码的命令/响应交互模式。命令为ASCII文本，响应为
 
 与HTTP相比，HTTP像是一种pull式的，尝试拉取内容的协议，而SMTP像是一种push式的，尝试主动上传的协议。它们都使用命令/响应的交互格式，命令、状态代码都是ASCII码表示，不过HTTP的每个对象都封装在独立的响应消息中，而SMTP的多个对象分成多个部分消息发送。
 
+注意，图中的SMTP命令**不是**SMTP报文！这些命令实际上是SMTP握手协议的一部分。邮件报文的格式如下所述：
+
 ### Email消息格式
 
 Email消息由两部分构成：头部行和消息体。头部行≠SMTP命令，一般有很多行，会包括消息来源、目的地、标题等内容；消息体仅包含消息本身且只能是ASCII字符。详细的见<a href="https://tools.ietf.org/html/rfc822">RFC 822</a>。
+
+在首部行之后紧接着一个空白行，然后是报文消息体，格式有点像HTTP报文，不过一个重要的区别是只支持ASCII编码格式。
 
 为了支持多媒体应用格式，对Email消息格式进行扩展——MIME：多媒体邮件扩展，详见<a href="https://tools.ietf.org/html/rfc2045">RFC 2045</a>、<a href="https://tools.ietf.org/html/rfc2056">RFC 2056</a>。通过在邮件头增加额外的行以声明MIME内容类型。
 
@@ -971,7 +989,7 @@ Email消息由两部分构成：头部行和消息体。头部行≠SMTP命令�
 
 DNS全称Domain Name System，即域名解析系统。DNS的存在，解决了庞杂的互联网中的主机/路由器识别问题。互联网上的主机可以由IP地址唯一区分，但是一串数字总是难以辨明意义以及记忆的。像我们平时使用的www.google.com、www.sci-hub.tw都是域名，域名一般都是有意义的，方便人记忆。人使用域名，而网络主机使用的是IP，因此需要一个系统将域名与IP对应起来。
 
-DNS就是这样的系统，能将域名解析成具体的IP地址。DNS是一个多层的命名服务器构成的**分布式**数据库，虽然是网络核心的功能，但却是由应用层协议实现的。
+DNS就是这样的系统，能将域名解析成具体的IP地址。DNS是一个多层的命名服务器构成的**分布式**数据库，虽然是网络核心的功能，但却是由应用层协议实现的，依赖的传输层协议是UDP协议（port 53）。
 
 DNS除了能将域名翻译成IP地址外，还提供主机别名服务（为一个主机添加其他的域名），邮件服务器别名服务，还能帮助Web服务器调整负载均衡。
 
@@ -1013,7 +1031,7 @@ RR有不同的类型。
 
 - type=MX
 
-  value是与name对应的邮件服务器
+  value是与name对应的邮件服务器，name是其别名，value是其规范主机名
 
 ### DNS协议
 
@@ -1033,7 +1051,7 @@ DNS协议是查询（query）/回复（reply）式的协议，他们的消息格
 
 在传统的C/S结构中，服务器要串行地发送NF bit，时间为$\frac{NF}{u_s}$，而每个节点的下载带宽有大有小，每个节点下载文件的时间是$\frac{F}{d_i}$，因此分发文件F到N个节点需要的理论最小分发时间是$d_{cs} = max\{\frac{NF}{u_s},\mathop{min}\limits_{i}\{\frac{F}{d_i} \}\}$。当N比较大时，节点端的带宽限制没变，但是对服务器的压力增加了，显然此时$\frac{NF}{u_s}$成为显著影响其结果的因素。
 
-在P2P结构的文件传输应用中，服务器只需要发送一个副本，时间为$\frac{F}{u_s}$，每个节点下载文件的时间是$\frac{F}{d_i}$，N个节点总共要下载NF比特，而整个服务器+节点的最快可能上传速率为$u_s + \sum_{i=1}^N{u_i}$，因此理想条件下N个节点都获得F的理论最小分发时间为$d_{P2P} = max\{\frac{F}{u_s},\frac{F}{\mathop{min}\limits_{i}{\{d_i\}}},\frac{NF}{u_s + \sum_{i=1}^N{u_i}} \}$。
+在P2P结构的文件传输应用中，服务器最少只需要发送一个副本，时间为$\frac{F}{u_s}$，每个节点下载文件的时间是$\frac{F}{d_i}$，N个节点总共要下载NF比特，而整个服务器+节点的最快可能上传速率为$u_s + \sum_{i=1}^N{u_i}$，因此理想条件下N个节点都获得F的理论最小分发时间为$d_{P2P} = max\{\frac{F}{u_s},\frac{F}{\mathop{min}\limits_{i}{\{d_i\}}},\frac{NF}{u_s + \sum_{i=1}^N{u_i}} \}$。
 
 随着N的增加，C/S架构的文件传输应用，其时间开销几乎与N成线性增长关系，而P2P架构的时间开销增量很小。
 
@@ -1053,7 +1071,7 @@ DNS协议是查询（query）/回复（reply）式的协议，他们的消息格
 
 用户要下载一个文件，就加入其torrent。此时用户还没有chunk，但可以逐渐积累。用户向tracker注册，并获得torrent节点清单，与torrent网络中的“邻居”节点建立连接。下载的同时，节点也要向其他节点上传chunk。节点获得了完整的文件后，可能就会离开，但也可能留下，继续造福其他节点。
 
-文件传输的每个时刻，不同节点都持有chunk的集合。节点会定期检查其邻接节点的chunk列表，并请求缺失的chunk，并优先请求稀缺的chunk。而发送chunk时会优先向对自己节点贡献最大的4个节点发送，可简称为top4，top4每10sec重新评估一次。不仅如此，每30秒还会选择一个其他节点，向它发送chunk。在BitTorrent协议中，上传速率越高，越容易找到可靠的chunk交换对象，就有越好的体验。
+文件传输的每个时刻，不同节点都持有chunk的集合。节点会定期检查其邻接节点的chunk列表，并请求缺失的chunk，并优先请求稀缺的chunk。而发送chunk时会优先向对自己节点贡献最大的4个节点发送，可简称为top4（或者unchoked），top4每10sec重新评估一次。不仅如此，每30秒还会选择一个其他节点，向它发送chunk。在BitTorrent协议中，上传速率越高，越容易找到可靠的chunk交换对象，就有越好的体验。
 
 ### P2P应用：索引技术
 
@@ -1182,7 +1200,7 @@ sockaddr_in是一个用来存储地址等信息的结构体。他的前身sockad
 
   顾名思义，是发送数据的函数。send并没有指定要发送的端点地址，说明send针对的是客户与服务器端的TCP连接的套接字（以及使用connect函数绑定了目的端点地址的UDP**客户端**套接字）。sendto用于无连接的UDP**服务器端**套接字以及未使用connect函数绑定目的端点地址的UDP**客户端**套接字。
 
-- recv(sd, /buffer, len, flags)/recvfrom(sd, *buf, len, flags, senderaddr, saddrlen)
+- recv(sd, *buffer, len, flags)/recvfrom(sd, *buf, len, flags, senderaddr, saddrlen)
 
   与send/sendto类似。recv用于从TCP连接的另一端接收数据，或是从调用了connect函数的UDP**客户端**套接字接收**服务器端**发来的数据。recvfrom用于从UDP**服务器端**套接字与未调用connect函数绑定目的端点地址的UDP**客户端**socket接收对端的数据。
 
@@ -1327,7 +1345,7 @@ TCP和UDP都不保证延迟和带宽。
 
 ![image-20201003145548111](../assets/postResources/image-20201003145548111.png)
 
-以图中情况为例。host2作为接收方主机，其上运行多个进程，持有不同套接字。传输层协议要根据其PDU中的头部信息将其交给正确的socket，这称为多路分用。同样的道理，发送端主机也会运行着多个主机，持有多个socket，传输层为每块数据封装上头部信息生成Segment交给网络层，这样才能正确发送，这称为多路复用。
+以图中情况为例。host2作为接收方主机，其上运行多个进程，持有不同套接字。传输层协议要根据其PDU中的头部信息将其交给正确的socket，这称为多路分用。同样的道理，发送端主机也会运行着多个进程，持有多个socket，传输层为每块数据封装上头部信息生成Segment交给网络层，这样才能正确发送，这称为多路复用。
 
 #### 分用
 
@@ -1339,7 +1357,7 @@ TCP和UDP都不保证延迟和带宽。
 
 ![image-20201003153338080](../assets/postResources/image-20201003153338080.png)
 
-对于无连接（UDP）socket，利用端口号创建一个socket，用目的IP地址和目的端口号这二元组唯一地表示socket。主机收到UDP段后，检查其中的目的端口号，将UDP段导向目的端口的socket。如图所示，若server C创建了一个端口号为6428的socket，则Client A、B的Segment的目的端口号都是6428。而提供的源端口号（SP），则让server C得以知道如何确定应答的Segment的目的端口。
+对于无连接（UDP）socket，利用端口号创建一个socket，用目的IP地址和目的端口号这二元组唯一地标识socket。主机收到UDP段后，检查其中的目的端口号，将UDP段导向目的端口的socket。如图所示，若server C创建了一个端口号为6428的socket，则Client A、B的Segment的目的端口号都是6428。而提供的源端口号（SP），则让server C得以知道如何确定应答的Segment的目的端口。
 
 <center>    <img src="{{'assets/postResources/image-20201003154429098.png'|relative_url}}" alt="面向连接的分用" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.2 面向连接的分用</div> </center>
 
@@ -1553,17 +1571,17 @@ Selective Repeat协议。接收方对每个分组进行单独的确认，缓存�
 
 >补充：
 >
->老师课上讲到，对于SR协议，必须满足$W_S + W_R \le 2^k $（其中k为序列号位数），否则会出现上述的问题。而对于GBN协议，其实也可以看作是一种接收方窗口尺寸固定为1的协议，也就是说发送方的端口不能超过$2^k - 1$。
+>老师课上讲到，对于SR协议，必须满足$W_S + W_R \le 2^k $（其中k为序列号位数），否则会出现上述的问题。而对于GBN协议，其实也可以看作是一种接收方窗口尺寸固定为1的协议，也就是说发送方的窗口尺寸不能超过$2^k - 1$。
 
 ## <a id="2020/10/08">2020/10/08</a>
 
 ### <a id="TCP">TCP</a>
 
-TCP提供一种点对点的通信机制，接收方、发送方都只能有一个，不能一对多、多对一。TCP的数据传输机制是可靠、按序的。TCP协议具有流水线机制，根据拥塞控制和流量控制机制动态调整窗口尺寸，发送方、接收方都具有缓存。
+TCP提供一种点对点的通信机制，接收方、发送方都只能有一个，不能一对多、多对一。TCP的数据传输机制是可靠、按序的。TCP协议具有**流水线**机制，根据拥塞控制和流量控制机制动态调整窗口尺寸，发送方、接收方都具有缓存。
 
 同一连接中可以双向传输数据，连接的双方在通信之前必须建立连接，并且连接的状态只由这连接双方维护，连接的中间节点并不维护。TCP的段头最少也要有20bytes。
 
-<center>    <img src="{{'assets/postResources/image-20201010233717367.png)'|relative_url}}" alt="SR示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.1 SR示例</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201010233717367.png)'|relative_url}}" alt="TCP头部" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.1 TCP头部</div> </center>
 
 ![image-20201010233717367](../assets/postResources/image-20201010233717367.png)
 
@@ -1578,7 +1596,7 @@ ACK number里标识的是希望接收的下一个字节的序列号，并且是�
 接下来有头部大小以及一块包含了一些未使用部分的表示选项的位：
 
 - U：urgent data，紧急数据，现在一般不太用
-- A：ACK valid，一个标志位，指示ACK是否有先
+- A：ACK valid，一个标志位，指示ACK是否有效。
 - P：Push data now，立刻将数据推送到上层，现在一般不太用
 - R、S、F：RST、SYN、FIN，用来建立、拆除连接的标志位。
 
@@ -1588,21 +1606,28 @@ ACK number里标识的是希望接收的下一个字节的序列号，并且是�
 
 TCP的下层IP协议是数据不可靠的。为此TCP必须将数据变得可靠起来。TCP使用单一的重传计时器，超时、重复都会导致其重传。
 
-作为一个实用的传输层协议，TCP的重传时间限制需要经过精细地设计。太短，可能导致很多不必要的重复发送；太长对重传的响应又会太慢。而且，重传时间限制必须大于RTT，但RTT又受很多条件影响。所以，TCP要测定（估计）RTT，也就是Segment从发送出去到接收经过的时间，称作Sample RTT；测量多次，取平均值作为RTT的估计（Estimated RTT）。
+作为一个实用的传输层协议，TCP的重传时间限制需要经过精细地设计。太短，可能导致很多不必要的重复发送；太长对重传的响应又会太慢。而且，重传时间限制必须大于RTT，但RTT又受很多条件影响。所以，TCP要测定（估计）RTT，也就是Segment从发送出去到接收经过的时间，称作Sample RTT；Sample RTT对每个段至多测量一次，这意味着如果某个段重传了多次，不会重复计算SampleRTT。而且实际应用中Sample RTT也不是一直计算的，一般是隔某一特定时间测量一次Sample RTT。由于某些突发的RTT可能无法反映出真正的RTT平均水平，因此要一直测量，取平均值作为RTT的估计（Estimated RTT）。
 
 采取**指数加权移动平均**的方法：
+
 
 
 $$
 Estimated RTT = (1 - \alpha)*Estimated RTT + \alpha * SampleRTT
 $$
+也就是用旧的估计RTT与新的Sample RTT加权平均得到新的估计RTT。α的推荐值为0.125。
+
 由于重传时间限制应比Estimated RTT略大，因此需要在Estimated RTT基础上增加一个“安全边界值”。如果RTT的变化很大，那么“安全边界值”理当响应调整的更大。为此，测量Sample RTT与 Estimated RTT的差值作为安全边界值Dev RTT。类似地，计算Dev RTT也要采用指数加权移动平均：
+
 
 
 $$
 DevRTT = (1 -\beta)*DevRTT + \beta * |SampleRTT - EstimatedRTT|
 $$
+其中β的推荐值为0.25。
+
 最终计时器的重传时间限制为
+
 
 
 $$
@@ -1614,7 +1639,7 @@ $$
 发送方要处理3个事件：
 
 1. 数据的发送。创建Segment，然后开启计时器，设置超时时间。
-2. 一旦超时，重传**引起重传**的Segment，也就是序列号最小的且未确认过的Segment，重置定时器。
+2. 一旦超时，重传**引起重传**的Segment，也就是**序列号最小的且未确认过的Segment**，重置定时器。
 3. 收到ACK，如果是确认了之前未确认的Segment，则发送窗口向前滑动；窗口中只要还有未接受的Segment，则重启计时器。
 
 <center>    <img src="{{'assets/postResources/image-20201011090759337.png)'|relative_url}}" alt="TCP重传示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.2 TCP重传示例</div> </center>
@@ -1678,13 +1703,17 @@ TCP三次握手建立连接的情况如图所示：客户机发送一个SYN=1，
 
 > SYN/FIN的Segment虽然没有data，但仍然会让计数序列号+1。
 
-TCP连接可以主动关闭。Client向Server发送一个FIN = 1的Segment表示想要关闭连接。Server收到这个Segment后，关闭连接，并回复一个FIN=1的ACK Segment。然后Client收到FIN，并再发送一个ACK，进入等待状态，如果Server又发来了FIN Segment，则再发送ACK（这样做的目的是确保服务器关闭连接）。最后Server发送ACK，连接彻底关闭。
+<center>    <img src="{{'assets/postResources/image-20201025090625471.png)'|relative_url}}" alt="TCP断开连接" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.5 TCP断开连接</div> </center>
+
+![image-20201025090625471](../assets/postResources/image-20201025090625471.png)
+
+TCP连接可以由任何一方主动关闭。Client向Server发送一个FIN = 1的Segment表示想要关闭连接。Server收到这个Segment后，关闭连接，并回复一个FIN=1的ACK Segment。然后Client收到FIN，并再发送一个ACK，进入等待状态，如果Server又发来了FIN Segment，则再发送ACK（这样做的目的是确保服务器关闭连接）。最后Server发送ACK，连接彻底关闭，这个过程又称为四次握手。
 
 ### 网络拥塞控制
 
 拥塞控制与可靠数据传输一样，也是计算机网络TOP10问题之一。
 
-拥塞指的是大量数据发送了过多的数据，或者发送的太快，超出了网络的处理能力。拥塞的表现形式有分组丢失（路由器缓存溢出）和分组延迟过高（排队很久）。拥塞控制与可靠数据传输不同，后者考虑的更多是个体间的数据传输，而前者考虑的是网络的性能。如果网络中的大家想要正常的工作，就必须一同牺牲一定量的性能来保证不至于网络瘫痪，就好像堵车时的交通管控一样。
+拥塞指的是发送了过多的数据，或者发送的太快，超出了网络的处理能力。拥塞的表现形式有分组丢失（路由器缓存溢出）和分组延迟过高（排队很久）。拥塞控制与可靠数据传输不同，后者考虑的更多是个体间的数据传输，而前者考虑的是网络的性能。如果网络中的大家想要正常的工作，就必须一同牺牲一定量的性能来保证不至于网络瘫痪，就好像堵车时的交通管控一样。
 
 拥塞会造成分组延迟和丢包，这本身是一种代价，但更关键的是，分组的发送者为了恢复错误的状态，会重发延迟过高/被丢弃的分组，而这会进一步增强拥塞的效果。而且，实际的网络链路一般是有多个路由器参与的，一旦在路径上的某个路由器由于拥塞而丢包，那么路径上之前的路由器对该分组的处理就前功尽弃，又要从发送方开始发送分组，这又浪费了网络的性能。
 
@@ -1698,11 +1727,11 @@ ABR（available bit rate)是ATM网络采用的拥塞控制机制，是一种网�
 
 之所以称为网络辅助的拥塞控制，是因为ATM网络的发送方发送一种称为RM cell的信息来允许交换机在传输过程中修改，设置RM cell位。如果设置了NI bit，表示不许rate继续增长；设置了 CI bit，表示显示的告诉发送方网络已经拥塞了。由于这是发送方发送的信息，需要由接收方返回给发送方才能知晓。
 
-<center>    <img src="{{'assets/postResources/image-20201011101453659.png)'|relative_url}}" alt="ATM ABR拥塞控制" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.5 ATM ABR拥塞控制</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201011101453659.png)'|relative_url}}" alt="ATM ABR拥塞控制" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.6 ATM ABR拥塞控制</div> </center>
 
 ![image-20201011132205905](../assets/postResources/image-20201011132205905.png)
 
-除此之外，RM cell还有速率字段 ER（2字节）显示地指明网络支持的最小速率，拥塞的情况下，可以将其改小。而且Data cell里由EFCI位，如果交换机拥塞，会将Data cell的EFCI位设为1。如果RM cell前面的Data cell的EFCI位为1，则返回的RM cell将置CI位。
+除此之外，RM cell还有速率字段 ER（2字节）显示地指明网络支持的最小速率，拥塞的情况下，可以将其改小。而且Data cell里存在EFCI位，如果交换机拥塞，会将Data cell的EFCI位设为1。如果RM cell前面的Data cell的EFCI位为1，则返回的RM cell将置CI位。
 
 #### TCP拥塞控制
 
@@ -1710,7 +1739,11 @@ ABR（available bit rate)是ATM网络采用的拥塞控制机制，是一种网�
 $$
 rate \approx \frac{CongWin}{RTT} Bytes/sec
 $$
-这样CongWin就能反映网络的拥塞程度，并动SS态调整速率。TCP调整速率的方法有AIMD和SS。
+这样CongWin就能反映网络的拥塞程度，并动态调整速率。
+
+注意，限制发送方未被确认的已发送数据量的不只有拥塞窗口，还有接收窗口！实际上，LastByteSent - LastByteAck <= min{ CongWin，RecvWin}
+
+TCP调整速率的方法有AIMD和SS。
 
 AIMD也即“加性增-乘性减”，讲究逐渐地、小心谨慎地扩大带宽，直到发生loss，一旦发生loss说明网络已经拥塞了，要赶快降低速率，因此一旦loss会大幅减少速率。
 
@@ -1718,15 +1751,15 @@ AI：Additive Increase，每个RTT，CongWin增大MSS（最大Segment长度）�
 
 MD：Multiplicative Decrease，一旦发生loss，则将CongWin减半。
 
-<center>    <img src="{{'assets/postResources/image-20201011135051240.png)'|relative_url}}" alt="TCP AIMD" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.6 TCP AIMD</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201011135051240.png)'|relative_url}}" alt="TCP AIMD" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.7 TCP AIMD</div> </center>
 
 ![image-20201011135051240](../assets/postResources/image-20201011135051240.png)
 
 SS也即慢启动（SlowStart）。TCP连接时CongWin设为1，随着运行线性增加。但是一开始，MSS/RTT的速度可能非常小，远远小于网络的限制可用带宽，如果一直用线性增长，将有一段不短的时间，带宽得不到充分利用。为此，当连接开始时，令CongWin成指数级增长，这样很快就能让速度攀升。不过，SS的指数型增长肯定不能一直使用，能长期使用的，还得看AIMD。引入一个变量threshold来帮助切换这两种状态。当遇到loss时，将threshold设为遇到loss前的CongWin的一半。如果CongWin达到了threshold，则从SS切换为AIMD，线性增长。
 
-对于不同方法引起的loss，其对应的CongWin处理也不同。如果loss是由连续三个ACK而导致的，则将CongWin减为一半，并线性增长（AIMD），如果时由timeout引起的，则直接将其置为1MSS，然后指数增长到threshold再切换为线性增长。这其中的道理在于，timeout事件的loss带来的影响更严重。毕竟，接到3个ACK说明至少网络还具有一定能力，毕竟还能收到ACK。
+对于不同方法引起的loss，其对应的CongWin处理也不同。如果loss是由连续三个ACK而导致的，则将CongWin减为一半，并线性增长（AIMD），如果是由timeout引起的，则直接将其置为1MSS，然后指数增长到threshold再切换为线性增长。这其中的道理在于，timeout事件的loss带来的影响更严重。毕竟，接到3个ACK说明至少网络还具有一定能力，毕竟还能收到ACK。
 
->值得一提的是，虽然总说指数增长，但实际的实现中，CongWin即便在慢启动状态下也不是指数增长。实现的过程中，每次收到一个ACK，便让CongWin+1，这样在经过一个RTT之后，CongWin便增大了上一个RTT时刻，CongWin的大小，也就达到了指数级增长，但这个过程其实是一点一点的。所谓指数级增长，那是在时间为RTT单位的情况下啊！
+>值得一提的是，虽然总说指数增长，但实际的实现中，CongWin即便在慢启动状态下的程序实现也并非直接指数增长。实现的过程中，每次收到一个ACK，便让CongWin+1，这样在经过一个RTT之后，CongWin便增大了上一个RTT时刻，CongWin的大小，也就达到了指数级增长，但这个过程其实是一点一点的。所谓指数级增长，那是在时间为RTT单位的情况下啊！
 
 ## <a id="2020/10/12">2020/10/12</a>
 
@@ -1736,10 +1769,581 @@ SS也即慢启动（SlowStart）。TCP连接时CongWin设为1，随着运行线�
 
 网络层的核心功能是**转发**和**路由**，以及**连接建立**。
 
-转发即将是分组从路由器的输入端口到合适的输出端口的过程。为此，路由器会维护一个数据结构——转发表。借此路由器可以知道，要发送到某些地址的分组应该从哪些端口发出。而确定分组从源地址到目的地址的路径的过程称为路由，路由得到的信息就存储在转发表中。
+转发即将是分组从路由器的输入端口到合适的输出端口的过程。为此，路由器会维护一个数据结构——转发表。借此路由器可以知道，要发送到某些地址的分组应该从哪些端口发出。而确定分组从源地址到目的地址的路径的过程称为路由，通过路由算法得到路径，路由得到的信息就存储在转发表中。
 
-数据分组传输之前，要先在目的主机和源主机之间建立一个虚拟（逻辑的）连接，而这个连接的建立过程有网络层设备参与。注意：这个连接是网络层的。传输层有的也会建立连接，如TCP，但那是进程之间的，对中间的网络设备透明；而这个网络层的连接，由路径上所有的网络设备参与。
+数据分组传输之前，要先在目的主机和源主机之间建立一个虚拟（逻辑的）连接，而这个连接的建立过程有网络层设备参与。注意：这个连接是网络层的。传输层协议有的也会建立连接，如TCP，但那是进程之间的，是端到端的，对中间的网络设备透明；而这个网络层的连接，是主机之间的，由路径上所有的网络设备参与。
 
-<center>    <img src="{{'assets/postResources/image-20201011090759337.png)'|relative_url}}" alt="TCP接收方缓存" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.3 TCP接收方缓存</div> </center
+>所谓透明，指的是底层的网络设备无法获悉顶层传输的具体实现细节和性质，尽管它们确实存在。这个透明跟我们在平时生活中所认为的透明有些不同，在生活中，当我们说某件事“公开透明”，是说它的细节清晰可见，就像软件开发的白盒测试那样，而这里所说的透明，却是透明的东西本身，也就是存在却难以观察。这两种解释可以理解为“透明玻璃”与“装着透明玻璃的小玩具”。
+>
+>
 
-​    
+<center>    <img src="{{'assets/postResources/image-20201025085322110.png)'|relative_url}}" alt="网络层服务模型" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.1 网络层服务模型</div> </center>
+
+
+​    ![image-20201025085322110](../assets/postResources/image-20201025085322110.png)
+
+不同的网络层为传输层提供的服务是不一样的。以Internet为例，Internet是典型的“尽力而为”式网络，其不保证带宽、不保证丢包、不保证时序，不保证延迟，也没有拥塞控制。ATM网络是在电信网络、电话网络的基础上发展出来的网络，称为异步传输网络，是面向连接的时分复用网络。
+
+不同于Internet，ATM有4种服务模型：
+
+- 固定比特率 CBR：就像在源和目的主机之间建了一条虚拟的电路，因此也不用拥塞控制。也称为电路仿真模型。
+- 可变比特率 VBR：允许随时可变的带宽。
+- 可用比特率 ABR：在网络空闲时允许更快的传输，拥塞时，带宽降低到一个最低的保证值。
+- 不保证比特率 UBR：顾名思义。
+
+总的来说，**网络层服务类型可以分为两类**：一类是无连接服务，不事先为一系列分组的传输确定路径，而是为每个分组独立地选择路径。不同分组的路径可能不同，相应地，分组的顺序得不到保证，这种网络称为**数据报网络**；另一类是连接服务，为一系列分组的传输事先确定好一条路径（建立连接），一系列的分组传输的路径都相同，分组的顺序容易得到保证，完成传输后还要拆除连接，这种网络称为**虚电路网络**。
+
+### 虚电路网络
+
+虚电路网络的思想，是在源主机和目的主机之间建立一条逻辑连接，就像电路一样，这也是其名字的来历。但其终究不是真正的电路交换，而是**分组交换**，切记这一点。路径上的所有主机都要参与虚电路的建立和维护。
+
+<center>    <img src="{{'assets/postResources/image-20201025093231616.png)'|relative_url}}" alt="虚电路网络" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.2 虚电路网络</div> </center>
+
+![image-20201025093231616](../assets/postResources/image-20201025093231616.png)
+
+虚电路网络的通信过程：
+
+1. call setup：呼叫建立
+2. 数据传输
+3. 拆除呼叫
+
+建立虚电路（VC）的时候，通常会为这个虚电路赋予一个标识，称为VCID。传输过程中，每个分组携带VCID，而不是目的主机地址。网络的资源可以面向VC预分配。不过，必须要明确一点：并不是说一条网络路径确定之后，路径上的每段链路就都分配了同样的VCID！实际上，每段链路有自己的VCID编号。一般来说，带宽较大的链路可以支持建立更多的虚电路，不同的链路允许建立的虚电路数目越多。如果不同链路的VCID相同，那些可以容纳更多空间的链路资源就被浪费了。退一步说，即使不考虑资源浪费的问题，如果一条路径上的所有链路采用了一个VCID，而网络中另一个链路也采用了这个VCID，一旦他们的链路存在交叉，就引发了VCID的冲突。
+
+因此，统一VCID是不可行的，VCID的管理，在实际应用中都是局部化的。
+
+<center>    <img src="{{'assets/postResources/image-20201025095544193.png)'|relative_url}}" alt="虚电路路由转发" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.3 虚电路路由转发</div> </center>
+
+![image-20201025095544193](../assets/postResources/image-20201025095544193.png)
+
+每个路由器利用转发表记录虚电路的转发关系，这也是网络各部分参与连接建立和维护的体现之一。路由器转发分组时，负责利用转发表中的信息替换分组携带的VCID编号。
+
+虚电路的建立、维护和拆除也要有自己的协议才行，称为虚电路信令协议，应用于ATM、帧中继网络。虚电路并非是不用路由，而是在一开始建立连接的过程中就使用路由算法确立路径。目前的Internet不采用该协议。
+
+### 数据报网络
+
+对于无连接的网络，分组就必须要携带目的地址。路由器也是根据路由算法确定转发表，再根据目的地址来转发分组，转发表的更新，就可能导致同一系列的分组经过不同的路径。由于IP地址的范围很大，转发表不可能为具体的某一地址都存储转发关系，故实际上转发表是对某些特定的地址范围的转发关系进行存储。
+
+<center>    <img src="{{'../assets/postResources/image-20201025100834587.png)'|relative_url}}" alt="转发表" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.4 转发表</div> </center>
+
+![image-20201025100834587](../assets/postResources/image-20201025100834587.png)
+
+分组查询转发表的过程，遵循**最长前缀匹配优先**。即如果有多个地址范围匹配，取在转发表中匹配的地址范围前缀最长的，如果都没有匹配的，再选其他。
+
+> 这就好像寄快递。如果地址是中国 黑龙江 哈尔滨 南岗区 HIT，而在物流转发节点里，有一个路径范围为黑龙江，一个路径范围为哈尔滨，还有一个快递员说，给我加点钱，我给你亲手直接送到学校！那么就把快递送给地址信息匹配最多的一个方向。
+
+Internet就采用这种数据报网络，对数据交换的时间需求并不固定，而且Internet中有各种各样的设备，性能、特点各异，难以统一管理，而且Internet网络的端系统都是”智能设备“，具有差错恢复、性能控制等功能，可谓是“**简化网络，复杂边缘**”；而ATM网络对时间、可靠性的需求都很高，端系统都是电话机、传真这类的不太智能的设备，因此就依赖于网络层提供优质的服务，可谓是“**简化边缘，复杂网络**”。
+
+### <a id="IPv4">IPv4</a>
+
+Internet网络采用的网络层协议是IP协议。IP协议利用各种路由算法建立转发表，依照协议内容处理分组。传输过程中要对分组进行一个基本的检查，将得到的差错信息传输给路由器或主机，这就用到了ICMP协议（可以说，ICMP协议几乎是IP协议的伴随协议，实现了IP协议也要实现ICMP协议才可以）。
+
+#### IP数据报
+
+IP数据报分为头部和数据段（来自于上层）两部分。
+
+<center>    <img src="{{'../assets/postResources/image-20201025103139694.png)'|relative_url}}" alt="IP数据报" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.5 IP数据报</div> </center>
+
+![image-20201025103139694](../assets/postResources/image-20201025103139694.png)
+
+即使是头部（图8.5青色区域）也可以分为两部分：前20字节的内容为固定部分，任何IP数据报都要有这个大小的内容（当然，是IPv4），以及后面的可变部分，一般情况下可以为0字节。以下是头部各部分的简要介绍：
+
+- 版本号：指定IP协议的版本，占4bit。对于IPv4，这里的值为4；对于IPv6，这里的值为6
+- 首部长度：占4bit，指定了IP分组的头部大小。注意这里的单位是4字节，不然4bit最高只能表示15，连固定部分都不够表示的。因此，对于20字节的IPv4分组头部，第一个字节一般是0x45。
+- 服务类型：1字节，指定希望获得的服务类型，后来改名为区分服务，比如优先转发、滞后转发等。只有在网络提供区分服务时，这1字节才有用，绝大多数情况下是没用的，该字节通常为0x00。
+- 总长度：2字节，标识IP分组的总长度，包括首部+数据。因为最大的总长度为65535 bytes，最小的IP头部为20 bytes，因此理论最大的IP分组能传输65515 bytes的内容。然而这只是理论上，实际上并不会有这么大的分组。
+- 标识：2字节，标识一个IP分组。IP协议使用一个Counter，每产生一个新分组，就将其赋给标识值并Counter+1。不过单靠2字节是无法唯一地标记一个IP分组的，常常需要借助源IP、目的IP、IP版本号等信息辅助。
+- 标志位：3bit，最左的一位保留未用，中间一位DF（Don't fragment）用来禁止分片，DF = 1表示禁止，DF = 0表示允许分片，最右一位MF（More fragment）表示还有更多分片在后面，MF = 1表示这不是最后一个片，MF = 0表示是最后一个片（或者压根没分片）。
+- 片偏移：13bit，表示一个分片的IP分组封装的数据片相对于原分组的偏移量。对于不分片的（MF = 0）的分组，片偏移都是0。对于分片的分组，片偏移以8 bytes为单位。
+- TTL：存活时间，1字节，记录分组还可以通过的最大路由器数。创建分组时为其赋初值，每次转发TTL - 1。一旦TTL = 0，路由器就会将其丢弃，并向源主机发送一个ICMP报文。
+- 协议：1字节，指明分组对应的传输层协议。值为6表示TCP协议，值为17表示UDP协议。
+- 首部校验和：2字节，实现对首部的差错检测。每次路由器转发前都要检测，校验。
+- 源、目的IP地址：各4字节，存储源IP地址，目的IP地址。
+- 选项字段：长度可变，至多40 bytes，携带时间戳、路由记录等内容，实际应用中很少被使用。如果选项字段的大小不是4字节的倍数，会在其后填充0以对齐。
+
+#### MTU
+
+IP数据报在真正的链路中传输时，要封装到链路的数据帧上。而不同链路有不同的性能限制，也就导致了数据帧的大小不同，数据帧能封装的数据上限就是最大传输单元（MTU）。一个分组，可能在上一条链路传的好好的，到了下一条链路，就突然“太胖了”，上不了车了。
+
+<center>    <img src="{{'../assets/postResources/image-20201025111445670.png)'|relative_url}}" alt="MTU" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.6 MTU</div> </center>
+
+![image-20201025111445670](../assets/postResources/image-20201025111445670.png)
+
+为了解决上不了车的问题，就引入了IP分组的分片和重组。大的IP分组向较小的链路转发时，路由器可以（但不一定能够）将大分组进行分片，拆成多个小分组，称为片（fragment）。如果不能分片，则**丢弃分组并向源主机发送ICMP报文**。片到了目的主机，由目的主机负责组装，称为重组。但路由器是只负责分片不负责重组的。由于头部的片偏移量都是以8 bits为单位的，因此除了分片的最后一片，前面的所有片封装的数据都是8 bits的整数倍。
+
+若原分组数据总长度为L，MTU = M，L > M且DF = 0，则可以分片。分片的分组，其标识位与原分组一致，这样目的主机就知道这些片是同一个分组的切片。分片过程中除了最后一片，一般都以MTU允许的最大大小分配。又由于分片大小必须是8的整数倍，因此最大分片可封装的数据大小是
+
+
+$$
+d = \lfloor\frac{M - 20}{8}\rfloor\times8
+$$
+需要的总片数为
+
+
+$$
+n = \lceil\frac{L - 20}{d}\rceil
+$$
+每片的片偏移量为
+
+
+$$
+F_i = \frac d 8 \times (i - 1), 1\le i \le n
+$$
+每片的总长度为
+
+
+$$
+L = \begin{cases}
+d + 20,~~~~~~~~~~~~~~~ 1 \le i < n\\
+L-(n-1)d,~~~~~~~i = n
+\end{cases}
+$$
+除了最后一片MF = 0，前面的片MF = 1。
+
+#### IP编址
+
+主机、路由器之间通过接口与物理链路层进行连接，IP协议规定的地址就是要解决究竟分组从哪个接口出来，要到哪个接口去这个问题。一个路由器一般有多个接口，主机一般有1个或两个接口。一个32位的IP地址，与某个特定的网络接口关联，虽然习惯上常说“某主机的IP地址”，但实际上那是因为一台主机一般不会有过多接口。
+
+<center>    <img src="{{'../assets/postResources/image-20201025115654370.png)'|relative_url}}" alt="IP子网" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.7 IP子网</div> </center>
+
+![image-20201025115654370](../assets/postResources/image-20201025115654370.png)
+
+一个IP地址可以分成两部分：网络号（高位bit）和主机号（低位bit）。分配IP地址的一个基本原则是，在同一网络中的IP地址，应当分配相同的网络号，正如图中的红色部分。拥有相同网络号的一系列接口就构成了**IP子网**。IP子网内的接口IP地址都具有相同的网络号，而且从定义上讲，认为子网是不能跨越路由器（第三层及更上层的网络设备）相连的。
+
+#### 有类IP地址
+
+将IP地址分为特定的几类。
+
+<center>    <img src="{{'../assets/postResources/image-20201025121557038.png)'|relative_url}}" alt="有类编址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.8 有类编址</div> </center>
+
+![image-20201025121557038](../assets/postResources/image-20201025121557038.png)
+
+- A类：占IP地址的50%空间，其网络号占高位的8bit，对应于点分十进制的第一个8位组，其**最高位锁定为0**，因此网络号可编址范围只有$0\sim 127(2^7)$。
+- B类：占IP地址的25%空间，其网络号占高位的16bit，对应于点分十进制的前两个8位组，**最高位锁定为1，次高位锁定为0**。因此网络号可编址范围只有$128.0\sim 191.255(2^{14})$。
+- C类：占IP地址的12.5%空间，其网络号占高位的24bit，对应于点分十进制的前三个8位组，**最高位、次高位锁定为1，第三高位锁定为0**。因此网络号可编址范围只有$192.0.0\sim 223.255.255(2^{21})$。
+- D类：占IP地址的6.5%空间，高四位锁定为1110，不再区分网络号/主机号，用来标识互联网中的一组主机，理论上可以分布在任何位置，也因此只能用作IP分组的目的地址，称为**多播地址**。向多播地址发送的分组，只要是其地址成员之一的，都会受到该分组。地址范围$224.0.0.0\sim 239.255.255.255(2^{28})$
+- E类：占IP地址的6.5%空间，高四位锁定为1111，不再区分网络号/主机号，保留作为**研究使用**。地址范围$240.0.0.0\sim 255.255.255.255(2^{28})$
+
+即使在A、B、C类中的87.5%的IP地址，也不是全部都可以用于给主机分配IP地址的。还有一些特殊功能的IP地址。
+
+<center>    <img src="{{'../assets/postResources/image-20201025122022413.png)'|relative_url}}" alt="特殊IP地址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.9 特殊IP地址</div> </center>
+
+![image-20201025122022413](../assets/postResources/image-20201025122022413.png)
+
+- NetID全0，HostID全0，这个地址用来在本网范围内表示本机，不能用来标识主机的IP地址，只可以作为IP分组的源地址，可以用在主机不知道自己的IP地址的时候。
+- NetID全0，HostID某个特殊值，只能用作IP分组的目的地址，不能用来标识主机的IP地址，用来表示本网内的特定主机，也就是默认那个目的主机的网络号与本机是一致的。
+- NetID全1，HostID全1，表示本网广播地址，也叫受限广播地址，只能用作目的地址，向本网内所有主机发送广播。
+- NetID特定值，HostID全0，表示网络地址，也就是一个子网的整体。**不能作为IP分组的目的地址！**
+- NetID特定值，HostID全1，称为直接广播地址，对对应网络的所有主机进行广播。
+- NetID127，HostID为非全0、非全1的任何数，**可以作为目的、源IP地址**，可以用来本地的环回测试，也就是到了网络层由回到上层，不会离开本机。
+
+除了上述的特殊IP地址，还有一部分IP地址称为私有IP地址，规定这些地址空间只用于内部网络，不在公网上使用。
+
+<center>    <img src="{{'../assets/postResources/image-20201025123349499.png)'|relative_url}}" alt="私有IP地址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.10 私有IP地址</div> </center>
+
+![image-20201025123349499](../assets/postResources/image-20201025123349499.png)
+
+#### 子网划分
+
+子网是不能跨越路由器互联的。然而，对于A类、B类子网，如此庞大数目的接口，很难想象都要接在同一个路由设备上（实际上，C类子网的设备也不少！）。为此需要将部分子网进行进一步划分。为此，把**主机号进一步划分**，得到子网号（SubID，高位）和主机号。但要表明是否划分了子网，以及划分的子网号位数，需要更进一步的区分。这就用到了子网掩码。
+
+子网掩码也是32位的，常常被写成点分十进制。NetID、SubID全部置1，HostID全部置0，这就是子网掩码。例如一个C类网络，SubID三位，那么子网掩码为255.255.255.224。要确定一个子网的大小，就需要子网地址+子网掩码。相应地，路由表里为了确定到底传到哪个子网，就也要包含子网掩码——用子网掩码与目的IP地址进行按位与运算，就得到对应的子网地址。
+
+#### CIDR
+
+CIDR是**无类域间路由**的简称，消除了传统的A类、B类、C类地址界限，将NetID和SubID统称为网络前缀Prefix，而且把子网掩码融入到了网络地址中，更方便了。
+
+<center>    <img src="{{'../assets/postResources/image-20201025130657181.png)'|relative_url}}" alt="CIDR地址格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.10 CIDR地址格式</div> </center>
+
+![image-20201025130657181](../assets/postResources/image-20201025130657181.png)
+
+CIDR提出的无类地址格式：a.b.c.d/x，其中x为前缀长度。
+
+CIDR的出现，大大地提高了IP地址的分配效率，避免了地址的浪费，而且还提高了路由的效率，因为可以把多个子网聚合成更大的子网（构造超网），记录在转发表中，这种操作叫做路由聚集，大大地减少了路由表的大小。当然，聚合后的路由表对分组仍旧按照最大前缀匹配优先的规则进行转发。
+
+### DHCP协议
+
+主机如何获得IP地址并进行配置？这就要用到DHCP协议。
+
+主机获取IP地址有两种途径：其一是硬编码，也就是静态配置。需要由网络管理员手动配置主机的IP地址。
+
+> 主机的默认网关可以看作该子网内的主机将分组转发到其他子网中（离开子网）时，要送到哪一个接口上进行转发。一个路由器接入子网的接口的IP地址，就是该子网内所有主机的默认网关。
+
+其二是动态地址配置，这就要用到动态主机配置协议（DHCP），可以从服务器动态获取IP地址、子网掩码、默认网关、DNS服务器的名称和IP地址。
+
+DHCP协议是“即插即用”的，只要能运行DHCP协议客户端，就能自动地从运行着DHCP Server的服务器获取配置信息。另外，DHCP允许地址重用，允许主机临时租用IP，一旦主机不再使用，还可以把IP交还回去，供其他主机使用。DHCP还支持移动用户加入网络，动态地获取IP进行通信（比如使用公共Wifi上网）。
+
+<center>    <img src="{{'../assets/postResources/image-20201025145109409.png)'|relative_url}}" alt="DHCP加入网络" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.11 DHCP加入网络</div> </center>
+
+![image-20201025145109409](../assets/postResources/image-20201025145109409.png)
+
+图8.11是一个新主机请求本网IP地址的示例。新主机请求本网IP地址需要以下几个步骤：
+
+1. 新主机发起本网广播“DHCP discover”发现报文。这是因为新主机并不知道本网中哪一台主机是DHCP Server。
+2. DHCP Server 通过广播发送“DHCP offer”提供报文进行响应。
+3. 新主机通过广播向DHCP Server发送请求IP地址“DHCP request”请求报文。
+4. DHCP Server通过广播分配一个IP地址并发送“DHCP ack”确认报文。
+
+<center>    <img src="{{'../assets/postResources/image-20201025150622305.png)'|relative_url}}" alt="DHCP工作过程示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.12 DHCP工作过程示例</div> </center>
+
+![image-20201025150622305](../assets/postResources/image-20201025150622305.png)
+
+从图8.12中不难看出，DHCP协议的实现是借助于C/S架构的**应用层**进程（所以才有端口号）。而在DHCP offer中实际上已经把可能分配的IP地址发送过去，而且与DHCP discover是同一个事件ID（654），至于为什么request、ACK都要使用广播的形式，则是因为要考虑到可能本网内有多个DHCP 服务器等待请求服务，通过广播request、ACK，让其他的DHCP Server知道该DHCP请求已经有一台Server响应，不要浪费资源再去响应了。在DHCP ACK中，还附带着一些其他的配置网络需要的信息。并且注意，DHCP request和DHCP ACK使用的是新的事件ID。
+
+小结：DHCP协议在应用层实现，请求报文封装在**UDP**数据报中，通过IP协议广播，再到链路层广播。
+
+## <a id="2020/10/20">2020/10/20</a>
+
+### <a id="NAT">NAT</a>
+
+实际上IPv4的32位地址空间可用于公网分配的IP地址，已经分配殆尽了。为了使使用私有地址的主机可以通信，就要使用网络地址转换（NAT）的技术。
+
+<center>    <img src="{{'../assets/postResources/image-20201025151816014.png)'|relative_url}}" alt="NAT" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.1 NAT</div> </center>
+
+![image-20201025151816014](../assets/postResources/image-20201025151816014.png)
+
+要应用NAT技术，首先必须要有一台支持NAT的路由器，以及一个连接到公网的合法IP。
+
+如图中所示，本地网络里的地址都是A类的私有地址，本地网络内通信可以直接使用IP地址，没有任何问题，但要发送分组到公网，必须进行地址转换——把分组的源IP地址替换为同样的NAT的IP地址（但不同端口号，用来加以区分），在图中就是138.76.29.7。这样内部网络可以有多台设备参与通信，而只使用同一个IP地址；而且内部网络的IP地址变更不用通告外部，毕竟这是内部私有网络。相应地也增加了安全性。
+
+<center>    <img src="{{'../assets/postResources/image-20201025154353675.png)'|relative_url}}" alt="NAT示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.2 NAT示例</div> </center>
+
+![image-20201025154353675](../assets/postResources/image-20201025154353675.png)
+
+NAT的实现，就是用NAT的IP地址和新的端口号替换每个外出IP数据报的源IP地址和端口号，并记录对应的替换关系，当有进入内网IP数据报时，使用对应源IP地址和源端口号替换目的IP地址，目的端口号，这样就完成映射关系了！
+
+由于端口号是16bits的，故一个NAT路由器可以同时支持60000多个并行的连接，节省IP地址！
+
+然而，由于NAT的技术相当于破坏了严谨的层次关系（僭越？），毕竟修改IP地址还勉强可以接受，但修改端口号，这是网络层不应该插手的事；而且NAT违背了端到端的通信原则，在端到端之间修改（篡改？）了数据。而且，一种声音认为，不应该使用NAT解决地址短缺的问题，而应该改用IPv6来解决。
+
+如果一台服务器也是采用NAT与公网相连，当外部客户希望与服务器建立连接时，只有自己的内网地址是不行的，必须获取对方的公网IP和端口。这种问题称为NAT 穿透，解决方案有三种：其一，静态配置NAT，使得总是把特定端口的连接请求转发到特定服务器，这样这个端口就可以看作内网服务器的延伸；其二是利用UPnP互联网网关设备协议（Internet Gateway Device）自动地配置，可以学习到NAT的公网地址，并向NAT转换表中增删端口映射；其三是使用中继，在公网上设置中继服务器，NAT内部的客户与中继服务器连接，NAT外部的客户也与中继服务器建立连接，由中继服务器实现两个客户间的连接（应用如Skype）。
+
+<center>    <img src="{{'../assets/postResources/image-20201025160050160.png)'|relative_url}}" alt="NAT穿透-中继" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.2 NAT穿透-中继</div> </center>
+
+![image-20201025160050160](../assets/postResources/image-20201025160050160.png)
+
+### ICMP协议
+
+互联网控制报文协议 ICMP，是用来传输网络控制信息的，支持主机和路由器，常用于发送差错/异常报告，进行网络探询等。
+
+ICMP报文分为两类，其一是差错报告报文，共五种：
+
+1. 目的不可达：到达目的主机后，无法成功交付给目的。
+2. 源抑制：ICMP设计之初，考虑到拥塞控制问题，如果路由的缓存已满，则可以向源主机发送该报文，降低发送数据报的速度。
+3. 超时/超期：TTL超时后，向源主机发送的报文。
+4. 参数问题：如果路由器转发数据报时，任务头部字段有问题，则可以丢弃并发送该报文。
+5. 重定向：如果该路由器认为某个分组不该由自己发送此数据报，则可以向源主机发送该报文，指明其重新定向路径。
+
+其二是网络探询报文，共两组：
+
+1. 回声请求和回声应答：主动发送的并等待响应的报文，用来探测网络是否通达。
+2. 时间戳请求和应答：请求获取时间戳。
+
+最经典的Ping工具就是利用了网络探询报文的机制。
+
+
+   <center>    <img src="{{'../assets/postResources/image-20201025161350431.png)'|relative_url}}" alt="ICMP报文" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.3 ICMP报文</div> </center>
+
+![image-20201025161350431](../assets/postResources/image-20201025161350431.png)
+
+也有的情况下，ICMP差错报告报文不会发送：
+
+1. ICMP差错报文引起的差错（不准套娃！）。
+2. 对于分片的IP数据报，则只有第一个分片会发送ICMP差错报告报文，后续的无论如何不会再发送。
+3. 所有的多播IP数据报不会发送ICMP差错报告报文。
+4. 对具有特殊地址的IP数据报不发送ICMP差错报文。
+
+还有几类早期定义的ICMP报文，已经不再使用，比如子网掩码请求/应答报文、路由器询问和通告报文等。
+
+<center>    <img src="{{'../assets/postResources/image-20201025162626815.png)'|relative_url}}" alt="ICMP报文格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.4 ICMP报文格式</div> </center>
+
+![image-20201025162626815](../assets/postResources/image-20201025162626815.png)
+
+ICMP报文是封装到IP数据报中的数据部分传输的。ICMP报文也有头部，第一行跟IP头部有点类似，不过校验和是针对整个报文的，而不是单单头部。ICMP差错报告报文是为了响应出差错的IP数据报的，因此它封装了出差错的IP数据报的首部，除此之外，还顺便多封了8个字节的数据内容。如果IP数据报封装的是UDP协议的Segment，由于UDP的头部刚好是8字节，则ICMP差错报告报文顺便把UDP的头部也封装到了。
+
+<center>    <img src="{{'../assets/postResources/image-20201025163259438.png)'|relative_url}}" alt="ICMP差错报告报文数据封装" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.5 ICMP差错报告报文数据封装</div> </center>
+
+![image-20201025163259438](../assets/postResources/image-20201025163259438.png)
+
+### <a id="IPv6">IPv6</a>
+
+32位IPv4地址空间早已消耗殆尽，而新的网络发展，如移动互联网技术等又带来了大量的IP地址需求，为此改进IP版本迫在眉睫。另外IPv4的首部信息在经过多年发展的网络环境下还有改进的余地，这些都催生了IPv6的发展。
+
+IPv6的数据报有固定长度的40字节**基本**首部（可以通过扩展首部支持更多选项），并简化了字段的构成；而且不再允许分片，如果非要分，就在源主机处分好。
+
+<center>    <img src="{{'../assets/postResources/image-20201025164908997.png)'|relative_url}}" alt="IPv6数据报格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.6 IPv6数据报格式</div> </center>
+
+![image-20201025164908997](../assets/postResources/image-20201025164908997.png)
+
+IPv6的头部信息大大简化了：第一行的版本号和IPv4对标，接着8 bits用来标识数据报的优先级，接着增加了20位的流标签，标识同一个“流”的数据报。接下来有16bits载荷长度，标识的是扩展首部+数据的大小之和，仍旧是65535 bytes的最大载荷。紧接着 1字节的“下一个首部”指向第一个扩展首部（如果有），每个扩展首部里也有这样的一个“下一个首部”域，就像链表一样串起来，直到最后一个扩展首部的“下一个首部”指向上一层协议的首部（如TCP）。如果没有任何扩展首部，则头部的“下一个首部”直接指向上层协议的首部。1字节的跳步限制对应的是IPv4的TTL。接下来是源地址和目的地址——不过，不同于IPv4，IPv6采用的地址格式大大地扩展了IP地址范围，足有128位。
+
+与IPv4相比，IPv6：
+
+- 移除了校验和，节省每跳处理时间；
+- 允许选项，但不是在基本首部里，而是从“下一个首部”字段指向扩展；
+- 带来了新版的ICMPv6协议，增加了报文类型以及多播组管理功能。
+
+<center>    <img src="{{'../assets/postResources/image-20201025171105241.png)'|relative_url}}" alt="IPv6地址表示" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.7 IPv6地址表示</div> </center>
+
+![image-20201025171105241](../assets/postResources/image-20201025171105241.png)
+
+IPv6的新地址表示形式不再用点分十进制，而是采用冒号分隔，每两个字节算作一部分的十六进制表示形式。
+
+由于IPv6的地址空间实在是太大，有时甚至觉得过大的地址空间带来资源的浪费，因此对于一些有连续多个0的地址，可以进行压缩——使用“::”两个冒号表示多个连续的0，减少存储压力。不过这种压缩格式在一个IPv6地址中只能使用一次。另外为了兼容IPv4，规定形如0:0:0:0:0:FFFF:\<IPv4\>的地址（或::FFFF:\<IPv4\>）表示的是对应的IPv4地址。
+
+IPv6还舍弃了子网掩码，改用CIDR的前缀形式。由于冒号在URL的解释中容易引起歧义，因此**URL中的IPv6地址常常用[]方括号括起来**。
+
+IPv6的地址分为3类：单播、多播和任意播。单播顾名思义，一对一通信；多播是一对多的通信；任意播是一对多中之一（最近的一个）通信。
+
+要保证IPv4向IPv6的正常过渡，就要利用隧道技术——把IPv6的数据报作为IPv4数据报的载荷封装。
+
+<center>    <img src="{{'../assets/postResources/image-20201025173626995.png)'|relative_url}}" alt="隧道" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.8 隧道</div> </center>
+
+![image-20201025173626995](../assets/postResources/image-20201025173626995.png)
+
+### <a id="路由算法">路由算法</a>
+
+路由算法其实就是图的算法。把网络拓扑结构抽象出来，路由器、端系统就是图中的点，链路就是图中的边，可以根据算法需要为边增加Cost（代价），比如带宽、带宽的倒数、拥塞程度等。路由算法的目的显然就是在构造好的图中，寻找一条最小费用的从源到目的的路径。
+
+经典的路由算法可以根据标准分类，例如是静态路由（人工配置，更新慢，但由于有人的参与，优先级更高） or 动态路由（快速更新，一旦网络Cost或者拓扑结构变化，响应很快）？或者是全局信息（所有路由器都掌握完整的网络信息） or 分散信息（路由器只掌握物理相连的邻居的信息以及链路Cost信息）？
+
+#### 链路状态路由算法
+
+链路状态路由算法要求**所有节点都掌握网络的全局信息**。每个路由器通过构造一个“链路状态分组”并将其广播出去，收集信息，所谓链路状态，就是整个网络的信息。链路状态分组包括与该路由器直接相连的邻居路由器的IP地址和对应的链路费用。收到该分组的邻居路由器也构造自己的链路状态分组洪泛式地发送之。当网络中所有的链路状态分组都被某个路由器收集，该路由器就可以构造出完整的网络拓扑结构。
+
+在知道节点和对应边（以及边权重）之后，就可以寻找到达某一结点的最低代价路径了。Dijkstra算法就是经典的单源最短路径算法，此处不做介绍，自己去看算法导论吧。
+
+值得一提的是**震荡**现象：
+
+<center>    <img src="{{'../assets/postResources/image-20201028114150493.png)'|relative_url}}" alt="震荡现象" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.9 振荡现象</div> </center>
+
+![image-20201028114150493](../assets/postResources/image-20201028114150493.png)
+
+如图9.9所示，假设B、C、D分别各自1、e、1字节大小的数据要向A通信，链路的Cost是链路承载的通信量，则初始网络状态如图9.9左所示。交换链路状态分组后，B会认为B→C→D→A的路径更合适，C会认为C→D→A更合适，因而转向如图9.9中所示，但这显然并不是最合理的状态，毕竟BtoA的链路完全没在使用啊！不过，指望通过继续寻找最低代价路径来改善状况是不可能的，因为在该状态下再次更新，D、C、B又都认为从B那一端走更合适，结果还是有一段链路没有得到利用。极端点假设的话，倘若B处有1个单位的数据要发送给A，但是经过路由算法认为从C-D-A绕过去更好，但当它走到了D处，D更新了路由表，又认为从C-B-A绕过去更好，如此反复，可能这个数据片完全走不到A，只能活活被折磨到TTL归零。为了一定程度上抵消震荡，一般应用的链路状态路由算法还会引入一个随机时长的更新延迟。
+
+#### 距离向量算法
+
+Distance Vector算法实际上是一种动态规划的思想（Bellman-Ford算法like），同样是用来计算单源最短路径的算法。每个顶点y存储一个$\mathrm {d_x(y)}$表示从点x（表示起点）到y的最短路径Cost，除了x本身外，其他所有顶点的$\mathrm {d_x(y)}$均初始化为$\infin$。显然，可以通过下面的式子更新$\mathrm {d_x(y)}$:
+
+
+$$
+\mathrm {d_x(y)} = \mathop {min}_v(\mathrm{c(x, v)} + \mathrm {d_v(y)})
+$$
+其中v是x的邻居节点，$\mathrm {c(x,v)}$表示x的邻居v的费用。
+
+实际应用中，很难说在某一个时间点，就能保证某个路由器得到的信息是网络的最新的、全部的信息，因为网络总在变化。因此比起维护真实的$\mathrm {d_x(y)}$，更倾向于维护$\mathrm {D_x(y)}$：表示从x到y的最小Cost的一个估计值。节点x维护一个距离向量DV，其中存储了所有节点对应的$\mathrm {D_x(y)}$。每个节点要不定时将自己的DV估计发送给所有的邻居。邻居节点收到发来的DV估计时，依据其更新自己的DV。一旦自己的DV得到改变，则也将自己的DV发送给自己的邻居（邻居的邻居），最终DV估计会收敛于实际的DV。
+
+<center>    <img src="{{'../assets/postResources/image-20201028125832650.png)'|relative_url}}" alt="DV算法示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.10 DV算法示例</div> </center>
+
+![image-20201028125832650](../assets/postResources/image-20201028125832650.png)
+
+虽然说“每个节点要不定时发送自己的DV估计”，但实际上引发每次局部迭代引发的原因要么是自己的局部链路Cost（邻接边的Cost）改变了，导致DV改变，要么是邻居的DV更新了，导致自己的DV改变，因此说DV算法是异步迭代的。而且DV算法还是分布式的，并不由某个主机集中地下达任务，每个节点只有DV变化时才通告他们的邻居。
+
+如果DV中夹带着路径Cost减小的“好消息”，这个消息会以较快的速度传播到其他节点处并迅速稳定下来。但如果DV中带的是Cost增大的“坏消息”，效果可能不那么好了。
+
+<center>    <img src="{{'../assets/postResources/image-20201028130303579.png)'|relative_url}}" alt="DV算法：无穷计数问题" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.11 DV算法：无穷计数问题</div> </center>
+
+![image-20201028130303579](../assets/postResources/image-20201028130303579.png)
+
+如图9.11所示，y to x的链路Cost猛增至60，y不得不更改DV。然而$t_0$时刻，y中保有的z的DV向量所记录的z to x的最低Cost为5，因此y修改y to x的最低Cost为5 + 1（y to z） = 6，然后发给z节点。z记录的最低Cost路径，实际上是$t_0$之前的，通过y to x链路的，但z并不知道y to x的Cost增大到了60，只知道y传来的DV表示y那里的y to x的最低Cost从4变成了6，所以只好把自己的DV z to x Cost改成6 + 1 = 7，然后发给y节点，y又继续反复...就这样，每次DV修改都只让Cost + 1，只有当DV中的Cost变成真正的最低Cost（如对于z来说，真正的z to x最低Cost 应为 51）时，才会终止，如果Cost足够大，DV的更新将一直持续下去，因此这也叫做无穷计数问题，也就是“坏消息”传得慢。
+
+引发count to infinity问题的关键在于，y更新DV的时候，并不知道z所谓的最短路径Cost，是通过到y，再经过y的最短路径得来的。既然y的最短路径不适用了，那y使用的z的“使用了y的最短路径得来的DV”也就是不准确的了，所以DV更新非常缓慢。
+
+要解决无穷计数问题，可以借助**poisoned reverse**毒性逆转的方法：
+
+如果一个节点(z)到达某目的(x)的最小Cost路径是通过某个邻居(y)的，则z向y传DV时，声称z to x的最低Cost为无穷大，换言之，不许我通过你，你反过来又通过我了，禁止套娃！这样y就不会利用错误的信息来更新DV了。
+
+然而毒性逆转也不能彻底削除无穷计数问题问题，因为网络环境还可能更复杂。另一种常用的方法是定义最大度量**maximum metric**：
+
+定义一个最大的有效Cost，如15 jump，如果Cost超过了这个值（16+），则视为无穷。
+
+<center>    <img src="{{'../assets/postResources/image-20201028132043562.png)'|relative_url}}" alt="DV算法：定义最大度量" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.12 DV算法：定义最大度量</div> </center>
+
+![image-20201028132043562](../assets/postResources/image-20201028132043562.png)
+
+利用最大度量，可以防止由于网络链路不可达而导致的疯狂DV更新，也就是为无穷计数问题设置一个更新次数的上界。
+
+#### 层次路由
+
+层次路由应该说是一种路由的策略。因为实际应用中，难以将任意大规模的网络抽象为图——计算负担很大。不仅计算负担大，存储的要求也提高了，而且大量的DV在网络中会占用带宽。为此，将网络划分成一个个自治的区域，自己管理好自己，网络之网络才是互联网。
+
+聚合一系列路由器为一个区域，称为**自治系统autonomous system**(AS)，并且每个AS有自己的编号标识自己。路由算法因此划分成两部分：同一AS内的路由器运行相同的路由协议（算法），称为**自治系统内部路由协议**（intra-AS），不同AS内可以使用各自不同的intra-AS；不同AS间的通信，则使用独特的**AS间路由协议**（inter-AS）。
+
+每个AS内的路由器，只知道自己内部的较小规模网络的拓扑结构，因此可以放心地使用路由算法。但要与其他AS内的路由通信，就不得不适应其他AS的路由方式，但这些不由内部路由器操心。每个AS都要有自己的网关路由器（gateway router），负责AS间的路由，位于AS的边缘，连接其他AS的网关路由器。
+
+<center>    <img src="{{'../assets/postResources/image-20201028134015214.png)'|relative_url}}" alt="互连的AS" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.13 互连的AS</div> </center>
+
+![image-20201028134015214](../assets/postResources/image-20201028134015214.png)
+
+如图所示，对于AS1，1c和1b毫无疑问是网关路由器，因为它们都负责与其他AS进行信息的传输。以AS1内部的路由器为例，其转发表由intra-AS和inter-AS共同设定。对于那些AS内部的目的网络路由，由intra-AS决定；对于那些目的网络为其他AS的路由，由intra-AS、inter-AS共同决定。
+
+如果AS1内的路由器收到了一个目的地址在AS1之外的datagram，则该路由器要知道应该把数据报送到哪个网关路由器。因此inter-AS的目标，除了让本AS（AS1）能了解到哪些网络经AS2到达，哪些网络经AS3到达，还要负责将对应的网络可达性信息传达给AS1内部的路由器，因为intra-AS是不负责与AS外部相关的信息传输的。尽管如此，向AS外的地址传递数据还是会用到intra-AS，但主要是在确定了要发到哪个网关路由器之后，确定到达对应网关路由器的最小Cost路径。至于如果了解到有多个AS可以作为途径来到达目的地址，而如何选择具体走哪一个AS（网关路由器），则要交给inter-AS来完成。常用的决定方法是“热土豆”路由协议：把分组送到最近的网关路由器。（烫手的土豆，赶紧拿掉！）
+
+### Internet路由
+
+Internet是典型的层次路由结构。在Internet中，intra-AS有独特的术语，叫做**内部网络协议**（IGP），常见的IGP有路由信息协议（RIP），开发最短路径优先（OSPF）、内部网关路由协议（IGRP）等，不过IGRP是Cisco的私有协议。
+
+#### RIP
+
+Routing Information Protocol，路由信息协议，早在1982年就随着BSD-UNIX操作系统发布，实际上就利用了DV算法。在RIP协议中，使用的最大度量为 15 hops（跳步数）。
+
+
+
+## **<a id="2020/10/29">2020/10/29</a>**
+
+### <a id="#2数据链路层">数据链路层</a>
+
+在数据链路层，主机、路由器都视为**结点**nodes。连接相邻结点的通信信道称为**链路**links。链路层的数据单元为**帧**frame，封装来自网络层的数据报。
+
+链路层的服务主要有：
+
+- 组帧：将高层数据报封装成frame，增加首部和尾部。
+- 链路接入：如果链路使用的是共享介质，需要解决信道接入的问题。帧首部使用“MAC”地址来标识帧的源和目的。
+- 可靠传输：保证相邻结点间的数据可靠交付。在低误码率的有线链路上（如光纤）不常使用，多用于高误码率的无线链路。
+- 流量控制：协调节点的数据传输。
+- 差错检测：必须考虑到信号衰减、噪声等引起的差错，一旦接收端检测到差错，就要同志发送端重传/丢弃帧。
+- 差错纠正：除了确认重传机制外，还可以直接比特纠错（前向纠错）。
+
+### 差错编码
+
+差错编码是一种差错检测与纠正机制，其原理是在原数据基础上增加一些与数据相关的冗余信息，一起发送给接收端。冗余比特R是原数据的一种映射结果，在通信领域，常被称作监督位。
+
+<center>    <img src="{{'../assets/postResources/image-20201030154436254.png)'|relative_url}}" alt="差错编码" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.1 差错编码</div> </center>
+
+![image-20201030154436254](../assets/postResources/image-20201030154436254.png)
+
+经过信道传输之后，接收方根据数据检查差错编码是否对应正确，如果有不正确的，则不会输出。尽管如此，差错编码也做不到百分之百正确，也存在着可能数据D差的很多，但其冗余比特恰好跟变化后的D对应。
+
+两组编码对应比特位不同的位数称作Hamming距离。比如00和11的Hamming距离就是2。对于一个编码集合，编码集的Hamming距离是其中任取两个编码的Hamming距离的最小值。
+
+
+
+差错编码分为检错码和纠错码。对于检错码，编码集的Hamming距离如果满足$d_s = r+1$，则差错编码可以检测r位的差错。如何理解这一点？假设A、B分别是编码集Hamming距离为r+1的两个编码，则它们之间的Hamming距离必然≥r+1。如果A传输错误了r（或者少于r）位变成了A'，则A‘与所有的其他编码至少有1位不一致，也就不能把A’解释成编码集中的一个编码，就检测到了错误。
+
+对于纠错码，如果编码集合满足Hamming距离=2r+1，则可以纠正r位差错。对于汉明距离=2r+1的情况，如果A传输错误成了A’，且有r位错误，那么A‘与B的Hamming距离最大为r+1。根据概率最大化的思想，把A’纠正为与之Hamming距离最短的A（最有可能的原数据）。
+
+常见的差错编码有**奇偶校验码**、**Internet校验和**、**CRC**等。
+
+1bit奇偶校验码是在数据的基础上，增加一个校验位，使得码字中1的个数始终为奇数个/偶数个，对应的校验方式称为奇校验/偶校验。不过，这样如果有偶数位的差错就检测不到了，所以检错能力很有限，但是实现简单，编码效率很高。在基础的1bit奇偶校验码基础上还拓展有二维奇偶校验：
+
+<center>    <img src="{{'../assets/postResources/image-20201031114624803.png)'|relative_url}}" alt="二维奇偶校验" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.2 二维奇偶校验</div> </center>
+
+![image-20201031114624803](../assets/postResources/image-20201031114624803.png)
+
+二维奇偶校验的机制如图所示，除了能检测出奇数位的差错，也能检测出部分偶数位差错，而且还具有一定的纠错能力，能纠正同一行/列的奇数位的错误。
+
+Internet校验和就是Checksum，在发送端将校验内容划分为16bit的小部分，并视为二进制整数逐个相加，如果出现了最高位进位，则将其补在最低位，最后和取反码，就得到了checksum。接收端要验证checksum只需要用同样的算法计算“checksum”，不过这次校验内容里还多了一个原checksum。如果数据传输过程完全正确，那么新的“checksum”的值应该恰好为全0。如果不是，那一定有错；如果是，那也有一定概率有错，但概率很小，就视为无错。
+
+CRC：循环冗余校验码，是数据链路层中应用广泛的差错编码，检错能力很强。CRC的流程如下：
+
+1. 将数据比特D视为一个二进制数
+2. 选择一个r+1位的生成bit模式，记作G
+3. 选择r位的CRC比特记作R，使得<D, R>编码可以被G整除（模二除法）
+4. 接收端检错：用G除以<D, R>编码，如果余式全为0则为无错，否则有错
+
+<center>    <img src="{{'../assets/postResources/image-20201031120950465.png)'|relative_url}}" alt="CRC" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.3 CRC</div> </center>
+
+![image-20201031120950465](../assets/postResources/image-20201031120950465.png)
+
+所有突发长度小于r+1位的差错都可以被检测。<D, R>可以表示为D << r XOR R。如果能整除G，则相当于$D\cdot2^r = nG~XOR~R$，也即 $R = 余式[\frac{D\cdot2^r}G]$。注意，这里的除法是二进制模二除法，借助于模二减法！不存在借位/进位，也不要求被减数必须比减数小，只要对齐最高位1，并异或就可以了。
+
+<center>    <img src="{{'../assets/postResources/image-20201031155507375.png)'|relative_url}}" alt="CRC示例：模二除法" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.4 CRC示例：模二除法</div> </center>
+
+![image-20201031155507375](../assets/postResources/image-20201031155507375.png)
+
+### 多路访问协议
+
+多路访问控制Multiple Access Control协议，即MAC协议，要解决链路使用的问题。链路可以分为大致两类：其一是点对点的，没有中间节点的链路，比如拨号链路，以及以太网交换机与主机间的点对点链路；其二是广播链路，也就是使用共享的物理介质，比如总线以太网，卫星链路以及无线局域网。
+
+MAC要解决的是单一共享广播信道的情境下，多个结点同时传输时产生的干扰，也称为冲突collision。冲突会导致结点收到多个信号，进而使接受失败。MAC协议通过分布式算法决定结点如何共享使用信道。原则上MAC不应该利用信道之外的资源，只用信道本身，而且通信信道要共享协调的信息。
+
+理想的MAC协议，对于Rbps的带宽的链路，如果同时有M个结点期望发送数据，每个节点平均发送数据的速率为R/M，而且是完全分布式的，不用某个特定节点来协调。
+
+MAC协议主要有如下三大类：
+
+1. 信道划分MAC：为每个结点划分自己的信道资源，比如多路复用技术（TDMA、FDMA、。
+2. 随机访问MAC：在局域网中常见，不划分信道，结点使用全部带宽，允许冲突，但引入了冲突恢复机制。
+3. 轮转MAC：综合上面两种MAC，让结点轮流使用信道，每个结点在使用时使用全部带宽。
+
+#### 随机访问MAC
+
+随机访问MAC的结点之间没有传输事先协调。为了应对冲突，就要引入检测冲突和从冲突中恢复的机制。典型的随机访问MAC协议有ALOHA、时隙（slot）ALOHA、CSMA、CSMA/CD、CSMA/CA等。
+
+时隙ALOHA协议假设网络中所有帧大小相同，时间被分为等长的时隙（一个时隙可以传输一个帧），结点只能在时隙开始时发送帧，这样结点间时钟就是同步的。多个节点在同一个时隙发送数据帧就会检测到冲突。当结点要发送新的帧，等到下一个时隙发送：如果无冲突当然最好，那么可以在下一个slot发送新的帧，但如果冲突，就在下一个slot以概率p重传该帧，直到成功。
+
+<center>    <img src="{{'../assets/postResources/image-20201101133848277.png)'|relative_url}}" alt="时隙ALOHA" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.5 时隙ALOHA</div> </center>
+
+![image-20201101133848277](../assets/postResources/image-20201101133848277.png)
+
+如图所示，只有在信道空闲时才能成功传输。一旦冲突则根据概率重传帧直到成功。时隙ALOHA的优点是简单，而且单个结点活动时可以占用信道的全部速率；缺点是要求时钟同步，容易冲突，还有可能造成空闲时隙（大家明明都有帧，但都不发送），而且发现冲突使用了发送一个帧的时间，然而可以更快。
+
+用长期运行时成功发送帧的slot占比表示传输效率，衡量传输效果。假设N个结点都要发送大量帧，每个结点每个时隙发送数据的概率为p，则对于某个特定结点，某slot成功发送帧的概率为$p(1-p)^{N-1}$，某时隙下成功发送帧的概率就为$Np(1-p)^{N-1}$。当N趋近于无穷，使效率最大（也即某时隙下成功发送帧的概率最大）的解为$\frac1e\approx 0.37$。因此最好情况下slotALOHA也只有37%的链路效率。
+
+而纯ALOHA协议的实现更简单，不强调slot的同步，有新的帧，立刻发送。这样冲突的可能性更大了。由于纯ALOHA协议不加slot限制，使得在t时刻发送的帧，在t-1时刻到t+1时刻（单位为发送一个帧的时间）都不能有其他帧同时发送，链路利用效率又打了折扣，只有$\frac1{2e}\approx 0.18$。
+
+载波监听多路访问协议CSMA要求每个结点发送帧之间，监听信道的载波信号，观察信道是否空闲。如果空闲，则发送完整帧；若信道忙则推迟发送。
+
+CSMA又分为几类：
+
+- 1-坚持CSMA：一旦发现信道忙，则一直监听直到信道空闲，然后马上发送。
+- 非坚持CSMA：发现信道忙后，等待一段随机长的时间，再监听信道状态。
+- P-坚持CSMA：发现信道忙之后，以概率P监听信道，以概率1-P等待一段随机长时间。
+
+CSMA仍然有可能导致冲突。
+
+<center>    <img src="{{'../assets/postResources/image-20201101151904481.png)'|relative_url}}" alt="CSMA 可能的冲突" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.6 CSMA 可能的冲突</div> </center>
+
+![image-20201101151904481](../assets/postResources/image-20201101151904481.png)
+
+假设链路上有ABCD四个结点，某一时刻t0，B使用链路发送帧；很短的时间后到t1，D也打算使用链路，但由于B、D的物理上的距离远，D并没有检测到链路忙，故也开始发送。当B、D的传输帧交织时，他们的信号混杂，数据便没有了意义。
+
+实际上，当发现冲突时就已经没必要继续发送了，后续的传输都是错误的，白白浪费资源。为此增加了改进：CSMA/CD：CSMA with Collision Detection。不要被名字骗了，并非除了CSMA/CD其他的协议都没有冲突检测。CSMA/CD可以在短时间内检测到冲突，并且冲突后传输直接终止，减少信道浪费。
+
+<center>    <img src="{{'../assets/postResources/image-20201101152718886.png)'|relative_url}}" alt="CSMA/CD 冲突提前终止" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.7 CSMA/CD 冲突提前终止</div> </center>
+
+![image-20201101152718886](../assets/postResources/image-20201101152718886.png)
+
+如图所示，当B、D双方检测到冲突时，就都不再发送。CSMA/CD是“边发边听，不发不听”的，只有在发送数据时才同时检测监听冲突，不发送数据时不检测。这就导致了一个问题：
+
+<center>    <img src="{{'../assets/postResources/image-20201101153526832.png)'|relative_url}}" alt="CSMA/CD 冲突检测" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.8 CSMA/CD 冲突检测</div> </center>
+
+![image-20201101153526832](../assets/postResources/image-20201101153526832.png)
+
+假设信号传播速度为V，A、B的链路物理长度为d，网络带宽为R bps，数据帧的最小长度为L bits。考虑一个极端的情况：假设A发送了一个数据帧，其第一个bit在刚要抵达B之前的瞬间，B也发送了数据帧，他们立刻冲突。B可以立刻检测到冲突，但直到那个B发出的帧的首个bit 抵达A之前，A无法检测到冲突。一旦A在这段时间里把数据帧传完了，A就会以为这是一次正常的传输——即使事实并非如此。因此，就要求
+
+
+$$
+\frac LR \geq \frac{2d}V = RTT_{max}
+$$
+才能保证A在传输“完成”之前可以检测到冲突。
+
+假设$T_{prop}$表示两个结点间的最大传输延迟，$T_{trans}$表示最长帧传输延迟，则CSMA/CD的效率为
+
+
+$$
+\frac 1{1 + \frac{5t_{prop}}{t_{trans}}}
+$$
+当$t_{prop}$趋近于0，或者$t_{trans}$趋近于无穷时，效率趋近于1。
+
+有线局域网是容易实现冲突检测的，检测信号强度，比较发射信号与接收信号即可；而无线局域网则很难实现，接收信号强度在本地的发射信号强度下被淹没。
+
+轮转访问MAC协议主要有几类：
+
+- 轮询：网络中有一个主结点轮流邀请从属结点发送数据，当然也不会冲突。常应用于dumb的从属设备。但轮询有一定的开销，并且带来了设备的等待延迟。一旦主结点宕机，就会导致故障。
+- 令牌传递：
+
+## <a id="2物理层">物理层</a>
+
+
+
+#### 异步通信
+
+每次发送一个字符5~8 bits
+
+#### 同步通信
+
+发送方、接收方的时钟是同步的。每次发送一大块数据。适合短距离传输。同步通信的传输效率更高。
+
+### 物理介质
+
+
+
