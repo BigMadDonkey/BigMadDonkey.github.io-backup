@@ -167,21 +167,21 @@ token是一个二元组，由**种别码**和**属性值**构成。
 
 字母表$\Sigma$表示一个**有穷**符号集合。这里的符号可以是字母、数字、标点符号...等等。以下给出一些字母表上的运算：
 
-1. 乘积：$\Sigma_1\Sigma_2 = \{ab|a\in\Sigma_1, b\in\Sigma_2\}$
-2. 幂：$\begin{aligned}\Sigma^0 &= \{\epsilon\}\\\Sigma^n &= \Sigma^{n-1}\Sigma, n\ge1\end{aligned}$也即长度为n的符号串的集合。
-3. 正闭包：$\Sigma^+ = \Sigma \and \Sigma^2 \and \Sigma^3 \cdots$也即长度为正数的符号串之集合。
-4. 克林闭包：$\Sigma^* = \Sigma^0 \and \Sigma \and \Sigma^2 \and \Sigma^3 \cdots$
+1. 乘积：$\Sigma_1\Sigma_2 = \{ab\|a\in\Sigma_1, b\in\Sigma_2\}$
+2. 幂：$$ \begin{cases} \begin{aligned}\Sigma^0 &= \{\epsilon\}\\ \Sigma^n &= \Sigma^{n-1}\Sigma, n\ge1\end{aligned} \end{cases}$$也即长度为n的符号串的集合。
+3. 正闭包：$\Sigma^+ = \Sigma \cup \Sigma^2 \cup \Sigma^3 \cdots$也即长度为正数的符号串之集合。
+4. 克林闭包：$\Sigma^\star = \Sigma^0 \cup \Sigma \cup \Sigma^2 \cup \Sigma^3 \cdots$
 
-假设$\Sigma$是一个字母表，对于$\forall x \in \Sigma^*$，x称为$\Sigma$上的一个串。串的长度记作$|x|$，表示s中符号的个数。串上支持的运算如下（以下示例中x，y，z，s均为串）：
+假设$\Sigma$是一个字母表，对于$\forall x \in \Sigma^\star$，x称为$\Sigma$上的一个串。串的长度记作$\|x\|$，表示s中符号的个数。串上支持的运算如下（以下示例中x，y，z，s均为串）：
 
 1. 连接：$xy$表示将y附加到x之后形成的新串。注：空串$\epsilon$是任意串对于连接运算的单位元。如果x = yz，则称y是x的前缀，z是x的后缀。
-2. 幂：把串上的连接运算看作一种乘积，则幂运算可以看作累积的连接。$\begin{aligned}s^0 &= \epsilon \\ s^n &= s^{n-1}s, n\ge1, \end{aligned}$
+2. 幂：把串上的连接运算看作一种乘积，则幂运算可以看作累积的连接。$$ \begin{cases}\begin{aligned}s^0 &= \epsilon \\ s^n &= s^{n-1}s, n\ge 1 \end{aligned} \end{cases} $$
 
 语言是一系列特定**句子**的集合，而**文法**表示一种语言的句子的构成规则。文法的形式化定义如下：
 
 $G = (V_T,V_N,P,S)$表示一个文法G，其中$V_T$表示终结符集合，是文法所定义的基本符号，有时也称为token。顾名思义，终结符是不能再衍生的，是句型拓展的终结点。$V_N$表示文法的非终结符集合，也称为语法成分/语法变量。例如$V_N$可能包含<句子>、<名词短语>...非终结符是文法推导的关键。
 
-$P$表示产生式集合，描述了将终结符/非终结符组合成串的方法。一般形式为$\alpha\rightarrow \beta$，读作“alpha定义为beta”。其中**$\alpha \in (V_T \and V_N)^+$且$\alpha$中至少包含一个非终结符**，策划归纳为产生式的左部/头。$\beta \in (V_T \and V_N)^*$称为产生式的右部/体。如果一系列产生式有相同的左部，则可以将他们的右部写在一起，用“|”分割，这时这些右部又叫做候选式。
+$P$表示产生式集合，描述了将终结符/非终结符组合成串的方法。一般形式为$\alpha\rightarrow \beta$，读作“alpha定义为beta”。其中**$\alpha \in (V_T \cup V_N)^+$且$\alpha$中至少包含一个非终结符**，策划归纳为产生式的左部/头。$\beta \in (V_T \cup V_N)^\star$称为产生式的右部/体。如果一系列产生式有相同的左部，则可以将他们的右部写在一起，用“\|”分割，这时这些右部又叫做候选式。
 
 $S$表示开始符号。开始符号是文法推导的起点，是非终结符集合的元素之一，是涵盖范围最大的语法成分。
 
@@ -198,7 +198,7 @@ $S$表示开始符号。开始符号是文法推导的起点，是非终结符�
 
 推导Derivations是利用给定文法的产生式，用产生式的右部替换左部。例如如果$\alpha \rightarrow \beta \in P$，$\gamma\alpha\delta$就可以写成$\gamma\beta\delta$，也称作前者可以直接推导出后者。也可记作$\gamma\alpha\beta\implies\gamma\beta\delta$。
 
-如果$\alpha_0$可以经过n步推导得到$\alpha_n$，则可记为$\alpha_0\implies^n\alpha_n$。注意$\alpha\implies^0\alpha$，$\implies^+$表示经过正数步推导，$\implies^*$表示经过若干步推导。如果一个符号串可以由文法的开始符号推导而得到，则证明该符号串满足此文法。
+如果$\alpha_0$可以经过n步推导得到$\alpha_n$，则可记为$\alpha_0\implies^n\alpha_n$。注意$\alpha\implies^0\alpha$，$\implies^+$表示经过正数步推导，$\implies^\star$表示经过若干步推导。如果一个符号串可以由文法的开始符号推导而得到，则证明该符号串满足此文法。
 
 根据推导替换的非终结符不同，推导还可分为最左推导（每一步替换最左边的非终结符）和最右推导（与之对应）。
 
@@ -206,26 +206,26 @@ $S$表示开始符号。开始符号是文法推导的起点，是非终结符�
 
 推导和规约从生成和识别两个角度来判别一个句子是否属于某个文法的范畴。
 
-如果$S\implies^*\alpha$，且$\alpha \in (V_T \and V_N)^*$，则认为$\alpha$是G的一个**句型**。注意句型可以包括非终结字符，也可以包括终结字符，甚至可以是空串。
+如果$ S\implies^\star \alpha $，且$ \alpha \in (V_T \cup V_N)^\star $，则认为$ \alpha $是G的一个**句型**。注意句型可以包括非终结字符，也可以包括终结字符，甚至可以是空串。
 
-如果$S\implies^*w$，且$w \in {V_T}^*$，则称w是G的一个**句子**。句子是不包含非终结符的句型。
+如果$ S\implies^\star w $，且$ w \in {V_T}^\star $，则称w是G的一个**句子**。句子是不包含非终结符的句型。
 
 由文法G的开始符号推导出的所有句子的集合称为文法G生成的**语言**。记作L(G)。
 
 语言支持的运算如下(L、M都表示语言）：
 
-1. 并：$L\and M = \{s|s\in L 或s\in M\}$
-2. 连接：$LM = \{st|s\in L 且 t \in M\}$
-3. 幂：$\begin{aligned}L^0 &= \{\epsilon\}\\ L^n &= L^{n-1}L, n\ge1\end{aligned}$
-4. 正闭包：$L^+ = \bigcup_{i=1}^\infin L^i$
-5. Kleene闭包：$L^* = \bigcup_{i=0}^\infin L^i$
+1. 并：$L\cup M = \{s\|\in L 或s\in M\}$
+2. 连接：$LM = \{st\|s\in L 且 t \in M\}$
+3. 幂：$$ \begin{aligned}L^0 &= \{\epsilon\}\\ L^n &= L^{n-1}L, n\ge1\end{aligned} $$
+4. 正闭包：$L^+ = \bigcup_{i=1}^\infty L^i$
+5. Kleene闭包：$L^\star = \bigcup_{i=0}^\infty L^i$
 
 #### <a id="2.3">2.3 文法分类</a>
 
 Chomsky将文法分为四类：
 
 1. 0型文法：无限制文法。此文法只要求生成式的左部至少有一个非终结符即可。非常宽泛。
-2. 1型文法：上下文相关文法。此文法要求生成式左部的长度小于等于右部的长度。也可以认为1型文法的所有产生式都满足$\alpha A \beta \rightarrow \alpha\gamma\beta$，其中$\alpha, \beta \in (V_N \and V_T)^*$而$\gamma \in (V_N \and V_T)^+$。注意1型文法不包含ε产生式。
+2. 1型文法：上下文相关文法。此文法要求生成式左部的长度小于等于右部的长度。也可以认为1型文法的所有产生式都满足$\alpha A \beta \rightarrow \alpha\gamma\beta$，其中$\alpha, \beta \in (V_N \cup V_T)^\star$而$\gamma \in (V_N \cup V_T)^+$。注意1型文法不包含ε产生式。
 3. 2型文法：上下文无关文法（CFG）。**上下文无关文法**要求产生式的左部必须是非终结符集合中的元素。
 4. <a id = "正则文法"></a>3型文法：正则文法。正则文法分为左线性文法和右线性文法。其中左线性文法的产生式规则为$A\rightarrow B$或$A\rightarrow Bw$，右线性文法与之相反。由3型文法生成的语言称为**正则语言**。
 
@@ -251,29 +251,31 @@ Chomsky将文法分为四类：
 
 如果a是字母表中的一个字符，a也是一个RE，L(a) = {a}。
 
-如果r和s都是RE，则r|s 也是一个RE，L(r|s) = L(r)∪L(s)。类似地，rs也是一个RE，L(rs) = L(r)L(s)。
+如果r和s都是RE，则r\|s 也是一个RE，L(r\|s) = L(r)∪L(s)。类似地，rs也是一个RE，L(rs) = L(r)L(s)。
 
-$r^*$也是一个RE，$L(r^*) = (L(r))^*$。
+$r^\star$也是一个RE，$L(r^\star) = (L(r))^\star$。
 
 (r)也是一个RE，$L((r)) = L(r)$。
 
-**注意，上述运算的优先级顺序为* > 连接运算 > |。**
+**注意，上述运算的优先级顺序为* > 连接运算 > \|。**
 
 **可以用RE定义的语言叫做正则语言/正则集合**。<a href="#正则文法">由此也可知</a>，对于任何正则文法G，存在定义同一语言的正则表达式r，反之亦然。
 
 RE满足的一些代数定律：
 
-1. 或运算的交换律：$r|s = s | r$
-2. 或运算的结合律：$r|(s|t) =  (r|s)|t$
+1. 或运算的交换律：$r\|s = s \| r$
+2. 或运算的结合律：$r\|(s\|t) =  (r\|s)\|t$
 3. 连接运算的结合律：$r(st) = (rs)t$
-4. 连接运算对或运算满足分配律：$r(s|t) = rs|rt$
+4. 连接运算对或运算满足分配律：$r(s\|t) = rs\|rt$
 5. ε是连接运算的单位元：$\epsilon r = r\epsilon = r$
-6. Kleene闭包中包含ε：$r^* = (r|\epsilon)^*$
-7. 闭包运算的幂等性：$(r^*)^* = r^*$
+6. Kleene闭包中包含ε：$r^\star = (r\|\epsilon)^\star$
+7. 闭包运算的幂等性：$(r^\star)^\star = r^\star$
 
 ### <a id="3.2">3.2 正则定义</a>
 
 为方便起见可以为已有的正则表达式命名，方便后续引用。正则定义是具有如下形式的定义序列：
+
+
 $$
 \begin{aligned}
 d_1 &\rightarrow r_1 \\
@@ -283,12 +285,15 @@ d_3 &\rightarrow r_3 \\
 d_n &\rightarrow r_n
 \end{aligned}
 $$
+
 其中每个$d_i$都是新符号，不是字母表$\Sigma$中的，而且各不相同。而每个$r_i$是以$\Sigma\cup\{d_1,d_2\cdots d_{i-1}\}$为新字母表的正则表达式。此所谓后续的正则定义可以使用先前已有的定义。例如C语言中使用正则定义表示标识符合法范围的正则表达式：
+
+
 $$
 \begin{aligned}
 &digit \rightarrow 0|1|2|\cdots|9\\
 &letter\_ \rightarrow A|B|\cdots|Z|a|b|\cdots|z|\_ \\
-&id \rightarrow letter\_(letter\_|digit)^*
+&id \rightarrow letter\_(letter\_|digit)^\star
 \end{aligned}
 $$
 
@@ -368,18 +373,19 @@ $$
 
 从NFA构造DFA的技巧：
 
-若原NFA形式化表示为：$M = (S, \Sigma, \delta, s_0, F)$构造一个新的DFA，这个DFA的状态集合为$2^S$，字符集合不变，初始状态为$\{s_0\}$，终结状态集合为$\{P|P \subseteq 2^S 且 P \cap F \neq \emptyset\}$，而转换关系$\delta^{'}$变为从$2^S\times\Sigma$映射到$2^S$的集合，满足$\delta^{'}(set,a) = \{s|s\in S 且 \exists x \in set 使得 \delta(x, a) = s\}(或写成\cup_{s \in S}\delta(s, a))$。注：最后常常会得到一些状态，它们无法从开始状态经由任何输入而抵达，可以直接略去。
+若原NFA形式化表示为：$M = (S, \Sigma, \delta, s_0, F)$构造一个新的DFA，这个DFA的状态集合为$2^S$，字符集合不变，初始状态为$\{s_0\}$，终结状态集合为$\{P\|P \subseteq 2^S 且 P \cap F \neq \emptyset\}$，而转换关系$\delta^{'}$变为从$2^S\times\Sigma$映射到$2^S$的集合，满足$\delta^{'}(set,a) = \{s\|s\in S 且 \exists x \in set 使得 \delta(x, a) = s\}(或写成\cup_{s \in S}\delta(s, a))$。注：最后常常会得到一些状态，它们无法从开始状态经由任何输入而抵达，可以直接略去。
 
-如果之前构造出的是ε-NFA也没关系。从ε-NFA转换到NFA很容易，借助于上文中ε闭包的定义即可。若原ε-NFA形式化表示为：$M = (S, \Sigma, \delta, s_0, F)$构造一个新的NFA，这个NFA的状态集合为$S$，字符集合为$\Sigma$，初始状态为$s_0$，终止状态集合为$\{q|EClose(q) \cap F \neq \emptyset\}$，状态转移函数为
+如果之前构造出的是ε-NFA也没关系。从ε-NFA转换到NFA很容易，借助于上文中ε闭包的定义即可。若原ε-NFA形式化表示为：$M = (S, \Sigma, \delta, s_0, F)$构造一个新的NFA，这个NFA的状态集合为$S$，字符集合为$\Sigma$，初始状态为$s_0$，终止状态集合为$\{q\|EClose(q) \cap F \neq \emptyset\}$，状态转移函数为
+
+
 $$
 \delta^{'}(q, x) = 
-
-\left\{
+\begin{cases}
 \begin{aligned}
 &\emptyset,if\space x = \epsilon \\
 &\cup_{q^{'} \in EClose(q)}\delta(q^{'}, x), otherwise
 \end{aligned}
-\right. 
+\end{cases}
 $$
 从NFA(ε-NFA)构造DFA的程序实现中，常用的一个是**子集构造法**。
 
@@ -422,7 +428,7 @@ $$
 
  递归下降分析可能出现问题。例如，如果出现**直接左递归**形式的产生式(形如$A\rightarrow A\alpha$)或者$A\Rightarrow^+A\alpha$(A为非终结符)，那么这个文法称为左递归的。一个左递归的文法可能使得递归下降分析器现如无限循环！
 
-可以**消除直接左递归**。对于形如$A\rightarrow A\alpha|\beta$的产生式，($\alpha\neq\epsilon, \beta \space not \space starts\space with \space A$)，实际上A产生的是一个β开头，后接0或多个α的串($\beta\alpha^*$)。为此可以新增非终结符A'，使得
+可以**消除直接左递归**。对于形如$A\rightarrow A\alpha\|\beta$的产生式，($\alpha\neq\epsilon, \beta \space not \space starts\space with \space A$)，实际上A产生的是一个β开头，后接0或多个α的串($\beta\alpha^\star$)。为此可以新增非终结符A'，使得
 $$
 A\rightarrow \beta A'\\A' \rightarrow \alpha A'|\epsilon
 $$
@@ -443,7 +449,7 @@ $$
 
 2. 对于每个非终结符$A_i$:
 
-   1. 对于排在那个非终结符之前的每个非终结符(from 1 to i - 1)$A_j$，将每个形如$A_i\rightarrow A_j\gamma$的产生式用$A_j$的全部产生式替换。如果$A_j\rightarrow\delta_1|\delta_2|\cdots|\delta_k$，那么最后将得到$Ai \rightarrow\delta_1\gamma|\delta_2\gamma|\cdots|\delta_k\gamma$这样的生成式。
+   1. 对于排在那个非终结符之前的每个非终结符(from 1 to i - 1)$A_j$，将每个形如$A_i\rightarrow A_j\gamma$的产生式用$A_j$的全部产生式替换。如果$A_j\rightarrow\delta_1\|\delta_2\|\cdots\|\delta_k$，那么最后将得到$Ai \rightarrow\delta_1\gamma\|\delta_2\gamma\|\cdots\|\delta_k\gamma$这样的生成式。
    2. 消除$A_i$产生式的直接左递归。
    
    

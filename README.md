@@ -1,6 +1,8 @@
+
+
 # 基于jekyll + github pages搭建的个人博客
 
-[![Gem Version](https://badge.fury.io/rb/jekyll-theme-prologue.svg)
+![Gem Version](https://badge.fury.io/rb/jekyll-theme-prologue.svg)<a href="https://gitmoji.dev"><img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Gitmoji"></a>
 
 ![Prologue Theme](assets/images/screenshot.png "Prologue Theme Screenshot")
 
