@@ -1,5 +1,6 @@
-/_site
+_site
 *.gem
+.jekyll-cache
 .sass-cache
 Gemfile.lock
 oldREADME.md

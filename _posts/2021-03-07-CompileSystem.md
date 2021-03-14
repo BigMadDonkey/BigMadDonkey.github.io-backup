@@ -51,7 +51,7 @@ toc: true
 	
 	<a href="#4.2">4.2 文法转换</a>
 	
-	<a href="#3.3">3.3 文法分类</a>
+	<a href="#4.3">4.3 LL(1)文法</a>
 
 ## <a id='1'>1. 计算机程序设计语言</a>
 
@@ -454,5 +454,117 @@ $$
    
    
    
-     
-   
+### <a id="4.3">4.3 LL(1)文法</a>
+
+LL(1)文法指的是向前看k个输入符的预测分析法。
+
+预测分析法的工作流程：
+
+从文法开始符号出发，每一步推导过程中根据当前句型的最左非终结符A和输入符号a，选择正确的A-产生式。为了保证分析的正确性，选出的候选式必须是唯一的。
+
+#### S_文法
+
+指简单的确定型文法。S\_文法要求每个产生式的右部都**以终结符开始**，而且**同一非终结符的各个候选式的首终结符均不同**。从定义中可以看出S\_文法不包含空产生式。
+
+对于预测分析法，空产生式的使用也是有说法的，并不总是能起效。
+
+![image-20210314090539273](../assets/postResources/image-20210314090539273.png)
+
+<center>    <img src="{{'assets/postResources/image-20210314090539273.png'|relative_url}}" alt="S_文法中如果包含空产生式的情况" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.1 S_文法中如果包含空产生式的情况</div> </center>
+
+如图4.1所示，对于给定的文法，输入adae的解析过程中，当推导到adBCD时，将B用空串替代是可以推导成功的，但对于输入adee，推导到adBCD时将B用空串替代，结果是无法解释。分析adee无法继续推导的原因，不难发现，如果将B视为空串，则产生式中右部包含非终结符B的情况只有B紧跟C。而使用空串替代B的原因是当前输入符号不能被解析，所以此时的非终结符必定不是b、d，则如果当前符号a无法被C-产生式继续推导下去，就会发生问题。C-产生式的右部首终结符又只可能是a、c，因此对于e，该文法无法接收。
+
+总结：如果当前某个非终结符A与当前输入符a不匹配时，若存在$ A \rightarrow \epsilon$，则可以通过检查a是否可以出现在A之后，来决定是否适用空产生式。如果文法中并没有$A \rightarrow \epsilon$，则直接报错即可。
+
+#### 后继符号集
+
+**可能在某个句型中紧跟在非终结符A后边出现的终结符的集合**，记为$FOLLOW(A)$。
+
+
+$$
+FOLLOW(A) = \{a\|S \Rightarrow^\star \alpha Aa \beta, a \in V_t, \alpha,\beta \in(V_T \cup V_N)^\star\}
+$$
+为了便于描述，引入新的符号`$`，表示结束符。如果A是某个句型的最右符号，则将结束符加入$FOLLOW(A)$。
+
+以图4.1的文法为例，$FOLLOW(B) = \{ a, c\}$。引入$FOLLOW$的概念后，可以把空产生式看作一个首终结符为$FOLLOW$集合中任一元素的候选式。
+
+产生式$A \Rightarrow \beta$的可选集指的是**可以选用该产生式进行推导式对应的输入符号的集合**，记为$SELECT(A \Rightarrow \beta)$。
+
+如果产生式右部第一个符号为终结符a，那么$SELECT(A \Rightarrow a\beta) = \{a\}$。
+
+如果产生式的右部是空串，那么$SELECT(A \Rightarrow \epsilon) = FOLLOW(A)$。
+
+在以上的定义基础上，可以定义q_文法。
+
+#### q_文法
+
+每个产生式的右部要么是空串，要么是以终结符开始；在此基础上，具有相同左部的产生式有不相交的可选集（SELECT）。
+
+q\_文法相比S\_文法适用范围更广，但依旧限制较多，因为不允许右部以非终结符开头。
+
+#### 串首终结符
+
+串首终结符指在输入串中排在最左的第一个且是终结符的那些符号。
+
+给定一个**文法符号串α**，α的串首终结符集$FIRST(\alpha)$定义为可以从α推导出的所有串首终结符构成的集合。注意：如果$\alpha \Rightarrow^\star \epsilon$，那么ε也视为在$FIRST(\alpha)$中（实际上，$\alpha \Rightarrow^\star、ε$意味着α中的所有文法符号都是非终结符，且它们都有空产生式）。由此得到的关系：
+
+如果$\epsilon \in FIRST(\alpha)$，那么$SELECT(A\rightarrow\alpha) = FIRST(\alpha)$。
+
+如果$\epsilon \notin FIRST(\alpha)$，那么$SELECT(A\rightarrow\alpha) = (FIRST(\alpha) - \{\emptyset\})\cup FOLLOW(A)$。
+
+用朴素的语言描述就是：如果α无论如何变不成空串，那么α最后必将存在终结符。既然如此，$A\rightarrow \alpha$可以接收的输入就是α的串首终结符集合。如果α有可能变成空串，那么在$FIRST(\alpha)-\{\epsilon\}$的基础上（别忘了，空串可不是输入符号集的元素！），还要考虑把α推导成空串的可能，这种情况下$A \rightarrow \alpha$所能接收的输入符号就要把$FOLLOW(A)$考虑在内了。
+
+小结以下：
+
+- $FOLLOW(A)$是相对非终结符A而言，可以接在A之后的终结符；
+- $SELECT(A \rightarrow \alpha)$是相对产生式而言，考虑产生式可以接收怎样的终结符作为输入；
+- $FIRST(\alpha)$是相对句型/文法符号串而言，考虑这个句型/文法符号串可能推导出的串首终结符。
+
+#### LL(1)文法
+
+第一个L表示从左向右扫描输入，第二个L表示产生最左推导。1表示每一步只需要向前看一个输入符号来决定语法分析的动作。
+
+一个LL(1)的文法G要求对于G的任意两个具有相同左部的产生式$A\rightarrow \alpha\|\beta$，满足以下条件：
+
+- 不存在终结符a，使得α和β都能够推导出以a开头的串。
+- α和β**至多有一个**能推导出ε。（如若不然，他们的SELECT集都是FOLLOW(A)，就会相交了）
+- 如果$\beta \Rightarrow ^\star \epsilon$，则$FIRST(\alpha)\cap FOLLOW(A) = \emptyset$；同理对α亦是如此。（这一条也是为了防止可选集互不相交）
+
+中心思想：同一非终结符的各个产生式的可选集互不相交。这使得可以为LL(1)文法构造预测分析器。
+
+#### 计算FIRST集和FOLLOW集
+
+FIRST集也可以相较于单一文法符号来看。此时，FIRST集的意义是**可以从文法符号X推导出的串首终结符的集合**。
+
+如果X是终结符，那还有什么好说的呢？FIRST(X) = {X}即可。如果X是非终结符，那么FIRST(X)与X的产生式关系密切。$X \Rightarrow ^\star \epsilon$则$\epsilon \in FIRST(X)$。一个以终结符为最左符号的产生式右部，可以直接帮助确定一个FIRST(X)的元素（那个最左终结符即是）。如果产生式的右部是非终结符打头的，则将那个非终结符的FIRST集中元素加入到FIRST(X)即可。算法描述如下：
+
+不断进行以下操作直到没有新的终结符或ε可以加入到任何FIRST集中为止：
+
+1. 如果X是终结符，那么$FIRST(X) = X$。
+2. 如果X是非终结符，且存在以X为左部的产生式形如$X\rightarrow Y_1\cdots Y_k(k \ge 1)$，如果对于某个i，a在$FIRST(Y_i)$中且$\epsilon$在所有的$FIRST(Y_1),\cdots FIRST(Y_{i-1})$中都有出现（也即$Y_1\cdots Y_{i-1} \Rightarrow ^\star\epsilon$，则把a加入到FIRST(X)中。如果对于所有的$j = 1,2,\cdots k$，都有ε在$FIRST(Y_j)$中，则将ε也加入到$FIRST(X)$中。
+3. 如果$X\rightarrow\epsilon$，将ε加入到$FIRST(X)$中。
+
+计算出每个符号的FIRST集之后，一个文法符号串$X = X_1X_2\cdots X_n$的FIRST集合也可以得出来了：首先向$FIRST(X)$中加入$FIRST(X_1)$中所有的非ε符号，如果ε在$FIRST(X_1)$中，则向$FIRST(X_2)$中加入所有非ε符号，如果在此基础上ε在$FIRST(X_2)$中也有出现，则加入$FIRST(X_3)$的所有非ε符号...以此类推。如果ε出现在每个文法符号的FIRST集中，则将$\epsilon$也加入到$FIRST(X)$中。
+
+
+
+FOLLOW(A)集指**可能**在某个句型中紧跟在非终结符A后面的**终结符**的集合。一个非终结符的FOLLOW集取决于当A出现在某条句型中时，紧跟着A的文法符号的FIRST集。为了方便，当A是某个句型的最右符号时，将结束符`$`加入A的FOLLOW集。（注意：文法的开始符号也是一个句型。因此开始符号的FOLLOW集中必有`$`符号）
+
+FOLLOW集的算法如下：
+
+不断进行以下操作，直到没有新的终结符或是ε加入到任何FOLLOW集合中为止：
+
+1. 将`$`放入FOLLOW(S)中。S是开始符号，`$`是输入右端的结束标记。
+2. 如果存在一个产生式形如$A \rightarrow \alpha B \beta$，则将$FIRST(\beta)$中所有**非空符号**加入到$FOLLOW(B)$中。
+3. 如果存在一个产生式形如$A \rightarrow \alpha B$或对于某条形如$A \rightarrow \alpha B \beta$的产生式，$FIRST(\beta)$中有ε，那么将FOLLOW(A)中的所有符号加入到FOLLOW(B)中。
+
+FOLLOW集的算法在某种程度上与FIRST集的计算有相似之处（我是指它们都需要重复多次直到不会引入新符号，以解决各个FOLLOW集合之间的相互依赖关系）。
+
+有了FIRST集和FOLLOW集，SELECT集也可以计算出来了。
+
+计算出SELECT集，然后可以判断一个文法到底是不是LL(1)的。如果是，就可以画出它的预测分析表——横、纵轴一个对应产生式左部的非终结符，一个对应该产生式接收的输入符号。表格的每一个元素内是一个可以唯一确定的产生式（当然，也可能没有）。
+
+![image-20210314125405466](../assets/postResources/image-20210314125405466.png)
+
+<center>    <img src="{{'assets/postResources/image-20210314125405466.png'|relative_url}}" alt="预测分析表" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图4.2 预测分析表</div> </center>
+
