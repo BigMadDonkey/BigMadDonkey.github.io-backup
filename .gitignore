@@ -2,10 +2,10 @@ _site
 *.gem
 .sass-cache
 .jekyll-cache
+non_public_posts
 Gemfile.lock
 oldREADME.md
 _posts/2018-01-12-elements.html
 _posts/2013-09-12-second-post.md
 _posts/2014-09-12-third-post.md
 _posts/2015-09-12-fourth-post.md
-
