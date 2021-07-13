@@ -151,7 +151,7 @@ dependencies {
 }
 ```
 
-以模块的build.gradle为例（主project的build.gradle是用来添加适用于所有子工程/模块的配置的)：
+以模块的build.gradle为例（主project的build.gradle是用来添加适用于所有子工程/模块的配置的，相当于Maven中的pom.xml)：
 
 注意看，android
 
@@ -173,6 +173,21 @@ res目录下的资源结构分为：
 
 Gradle是Android非常非常主流的构建工具。
 
+Gradle构建项目的生命周期分为3个阶段：
+
+1. initialization：读取项目的信息，创建项目（project类，Gradle的核心）的实例。
+2. Configuration：配置project的对象，实际上相当于把build.gradle执行一遍。
+3. Execution：决定执行哪些配置好的tasks。
+
+project是项目在JVM上的实例（实际上是Gradle定义的Project类），在build.gradle中，**无主的方法**都要到Project中查找(例如task就是！)如果是多项目的工程的话，Gradle会生成Project树，可以借助`Project.parent`和`Project.childProjects`访问它们。
+
+Project中还有一些重要方法：
+
+- afterEvaluate()：一个hook，当项目的configuration以及Evaluate完成后执行内容。
+- allprojects(): 对所有的project使用传入的函数。
+- file/fileTree():打开文件。
+- findProject():在多项目工程中，按名字查找project。
+
 在Gradle中，存在着一系列Gradle的执行单元，称为Task。可以通过
 
 ```groovy
@@ -181,7 +196,9 @@ task myTask{
 }
 ```
 
-task关键字来定义。注意，这样定义的task会在配置阶段执行，执行任何一个task，该代码都会执行。如果希望编写特定task时才会执行的代码，可以通过task.doFirst、task.doLast来执行，分别表示当task执行时最开始的操作和最后的操作。
+task关键字来定义。注意，这样定义的task，传入的闭包会在**配置阶段**执行，执行任何一个task，该代码都会执行。如果希望编写执行特定task时才会执行的代码，可以通过task.doFirst、task.doLast来执行，分别表示当task执行时最开始的操作和最后的操作。注意，这些操作只是将闭包绑定到task的执行列表末尾，configuration阶段执行脚本时，并不执行其中语句；只有到了执行阶段执行了对应任务，才会执行传入的闭包。
+
+由于Groovy的动态特性，还可以动态地创建task，task非常灵活。例如在一个循环中创建不同名称的task并绑定闭包。
 
 ```groovy
 // 定义并配置myTask
@@ -219,7 +236,17 @@ myTask << {
 }
 ```
 
+注：也可以在定义任务的闭包中直接使用task API，如doFirst、doLast，Gradle会在this(也就是对应的task对象)上调用其API。
 
+Gradle中的调用都是动态调用，即使看起来像是静态编译出来的，会检查是否合法的，实际上内部使用了反射的机制。
+
+task类中的一些其他重要API:
+
+- dependsOn():使得对应的task依赖于传入的task，也就是说，执行task时会**先**执行依赖的task。
+
+
+
+要应用插件，可以写成`apply plugin: pluginName`。实际上是调用了project的apply方法（别忘了，无主的方法都视为project的！），若如此做，相当于查找那个pluginName的类，调用其apply方法（实例方法!）。那个pluginName可以定义在当前的脚本中，也可以是其他的本地的脚本文件，甚至也可以是一个HTTP URL！
 
 #### Groovy
 
@@ -246,7 +273,7 @@ Groovy中的数据类型：
 
 1. Java基本数据类型
 2. Java中的对象（Gradle中对象的默认修饰符为public，注意！）
-3. Closure，闭包
+3. Closure，闭包（**小心！Groovy中闭包可能捕获到外围的可变对象引用。如有必要（比如，不是final的外围变量）需要手动在内部以局部变量捕获之！**）
 4. 加强的集合类型（List/Map等）
 5. 加强的IO类型（File、Stream等）
 6. Class类型（单独列出，因为Groovy中，Class类型可以省略.class)
@@ -327,7 +354,7 @@ outputs:
 true
 ```
 
-可以像index那样使用Map，可以像成员变量那样使用Map！
+可以像index那样使用Map，可以像成员变量那样使用Map！甚至，如果出现在方法的参数中，可以不加方括号！
 
 强化的IO也很值得关注。
 

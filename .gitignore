@@ -1,6 +1,7 @@
 _site
 *.gem
 .sass-cache
+.jekyll-cache
 Gemfile.lock
 oldREADME.md
 _posts/2018-01-12-elements.html

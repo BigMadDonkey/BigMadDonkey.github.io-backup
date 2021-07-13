@@ -1,5 +1,5 @@
 ---
-title: 计算机网络个人笔记
+title: 计算机网络个人笔记[长]
 author: MadDonkey
 layout: post
 categories: [note, network]
@@ -7,7 +7,7 @@ toc: true
 ---
 这是在学校上计算机网络课的个人笔记。博客中的图片部分正常的话都会在正确加载的图片下方多出来一个加载失败的图片，那是给我在本地编辑时看着方便的，跟上方的是同一张图片，所以忽略就行。
 
-*MOOC图片来自于<a href="https://www.icourse163.org/course/HIT-154005">本校在中国大学MOOC的计算机网络课程。</a>*
+*MOOC图片来自于我校在中国大学MOOC的<a href="https://www.icourse163.org/course/HIT-154005">计算机网络</a>*课程。
 
 *图片资源较多，建议耐心浏览。*
 
@@ -16,48 +16,60 @@ toc: true
 1. **<a href="#2020/09/14">2020/09/14</a>**
 
    <a href="#计算机网络的定义">计算机网络的定义</a>
-   <a href="#交换网络">交换网络</a>
-   <a href="#网络协议">网络协议</a>
-   <a href="#计算机网络结构">计算机网络结构</a>
+   
+	<a href="#交换网络">交换网络</a>
+	
+	<a href="#网络协议">网络协议</a>
+
+	<a href="#计算机网络结构">计算机网络结构</a>
 
 2. **<a href="#2020/09/16">2020/09/16</a>**
 
-   <a href="#网络核心">网络核心</a>
-   <a href="#多路复用">多路复用</a>
+	<a href="#网络核心">网络核心</a>
+	
+	<a href="#多路复用">多路复用</a>
 
 3. **<a href="#2020/09/17">2020/09/17</a>**
    
-   <a href="#计算机网络性能">计算机网络性能</a>
-<a href="#计算机网络体系结构">计算机网络体系结构</a>
+	<a href="#计算机网络性能">计算机网络性能</a>
+	
+	<a href="#计算机网络体系结构">计算机网络体系结构</a>
    
 4. **<a href="#2020/09/21">2020/09/21</a>**
 
-   <a href="#网络应用的体系结构">网络应用的体系结构</a>
-   <a href="#应用层协议">应用层协议</a>
-   <a href="#Web应用">Web应用</a>
-   <a href="#Email应用">Email应用</a>
-   <a href="#DNS应用">DNS应用</a>
-   <a href="#P2P应用">P2P应用</a>
+	<a href="#网络应用的体系结构">网络应用的体系结构</a>
+	
+	<a href="#应用层协议">应用层协议</a>
+	
+	<a href="#Web应用">Web应用</a>
+	
+	<a href="#Email应用">Email应用</a>
+	
+	<a href="#DNS应用">DNS应用</a>
+	
+	<a href="#P2P应用">P2P应用</a>
 
 5. **<a href="#2020/09/236">2020/09/26</a>**
 
-   <a href="#SOCKET编程">SOCKET编程</a>
-   <a href="#客户端软件设计">客户端软件设计</a>
+	<a href="#SOCKET编程">SOCKET编程</a>
+	
+	<a href="#客户端软件设计">客户端软件设计</a>
 
 6. **<a href="#2020/10/03">2020/10/03</a>**
 
-   <a href="#传输层2">传输层</a>
-   <a href = "#可靠数据传输原理">可靠数据传输原理</a>
+	<a href="#传输层2">传输层</a>
+	
+	<a href = "#可靠数据传输原理">可靠数据传输原理</a>
 
 7. **<a href="#2020/10/08">2020/10/08</a>**
 
-   <a href="#TCP">TCP</a>
+	<a href="#TCP">TCP</a>
 
 8. **<a href="#2020/10/12">2020/10/12</a>**
 
-   <a href="#网络层服务">网络层服务</a>
+	<a href="#网络层服务">网络层服务</a>
 
-   <a href="#IPv4">IPv4</a>
+	<a href="#IPv4">IPv4</a>
 
 9. **<a href="#2020/10/20">2020/10/20</a>**
 
@@ -1545,7 +1557,7 @@ GBN显然有缺陷。首先是不必要的重传。如果分组丢失，会将�
 
 Selective Repeat协议。接收方对每个分组进行单独的确认，缓存乱序到达的分组，发送方只需要重传那些没ACK的分组，为此，每个分组设置独立的timer。另外，SR不仅有发送方窗口，还有接收方窗口。
 
-<center>    <img src="{{'assets/postResources/image-20201004124202824.png)'|relative_url}}" alt="SR" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.17 SR</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201004124202824.png'|relative_url}}" alt="SR" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.17 SR</div> </center>
 
 ![image-20201004124202824](../assets/postResources/image-20201004124202824.png)
 
@@ -1557,7 +1569,7 @@ Selective Repeat协议。接收方对每个分组进行单独的确认，缓存�
 
 对于接收方，如果分组n在窗口范围内，则发送ACK(n)。如果n是乱序的，则加入缓存；如果n正是最小的那个期待的分组，则将分组n以及所有缓存的按序分组一并发送到上层，然后把base设定为下一个还未接收的分组序列号。如果分组n不在窗口范围内，而是在base-N到base-1的范围内，说明这个分组有可能是重复发送的，也就是说，之前ACK(n)消息没有发送给发送方，因此需要再发送ACK(n)。其他的情况下只要忽略就好了。
 
-<center>    <img src="{{'assets/postResources/image-20201004125825559.png)'|relative_url}}" alt="SR示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.18 SR示例</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201004125825559.png'|relative_url}}" alt="SR示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图6.18 SR示例</div> </center>
 
 ![image-20201004125825559](../assets/postResources/image-20201004125825559.png)
 
@@ -1581,7 +1593,7 @@ TCP提供一种点对点的通信机制，接收方、发送方都只能有一�
 
 同一连接中可以双向传输数据，连接的双方在通信之前必须建立连接，并且连接的状态只由这连接双方维护，连接的中间节点并不维护。TCP的段头最少也要有20bytes。
 
-<center>    <img src="{{'assets/postResources/image-20201010233717367.png)'|relative_url}}" alt="TCP头部" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.1 TCP头部</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201010233717367.png'|relative_url}}" alt="TCP头部" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.1 TCP头部</div> </center>
 
 ![image-20201010233717367](../assets/postResources/image-20201010233717367.png)
 
@@ -1612,27 +1624,36 @@ TCP的下层IP协议是数据不可靠的。为此TCP必须将数据变得可靠
 
 
 
+
 $$
 Estimated RTT = (1 - \alpha)*Estimated RTT + \alpha * SampleRTT
 $$
+
+
 也就是用旧的估计RTT与新的Sample RTT加权平均得到新的估计RTT。α的推荐值为0.125。
 
 由于重传时间限制应比Estimated RTT略大，因此需要在Estimated RTT基础上增加一个“安全边界值”。如果RTT的变化很大，那么“安全边界值”理当响应调整的更大。为此，测量Sample RTT与 Estimated RTT的差值作为安全边界值Dev RTT。类似地，计算Dev RTT也要采用指数加权移动平均：
 
 
 
+
 $$
 DevRTT = (1 -\beta)*DevRTT + \beta * |SampleRTT - EstimatedRTT|
 $$
+
+
 其中β的推荐值为0.25。
 
 最终计时器的重传时间限制为
 
 
 
+
 $$
 TimeoutInterval  = EstimatedRTT + 4*DevRTT
 $$
+
+
 
 #### TCP发送方
 
@@ -1642,7 +1663,7 @@ $$
 2. 一旦超时，重传**引起重传**的Segment，也就是**序列号最小的且未确认过的Segment**，重置定时器。
 3. 收到ACK，如果是确认了之前未确认的Segment，则发送窗口向前滑动；窗口中只要还有未接受的Segment，则重启计时器。
 
-<center>    <img src="{{'assets/postResources/image-20201011090759337.png)'|relative_url}}" alt="TCP重传示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.2 TCP重传示例</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201011090759337.png'|relative_url}}" alt="TCP重传示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.2 TCP重传示例</div> </center>
 
 ![image-20201011090759337](../assets/postResources/image-20201011090759337.png)
 
@@ -1667,7 +1688,7 @@ TCP的实现中，每次超时，超时的时间间隔TimeoutInterval会被重�
 
 #### TCP流量控制
 
-<center>    <img src="{{'assets/postResources/image-20201011090759337.png)'|relative_url}}" alt="TCP接收方缓存" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.3 TCP接收方缓存</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201011090759337.png'|relative_url}}" alt="TCP接收方缓存" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.3 TCP接收方缓存</div> </center>
 
 ![image-20201011094250283](../assets/postResources/image-20201011094250283.png)
 
@@ -1695,7 +1716,7 @@ TCP是面向连接的协议，数据传输之前需要建立连接。发起连�
 
 那么为什么不是2次握手呢？三次握手的设计究竟有何考量？我的看法是，3次握手给了Client和Server双方确认Seq已经被对方正确获取的机会。如果只用2次，Server无法确定Client是否获取到了自己的Seq。而且两次握手之后，S不等到C的确认信息就认为连接已经建立，一旦S对C的SYN ACK丢失了，C没有建立连接，Server却一厢情愿地维护着连接资源，这对Server的资源是一种浪费。
 
-<center>    <img src="{{'assets/postResources/image-20201011101453659.png)'|relative_url}}" alt="TCP建立连接" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.4 TCP建立连接</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201011101453659.png'|relative_url}}" alt="TCP建立连接" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.4 TCP建立连接</div> </center>
 
 ![image-20201011101453659](../assets/postResources/image-20201011101453659.png)
 
@@ -1703,7 +1724,7 @@ TCP三次握手建立连接的情况如图所示：客户机发送一个SYN=1，
 
 > SYN/FIN的Segment虽然没有data，但仍然会让计数序列号+1。
 
-<center>    <img src="{{'assets/postResources/image-20201025090625471.png)'|relative_url}}" alt="TCP断开连接" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.5 TCP断开连接</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201025090625471.png'|relative_url}}" alt="TCP断开连接" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.5 TCP断开连接</div> </center>
 
 ![image-20201025090625471](../assets/postResources/image-20201025090625471.png)
 
@@ -1727,7 +1748,7 @@ ABR（available bit rate)是ATM网络采用的拥塞控制机制，是一种网�
 
 之所以称为网络辅助的拥塞控制，是因为ATM网络的发送方发送一种称为RM cell的信息来允许交换机在传输过程中修改，设置RM cell位。如果设置了NI bit，表示不许rate继续增长；设置了 CI bit，表示显示的告诉发送方网络已经拥塞了。由于这是发送方发送的信息，需要由接收方返回给发送方才能知晓。
 
-<center>    <img src="{{'assets/postResources/image-20201011101453659.png)'|relative_url}}" alt="ATM ABR拥塞控制" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.6 ATM ABR拥塞控制</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201011101453659.png'|relative_url}}" alt="ATM ABR拥塞控制" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.6 ATM ABR拥塞控制</div> </center>
 
 ![image-20201011132205905](../assets/postResources/image-20201011132205905.png)
 
@@ -1736,6 +1757,8 @@ ABR（available bit rate)是ATM网络采用的拥塞控制机制，是一种网�
 #### TCP拥塞控制
 
 要限制发送方的发送速率，设置一个变量：拥塞窗口CongWin，并保证LastByteSent - LastByteAck <= CongWin。通过调整CongWin的大小，就能对发送方的发送速率进行控制。发送速率
+
+
 $$
 rate \approx \frac{CongWin}{RTT} Bytes/sec
 $$
@@ -1751,7 +1774,7 @@ AI：Additive Increase，每个RTT，CongWin增大MSS（最大Segment长度）�
 
 MD：Multiplicative Decrease，一旦发生loss，则将CongWin减半。
 
-<center>    <img src="{{'assets/postResources/image-20201011135051240.png)'|relative_url}}" alt="TCP AIMD" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.7 TCP AIMD</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201011135051240.png'|relative_url}}" alt="TCP AIMD" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图7.7 TCP AIMD</div> </center>
 
 ![image-20201011135051240](../assets/postResources/image-20201011135051240.png)
 
@@ -1777,7 +1800,7 @@ SS也即慢启动（SlowStart）。TCP连接时CongWin设为1，随着运行线�
 >
 >
 
-<center>    <img src="{{'assets/postResources/image-20201025085322110.png)'|relative_url}}" alt="网络层服务模型" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.1 网络层服务模型</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201025085322110.png'|relative_url}}" alt="网络层服务模型" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.1 网络层服务模型</div> </center>
 
 
 ​    ![image-20201025085322110](../assets/postResources/image-20201025085322110.png)
@@ -1797,7 +1820,7 @@ SS也即慢启动（SlowStart）。TCP连接时CongWin设为1，随着运行线�
 
 虚电路网络的思想，是在源主机和目的主机之间建立一条逻辑连接，就像电路一样，这也是其名字的来历。但其终究不是真正的电路交换，而是**分组交换**，切记这一点。路径上的所有主机都要参与虚电路的建立和维护。
 
-<center>    <img src="{{'assets/postResources/image-20201025093231616.png)'|relative_url}}" alt="虚电路网络" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.2 虚电路网络</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201025093231616.png'|relative_url}}" alt="虚电路网络" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.2 虚电路网络</div> </center>
 
 ![image-20201025093231616](../assets/postResources/image-20201025093231616.png)
 
@@ -1811,7 +1834,7 @@ SS也即慢启动（SlowStart）。TCP连接时CongWin设为1，随着运行线�
 
 因此，统一VCID是不可行的，VCID的管理，在实际应用中都是局部化的。
 
-<center>    <img src="{{'assets/postResources/image-20201025095544193.png)'|relative_url}}" alt="虚电路路由转发" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.3 虚电路路由转发</div> </center>
+<center>    <img src="{{'assets/postResources/image-20201025095544193.png'|relative_url}}" alt="虚电路路由转发" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.3 虚电路路由转发</div> </center>
 
 ![image-20201025095544193](../assets/postResources/image-20201025095544193.png)
 
@@ -1823,7 +1846,7 @@ SS也即慢启动（SlowStart）。TCP连接时CongWin设为1，随着运行线�
 
 对于无连接的网络，分组就必须要携带目的地址。路由器也是根据路由算法确定转发表，再根据目的地址来转发分组，转发表的更新，就可能导致同一系列的分组经过不同的路径。由于IP地址的范围很大，转发表不可能为具体的某一地址都存储转发关系，故实际上转发表是对某些特定的地址范围的转发关系进行存储。
 
-<center>    <img src="{{'../assets/postResources/image-20201025100834587.png)'|relative_url}}" alt="转发表" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.4 转发表</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025100834587.png'|relative_url}}" alt="转发表" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.4 转发表</div> </center>
 
 ![image-20201025100834587](../assets/postResources/image-20201025100834587.png)
 
@@ -1841,7 +1864,7 @@ Internet网络采用的网络层协议是IP协议。IP协议利用各种路由�
 
 IP数据报分为头部和数据段（来自于上层）两部分。
 
-<center>    <img src="{{'../assets/postResources/image-20201025103139694.png)'|relative_url}}" alt="IP数据报" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.5 IP数据报</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025103139694.png'|relative_url}}" alt="IP数据报" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.5 IP数据报</div> </center>
 
 ![image-20201025103139694](../assets/postResources/image-20201025103139694.png)
 
@@ -1864,7 +1887,7 @@ IP数据报分为头部和数据段（来自于上层）两部分。
 
 IP数据报在真正的链路中传输时，要封装到链路的数据帧上。而不同链路有不同的性能限制，也就导致了数据帧的大小不同，数据帧能封装的数据上限就是最大传输单元（MTU）。一个分组，可能在上一条链路传的好好的，到了下一条链路，就突然“太胖了”，上不了车了。
 
-<center>    <img src="{{'../assets/postResources/image-20201025111445670.png)'|relative_url}}" alt="MTU" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.6 MTU</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025111445670.png'|relative_url}}" alt="MTU" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.6 MTU</div> </center>
 
 ![image-20201025111445670](../assets/postResources/image-20201025111445670.png)
 
@@ -1903,7 +1926,7 @@ $$
 
 主机、路由器之间通过接口与物理链路层进行连接，IP协议规定的地址就是要解决究竟分组从哪个接口出来，要到哪个接口去这个问题。一个路由器一般有多个接口，主机一般有1个或两个接口。一个32位的IP地址，与某个特定的网络接口关联，虽然习惯上常说“某主机的IP地址”，但实际上那是因为一台主机一般不会有过多接口。
 
-<center>    <img src="{{'../assets/postResources/image-20201025115654370.png)'|relative_url}}" alt="IP子网" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.7 IP子网</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025115654370.png'|relative_url}}" alt="IP子网" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.7 IP子网</div> </center>
 
 ![image-20201025115654370](../assets/postResources/image-20201025115654370.png)
 
@@ -1913,7 +1936,7 @@ $$
 
 将IP地址分为特定的几类。
 
-<center>    <img src="{{'../assets/postResources/image-20201025121557038.png)'|relative_url}}" alt="有类编址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.8 有类编址</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025121557038.png'|relative_url}}" alt="有类编址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.8 有类编址</div> </center>
 
 ![image-20201025121557038](../assets/postResources/image-20201025121557038.png)
 
@@ -1925,7 +1948,7 @@ $$
 
 即使在A、B、C类中的87.5%的IP地址，也不是全部都可以用于给主机分配IP地址的。还有一些特殊功能的IP地址。
 
-<center>    <img src="{{'../assets/postResources/image-20201025122022413.png)'|relative_url}}" alt="特殊IP地址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.9 特殊IP地址</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025122022413.png'|relative_url}}" alt="特殊IP地址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.9 特殊IP地址</div> </center>
 
 ![image-20201025122022413](../assets/postResources/image-20201025122022413.png)
 
@@ -1938,7 +1961,7 @@ $$
 
 除了上述的特殊IP地址，还有一部分IP地址称为私有IP地址，规定这些地址空间只用于内部网络，不在公网上使用。
 
-<center>    <img src="{{'../assets/postResources/image-20201025123349499.png)'|relative_url}}" alt="私有IP地址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.10 私有IP地址</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025123349499.png'|relative_url}}" alt="私有IP地址" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.10 私有IP地址</div> </center>
 
 ![image-20201025123349499](../assets/postResources/image-20201025123349499.png)
 
@@ -1952,7 +1975,7 @@ $$
 
 CIDR是**无类域间路由**的简称，消除了传统的A类、B类、C类地址界限，将NetID和SubID统称为网络前缀Prefix，而且把子网掩码融入到了网络地址中，更方便了。
 
-<center>    <img src="{{'../assets/postResources/image-20201025130657181.png)'|relative_url}}" alt="CIDR地址格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.10 CIDR地址格式</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025130657181.png'|relative_url}}" alt="CIDR地址格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.10 CIDR地址格式</div> </center>
 
 ![image-20201025130657181](../assets/postResources/image-20201025130657181.png)
 
@@ -1972,7 +1995,7 @@ CIDR的出现，大大地提高了IP地址的分配效率，避免了地址的�
 
 DHCP协议是“即插即用”的，只要能运行DHCP协议客户端，就能自动地从运行着DHCP Server的服务器获取配置信息。另外，DHCP允许地址重用，允许主机临时租用IP，一旦主机不再使用，还可以把IP交还回去，供其他主机使用。DHCP还支持移动用户加入网络，动态地获取IP进行通信（比如使用公共Wifi上网）。
 
-<center>    <img src="{{'../assets/postResources/image-20201025145109409.png)'|relative_url}}" alt="DHCP加入网络" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.11 DHCP加入网络</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025145109409.png'|relative_url}}" alt="DHCP加入网络" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.11 DHCP加入网络</div> </center>
 
 ![image-20201025145109409](../assets/postResources/image-20201025145109409.png)
 
@@ -1983,7 +2006,7 @@ DHCP协议是“即插即用”的，只要能运行DHCP协议客户端，就能
 3. 新主机通过广播向DHCP Server发送请求IP地址“DHCP request”请求报文。
 4. DHCP Server通过广播分配一个IP地址并发送“DHCP ack”确认报文。
 
-<center>    <img src="{{'../assets/postResources/image-20201025150622305.png)'|relative_url}}" alt="DHCP工作过程示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.12 DHCP工作过程示例</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025150622305.png'|relative_url}}" alt="DHCP工作过程示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图8.12 DHCP工作过程示例</div> </center>
 
 ![image-20201025150622305](../assets/postResources/image-20201025150622305.png)
 
@@ -1997,7 +2020,7 @@ DHCP协议是“即插即用”的，只要能运行DHCP协议客户端，就能
 
 实际上IPv4的32位地址空间可用于公网分配的IP地址，已经分配殆尽了。为了使使用私有地址的主机可以通信，就要使用网络地址转换（NAT）的技术。
 
-<center>    <img src="{{'../assets/postResources/image-20201025151816014.png)'|relative_url}}" alt="NAT" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.1 NAT</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025151816014.png'|relative_url}}" alt="NAT" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.1 NAT</div> </center>
 
 ![image-20201025151816014](../assets/postResources/image-20201025151816014.png)
 
@@ -2005,7 +2028,7 @@ DHCP协议是“即插即用”的，只要能运行DHCP协议客户端，就能
 
 如图中所示，本地网络里的地址都是A类的私有地址，本地网络内通信可以直接使用IP地址，没有任何问题，但要发送分组到公网，必须进行地址转换——把分组的源IP地址替换为同样的NAT的IP地址（但不同端口号，用来加以区分），在图中就是138.76.29.7。这样内部网络可以有多台设备参与通信，而只使用同一个IP地址；而且内部网络的IP地址变更不用通告外部，毕竟这是内部私有网络。相应地也增加了安全性。
 
-<center>    <img src="{{'../assets/postResources/image-20201025154353675.png)'|relative_url}}" alt="NAT示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.2 NAT示例</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025154353675.png'|relative_url}}" alt="NAT示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.2 NAT示例</div> </center>
 
 ![image-20201025154353675](../assets/postResources/image-20201025154353675.png)
 
@@ -2017,7 +2040,7 @@ NAT的实现，就是用NAT的IP地址和新的端口号替换每个外出IP数�
 
 如果一台服务器也是采用NAT与公网相连，当外部客户希望与服务器建立连接时，只有自己的内网地址是不行的，必须获取对方的公网IP和端口。这种问题称为NAT 穿透，解决方案有三种：其一，静态配置NAT，使得总是把特定端口的连接请求转发到特定服务器，这样这个端口就可以看作内网服务器的延伸；其二是利用UPnP互联网网关设备协议（Internet Gateway Device）自动地配置，可以学习到NAT的公网地址，并向NAT转换表中增删端口映射；其三是使用中继，在公网上设置中继服务器，NAT内部的客户与中继服务器连接，NAT外部的客户也与中继服务器建立连接，由中继服务器实现两个客户间的连接（应用如Skype）。
 
-<center>    <img src="{{'../assets/postResources/image-20201025160050160.png)'|relative_url}}" alt="NAT穿透-中继" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.2 NAT穿透-中继</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025160050160.png'|relative_url}}" alt="NAT穿透-中继" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.2 NAT穿透-中继</div> </center>
 
 ![image-20201025160050160](../assets/postResources/image-20201025160050160.png)
 
@@ -2040,8 +2063,7 @@ ICMP报文分为两类，其一是差错报告报文，共五种：
 
 最经典的Ping工具就是利用了网络探询报文的机制。
 
-
-   <center>    <img src="{{'../assets/postResources/image-20201025161350431.png)'|relative_url}}" alt="ICMP报文" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.3 ICMP报文</div> </center>
+   <center>    <img src="{{'../assets/postResources/image-20201025161350431.png'|relative_url}}" alt="ICMP报文" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.3 ICMP报文</div> </center>
 
 ![image-20201025161350431](../assets/postResources/image-20201025161350431.png)
 
@@ -2054,13 +2076,13 @@ ICMP报文分为两类，其一是差错报告报文，共五种：
 
 还有几类早期定义的ICMP报文，已经不再使用，比如子网掩码请求/应答报文、路由器询问和通告报文等。
 
-<center>    <img src="{{'../assets/postResources/image-20201025162626815.png)'|relative_url}}" alt="ICMP报文格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.4 ICMP报文格式</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025162626815.png'|relative_url}}" alt="ICMP报文格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.4 ICMP报文格式</div> </center>
 
 ![image-20201025162626815](../assets/postResources/image-20201025162626815.png)
 
 ICMP报文是封装到IP数据报中的数据部分传输的。ICMP报文也有头部，第一行跟IP头部有点类似，不过校验和是针对整个报文的，而不是单单头部。ICMP差错报告报文是为了响应出差错的IP数据报的，因此它封装了出差错的IP数据报的首部，除此之外，还顺便多封了8个字节的数据内容。如果IP数据报封装的是UDP协议的Segment，由于UDP的头部刚好是8字节，则ICMP差错报告报文顺便把UDP的头部也封装到了。
 
-<center>    <img src="{{'../assets/postResources/image-20201025163259438.png)'|relative_url}}" alt="ICMP差错报告报文数据封装" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.5 ICMP差错报告报文数据封装</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025163259438.png'|relative_url}}" alt="ICMP差错报告报文数据封装" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.5 ICMP差错报告报文数据封装</div> </center>
 
 ![image-20201025163259438](../assets/postResources/image-20201025163259438.png)
 
@@ -2070,7 +2092,7 @@ ICMP报文是封装到IP数据报中的数据部分传输的。ICMP报文也有�
 
 IPv6的数据报有固定长度的40字节**基本**首部（可以通过扩展首部支持更多选项），并简化了字段的构成；而且不再允许分片，如果非要分，就在源主机处分好。
 
-<center>    <img src="{{'../assets/postResources/image-20201025164908997.png)'|relative_url}}" alt="IPv6数据报格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.6 IPv6数据报格式</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025164908997.png'|relative_url}}" alt="IPv6数据报格式" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.6 IPv6数据报格式</div> </center>
 
 ![image-20201025164908997](../assets/postResources/image-20201025164908997.png)
 
@@ -2082,7 +2104,7 @@ IPv6的头部信息大大简化了：第一行的版本号和IPv4对标，接着
 - 允许选项，但不是在基本首部里，而是从“下一个首部”字段指向扩展；
 - 带来了新版的ICMPv6协议，增加了报文类型以及多播组管理功能。
 
-<center>    <img src="{{'../assets/postResources/image-20201025171105241.png)'|relative_url}}" alt="IPv6地址表示" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.7 IPv6地址表示</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025171105241.png'|relative_url}}" alt="IPv6地址表示" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.7 IPv6地址表示</div> </center>
 
 ![image-20201025171105241](../assets/postResources/image-20201025171105241.png)
 
@@ -2096,7 +2118,7 @@ IPv6的地址分为3类：单播、多播和任意播。单播顾名思义，一
 
 要保证IPv4向IPv6的正常过渡，就要利用隧道技术——把IPv6的数据报作为IPv4数据报的载荷封装。
 
-<center>    <img src="{{'../assets/postResources/image-20201025173626995.png)'|relative_url}}" alt="隧道" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.8 隧道</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201025173626995.png'|relative_url}}" alt="隧道" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.8 隧道</div> </center>
 
 ![image-20201025173626995](../assets/postResources/image-20201025173626995.png)
 
@@ -2114,7 +2136,7 @@ IPv6的地址分为3类：单播、多播和任意播。单播顾名思义，一
 
 值得一提的是**震荡**现象：
 
-<center>    <img src="{{'../assets/postResources/image-20201028114150493.png)'|relative_url}}" alt="震荡现象" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.9 振荡现象</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201028114150493.png'|relative_url}}" alt="震荡现象" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.9 振荡现象</div> </center>
 
 ![image-20201028114150493](../assets/postResources/image-20201028114150493.png)
 
@@ -2125,6 +2147,7 @@ IPv6的地址分为3类：单播、多播和任意播。单播顾名思义，一
 Distance Vector算法实际上是一种动态规划的思想（Bellman-Ford算法like），同样是用来计算单源最短路径的算法。每个顶点y存储一个$\mathrm {d_x(y)}$表示从点x（表示起点）到y的最短路径Cost，除了x本身外，其他所有顶点的$\mathrm {d_x(y)}$均初始化为$\infin$。显然，可以通过下面的式子更新$\mathrm {d_x(y)}$:
 
 
+
 $$
 \mathrm {d_x(y)} = \mathop {min}_v(\mathrm{c(x, v)} + \mathrm {d_v(y)})
 $$
@@ -2132,7 +2155,7 @@ $$
 
 实际应用中，很难说在某一个时间点，就能保证某个路由器得到的信息是网络的最新的、全部的信息，因为网络总在变化。因此比起维护真实的$\mathrm {d_x(y)}$，更倾向于维护$\mathrm {D_x(y)}$：表示从x到y的最小Cost的一个估计值。节点x维护一个距离向量DV，其中存储了所有节点对应的$\mathrm {D_x(y)}$。每个节点要不定时将自己的DV估计发送给所有的邻居。邻居节点收到发来的DV估计时，依据其更新自己的DV。一旦自己的DV得到改变，则也将自己的DV发送给自己的邻居（邻居的邻居），最终DV估计会收敛于实际的DV。
 
-<center>    <img src="{{'../assets/postResources/image-20201028125832650.png)'|relative_url}}" alt="DV算法示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.10 DV算法示例</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201028125832650.png'|relative_url}}" alt="DV算法示例" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.10 DV算法示例</div> </center>
 
 ![image-20201028125832650](../assets/postResources/image-20201028125832650.png)
 
@@ -2140,7 +2163,7 @@ $$
 
 如果DV中夹带着路径Cost减小的“好消息”，这个消息会以较快的速度传播到其他节点处并迅速稳定下来。但如果DV中带的是Cost增大的“坏消息”，效果可能不那么好了。
 
-<center>    <img src="{{'../assets/postResources/image-20201028130303579.png)'|relative_url}}" alt="DV算法：无穷计数问题" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.11 DV算法：无穷计数问题</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201028130303579.png'|relative_url}}" alt="DV算法：无穷计数问题" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.11 DV算法：无穷计数问题</div> </center>
 
 ![image-20201028130303579](../assets/postResources/image-20201028130303579.png)
 
@@ -2156,7 +2179,7 @@ $$
 
 定义一个最大的有效Cost，如15 jump，如果Cost超过了这个值（16+），则视为无穷。
 
-<center>    <img src="{{'../assets/postResources/image-20201028132043562.png)'|relative_url}}" alt="DV算法：定义最大度量" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.12 DV算法：定义最大度量</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201028132043562.png'|relative_url}}" alt="DV算法：定义最大度量" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.12 DV算法：定义最大度量</div> </center>
 
 ![image-20201028132043562](../assets/postResources/image-20201028132043562.png)
 
@@ -2170,7 +2193,7 @@ $$
 
 每个AS内的路由器，只知道自己内部的较小规模网络的拓扑结构，因此可以放心地使用路由算法。但要与其他AS内的路由通信，就不得不适应其他AS的路由方式，但这些不由内部路由器操心。每个AS都要有自己的网关路由器（gateway router），负责AS间的路由，位于AS的边缘，连接其他AS的网关路由器。
 
-<center>    <img src="{{'../assets/postResources/image-20201028134015214.png)'|relative_url}}" alt="互连的AS" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.13 互连的AS</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201028134015214.png'|relative_url}}" alt="互连的AS" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图9.13 互连的AS</div> </center>
 
 ![image-20201028134015214](../assets/postResources/image-20201028134015214.png)
 
@@ -2207,7 +2230,7 @@ Routing Information Protocol，路由信息协议，早在1982年就随着BSD-UN
 
 差错编码是一种差错检测与纠正机制，其原理是在原数据基础上增加一些与数据相关的冗余信息，一起发送给接收端。冗余比特R是原数据的一种映射结果，在通信领域，常被称作监督位。
 
-<center>    <img src="{{'../assets/postResources/image-20201030154436254.png)'|relative_url}}" alt="差错编码" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.1 差错编码</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201030154436254.png'|relative_url}}" alt="差错编码" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.1 差错编码</div> </center>
 
 ![image-20201030154436254](../assets/postResources/image-20201030154436254.png)
 
@@ -2225,7 +2248,7 @@ Routing Information Protocol，路由信息协议，早在1982年就随着BSD-UN
 
 1bit奇偶校验码是在数据的基础上，增加一个校验位，使得码字中1的个数始终为奇数个/偶数个，对应的校验方式称为奇校验/偶校验。不过，这样如果有偶数位的差错就检测不到了，所以检错能力很有限，但是实现简单，编码效率很高。在基础的1bit奇偶校验码基础上还拓展有二维奇偶校验：
 
-<center>    <img src="{{'../assets/postResources/image-20201031114624803.png)'|relative_url}}" alt="二维奇偶校验" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.2 二维奇偶校验</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201031114624803.png'|relative_url}}" alt="二维奇偶校验" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.2 二维奇偶校验</div> </center>
 
 ![image-20201031114624803](../assets/postResources/image-20201031114624803.png)
 
@@ -2240,13 +2263,13 @@ CRC：循环冗余校验码，是数据链路层中应用广泛的差错编码�
 3. 选择r位的CRC比特记作R，使得<D, R>编码可以被G整除（模二除法）
 4. 接收端检错：用G除以<D, R>编码，如果余式全为0则为无错，否则有错
 
-<center>    <img src="{{'../assets/postResources/image-20201031120950465.png)'|relative_url}}" alt="CRC" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.3 CRC</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201031120950465.png'|relative_url}}" alt="CRC" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.3 CRC</div> </center>
 
 ![image-20201031120950465](../assets/postResources/image-20201031120950465.png)
 
 所有突发长度小于r+1位的差错都可以被检测。<D, R>可以表示为D << r XOR R。如果能整除G，则相当于$D\cdot2^r = nG~XOR~R$，也即 $R = 余式[\frac{D\cdot2^r}G]$。注意，这里的除法是二进制模二除法，借助于模二减法！不存在借位/进位，也不要求被减数必须比减数小，只要对齐最高位1，并异或就可以了。
 
-<center>    <img src="{{'../assets/postResources/image-20201031155507375.png)'|relative_url}}" alt="CRC示例：模二除法" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.4 CRC示例：模二除法</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201031155507375.png'|relative_url}}" alt="CRC示例：模二除法" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.4 CRC示例：模二除法</div> </center>
 
 ![image-20201031155507375](../assets/postResources/image-20201031155507375.png)
 
@@ -2270,7 +2293,7 @@ MAC协议主要有如下三大类：
 
 时隙ALOHA协议假设网络中所有帧大小相同，时间被分为等长的时隙（一个时隙可以传输一个帧），结点只能在时隙开始时发送帧，这样结点间时钟就是同步的。多个节点在同一个时隙发送数据帧就会检测到冲突。当结点要发送新的帧，等到下一个时隙发送：如果无冲突当然最好，那么可以在下一个slot发送新的帧，但如果冲突，就在下一个slot以概率p重传该帧，直到成功。
 
-<center>    <img src="{{'../assets/postResources/image-20201101133848277.png)'|relative_url}}" alt="时隙ALOHA" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.5 时隙ALOHA</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201101133848277.png'|relative_url}}" alt="时隙ALOHA" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.5 时隙ALOHA</div> </center>
 
 ![image-20201101133848277](../assets/postResources/image-20201101133848277.png)
 
@@ -2290,7 +2313,7 @@ CSMA又分为几类：
 
 CSMA仍然有可能导致冲突。
 
-<center>    <img src="{{'../assets/postResources/image-20201101151904481.png)'|relative_url}}" alt="CSMA 可能的冲突" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.6 CSMA 可能的冲突</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201101151904481.png'|relative_url}}" alt="CSMA 可能的冲突" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.6 CSMA 可能的冲突</div> </center>
 
 ![image-20201101151904481](../assets/postResources/image-20201101151904481.png)
 
@@ -2298,17 +2321,18 @@ CSMA仍然有可能导致冲突。
 
 实际上，当发现冲突时就已经没必要继续发送了，后续的传输都是错误的，白白浪费资源。为此增加了改进：CSMA/CD：CSMA with Collision Detection。不要被名字骗了，并非除了CSMA/CD其他的协议都没有冲突检测。CSMA/CD可以在短时间内检测到冲突，并且冲突后传输直接终止，减少信道浪费。
 
-<center>    <img src="{{'../assets/postResources/image-20201101152718886.png)'|relative_url}}" alt="CSMA/CD 冲突提前终止" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.7 CSMA/CD 冲突提前终止</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201101152718886.png'|relative_url}}" alt="CSMA/CD 冲突提前终止" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.7 CSMA/CD 冲突提前终止</div> </center>
 
 ![image-20201101152718886](../assets/postResources/image-20201101152718886.png)
 
 如图所示，当B、D双方检测到冲突时，就都不再发送。CSMA/CD是“边发边听，不发不听”的，只有在发送数据时才同时检测监听冲突，不发送数据时不检测。这就导致了一个问题：
 
-<center>    <img src="{{'../assets/postResources/image-20201101153526832.png)'|relative_url}}" alt="CSMA/CD 冲突检测" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.8 CSMA/CD 冲突检测</div> </center>
+<center>    <img src="{{'../assets/postResources/image-20201101153526832.png'|relative_url}}" alt="CSMA/CD 冲突检测" />    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">图10.8 CSMA/CD 冲突检测</div> </center>
 
 ![image-20201101153526832](../assets/postResources/image-20201101153526832.png)
 
 假设信号传播速度为V，A、B的链路物理长度为d，网络带宽为R bps，数据帧的最小长度为L bits。考虑一个极端的情况：假设A发送了一个数据帧，其第一个bit在刚要抵达B之前的瞬间，B也发送了数据帧，他们立刻冲突。B可以立刻检测到冲突，但直到那个B发出的帧的首个bit 抵达A之前，A无法检测到冲突。一旦A在这段时间里把数据帧传完了，A就会以为这是一次正常的传输——即使事实并非如此。因此，就要求
+
 
 
 $$
@@ -2317,6 +2341,7 @@ $$
 才能保证A在传输“完成”之前可以检测到冲突。
 
 假设$T_{prop}$表示两个结点间的最大传输延迟，$T_{trans}$表示最长帧传输延迟，则CSMA/CD的效率为
+
 
 
 $$
@@ -2333,7 +2358,7 @@ $$
 
 ## <a id="2物理层">物理层</a>
 
-
+*oh shit! 这里的内容还没有补全！*
 
 #### 异步通信
 
